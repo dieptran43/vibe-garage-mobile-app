@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {View, Text} from 'react-native';
+import styles from './loginStyle';
 
-const Login: React.FC<{}> = () => {
+export const Login: React.FC<{}> = () => {
   return (
-    <View>
-      <Text>Login</Text>
+    <View style={styles.loginContainer}>
+      <View style={styles.loginWrapper}>
+        <Text>Login</Text>
+      </View>
     </View>
   );
 };
-
-export default Login;
