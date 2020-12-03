@@ -1,8 +1,5 @@
 import {createRef} from 'react';
-import {
-  NavigationContainer,
-  NavigationContainerRef,
-} from '@react-navigation/native';
+import {NavigationContainerRef} from '@react-navigation/native';
 
 export const isReadyRef = createRef();
 export const navigationRef = createRef<NavigationContainerRef>();

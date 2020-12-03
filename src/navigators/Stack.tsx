@@ -6,8 +6,7 @@ const Stack = createStackNavigator();
 
 function AppStack() {
   return (
-    // <Stack.Navigator initialRouteName="Auth">
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen
         name="Login"
         component={Login}
