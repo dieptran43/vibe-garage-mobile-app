@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,10 +8,17 @@ import {
   StatusBar,
 } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
+import RNBootSplash from 'react-native-bootsplash';
 import AppStack from './navigators/Stack';
 import {navigationRef, isReadyRef} from './navigators/RootNavigation';
 
 const App = () => {
+  useEffect(() => {
+    setTimeout(() => {
+      RNBootSplash.hide({fade: true});
+    }, 3000);
+  }, []);
+
   return (
     <>
       <StatusBar barStyle="dark-content" />

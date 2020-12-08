@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   appLogo: {
     height: 100,
     width: 229,
-    marginBottom: 40,
+    marginBottom: 60,
   },
   textInput: {
     height: 40,
@@ -23,6 +23,8 @@ const styles = StyleSheet.create({
     width: '100%',
     borderColor: '#ccc',
     borderWidth: 1,
+    paddingHorizontal: 7,
+    marginTop: 5
   },
   forgotPasswordWrapper: {
     marginTop: 10,
@@ -30,15 +32,15 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   forgotPassword: {
-    color: '#0E82FF',
+    color: '#C4A953',
   },
   marginBottom20: {
     marginBottom: 20,
   },
   loginBtnWrapper: {
-    backgroundColor: '#00BCD4',
+    backgroundColor: '#790303',
     width: '100%',
-    borderRadius: 3,
+    borderRadius: 5,
     height: 40,
     display: 'flex',
     justifyContent: 'center',
