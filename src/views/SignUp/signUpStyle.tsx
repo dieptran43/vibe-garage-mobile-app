@@ -1,11 +1,11 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-  loginContainer: {
+  signUpContainer: {
     flex: 1,
     backgroundColor: '#FEFEFE',
   },
-  loginWrapper: {
+  signUpWrapper: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -24,19 +24,9 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderWidth: 1,
     paddingHorizontal: 7,
-  },
-  forgotPasswordWrapper: {
-    marginTop: 10,
-    marginLeft: 'auto',
-    marginBottom: 50,
-  },
-  forgotPassword: {
-    color: '#CCAB52',
-  },
-  marginBottom30: {
     marginBottom: 30,
   },
-  loginBtnWrapper: {
+  signUpBtnWrapper: {
     backgroundColor: '#800000',
     width: '100%',
     borderRadius: 5,
@@ -44,10 +34,34 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 40,
   },
-  loginBtnText: {
+  signUpBtnText: {
     color: '#fff',
-    fontSize: 16
+    fontSize: 16,
+  },
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  marginBottom20: {
+    marginBottom: 20,
+  },
+  grayText: {
+    color: '#838383',
+    marginRight: 7,
+  },
+  grayText2: {
+    color: '#AEAEAE',
+  },
+  goldText: {
+    color: '#CCAB52',
+  },
+  marginRight5: {
+    marginRight: 5,
+  },
+  marginLeft5: {
+    marginLeft: 5,
   },
 });
 
