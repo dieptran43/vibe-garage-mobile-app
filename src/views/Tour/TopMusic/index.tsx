@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Image, ScrollView, ImagePropTypes} from 'react-native';
+import {View, Text, Image, ScrollView} from 'react-native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from './topMusicStyle';
@@ -119,7 +119,6 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
   return (
     <View style={styles.topMusicContainer}>
       <NavDrawerHeader navigation={navigation} />
-
       <ScrollView style={styles.scrollViewContent}>
         <View style={styles.topMusicContent}>
           <View style={styles.topSongsHeader}>
