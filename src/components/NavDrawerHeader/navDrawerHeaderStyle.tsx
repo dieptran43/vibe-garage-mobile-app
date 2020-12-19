@@ -18,20 +18,11 @@ const styles = StyleSheet.create({
     height: 37,
     position: 'relative',
   },
-  logoBackground: {
-    backgroundColor: '#fff',
-    top: 25,
-    left: 48,
-    position: 'absolute',
-    width: 65,
-    height: 18,
-    zIndex: 0,
-  },
   logoImage: {
     width: 120,
     height: 40,
     resizeMode: 'contain',
-    marginLeft: 20,
+    marginLeft: 10,
     zIndex: 1,
   },
   controlIcons: {
