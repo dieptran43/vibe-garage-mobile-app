@@ -28,13 +28,14 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingTop: 20,
     justifyContent: 'center',
-    marginBottom: 30,
+    marginBottom: 10,
   },
-  spotlightImage: {height: 60, width: 100, resizeMode: 'contain'},
+  spotlightImage: {height: 40, width: 80, resizeMode: 'contain'},
   spotlightText: {color: '#fff', fontSize: 20},
   singleSpotlightWrapper: {
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255, 255, 255, 0.11)',
+    paddingVertical: 30,
   },
   spotlightRowOne: {
     display: 'flex',
@@ -45,7 +46,16 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#222225'
+    backgroundColor: '#222225',
+  },
+  artistImage: {
+    height: 45,
+    width: 45,
+    borderRadius: 50,
+  },
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row',
   },
 });
 
