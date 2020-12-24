@@ -35,27 +35,45 @@ const styles = StyleSheet.create({
   singleSpotlightWrapper: {
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255, 255, 255, 0.11)',
-    paddingVertical: 30,
+    paddingVertical: 20,
   },
   spotlightRowOne: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 10,
   },
   spotlightRowTwo: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#222225',
+    padding: 16,
+    borderRadius: 3,
   },
   artistImage: {
     height: 45,
     width: 45,
     borderRadius: 50,
   },
+  artistName: {
+    marginBottom: 10,
+  },
+  artistInfo: {
+    marginLeft: 10,
+    justifyContent: 'flex-start',
+  },
   flexRow: {
     display: 'flex',
     flexDirection: 'row',
+  },
+  moreIcon: {
+    marginLeft: 'auto',
+  },
+  albumImage: {
+    height: 55,
+    width: 55,
+    marginRight: 15
   },
 });
 
