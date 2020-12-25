@@ -13,12 +13,14 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   noneFoundWrapper: {
-    height: 200,
+    height: 500,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  topSongsContent: {display: 'flex'},
+  noneFoundText: {color: '#cecece'},
   spotlightHeader: {
     display: 'flex',
     flexDirection: 'row',
