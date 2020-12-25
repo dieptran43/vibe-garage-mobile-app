@@ -61,18 +61,17 @@ export function Spotlight({navigation}: DrawerScreenProps<{}>) {
                         style={styles.artistName}
                         type={1}
                         text={spotlightItem.artistName}
-                        size={13}
                       />
                       <View style={styles.flexRow}>
                         <CustomText
                           type={2}
                           text={spotlightItem.uploadInfo}
-                          size={12}
+                          style={{fontSize: 12}}
                         />
                         <CustomText
                           type={2}
                           text={spotlightItem.uploadTime}
-                          size={12}
+                          style={{fontSize: 12}}
                         />
                       </View>
                     </View>

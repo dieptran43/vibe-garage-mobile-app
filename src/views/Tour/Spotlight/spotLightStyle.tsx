@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   },
   artistName: {
     marginBottom: 10,
+    fontSize: 13
   },
   artistInfo: {
     marginLeft: 10,

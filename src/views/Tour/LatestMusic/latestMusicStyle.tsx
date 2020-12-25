@@ -1,11 +1,11 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-  playlistsContainer: {
+  latestMusicContainer: {
     flex: 1,
     backgroundColor: '#000',
   },
-  playlistsContent: {
+  latestMusicContent: {
     marginBottom: 50,
     padding: 16,
   },
