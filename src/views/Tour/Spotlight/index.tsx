@@ -43,59 +43,66 @@ export function Spotlight({navigation}: DrawerScreenProps<{}>) {
           <Text style={styles.spotlightText}>Spotlight</Text>
         </View>
         <View style={styles.spotlightContent}>
-          {data?.spotlightMusic.map((spotlightItem) => (
-            <View
-              style={styles.singleSpotlightWrapper}
-              key={shortid.generate()}>
-              <View style={styles.spotlightRowOne}>
-                <Image
-                  source={{
-                    uri: spotlightItem.artistImage,
-                  }}
-                  style={styles.artistImage}
-                />
-                <View style={styles.artistInfo}>
-                  <CustomText
-                    style={styles.artistName}
-                    type={1}
-                    text={spotlightItem.artistName}
-                    size={13}
-                  />
-                  <View style={styles.flexRow}>
-                    <CustomText
-                      type={2}
-                      text={spotlightItem.uploadInfo}
-                      size={12}
+          {data?.spotlightMusic?.length ? (
+            <>
+              {data?.spotlightMusic.map((spotlightItem) => (
+                <View
+                  style={styles.singleSpotlightWrapper}
+                  key={shortid.generate()}>
+                  <View style={styles.spotlightRowOne}>
+                    <Image
+                      source={{
+                        uri: spotlightItem.artistImage,
+                      }}
+                      style={styles.artistImage}
+                    />
+                    <View style={styles.artistInfo}>
+                      <CustomText
+                        style={styles.artistName}
+                        type={1}
+                        text={spotlightItem.artistName}
+                      />
+                      <View style={styles.flexRow}>
+                        <CustomText
+                          type={2}
+                          text={spotlightItem.uploadInfo}
+                          style={{fontSize: 12}}
+                        />
+                        <CustomText
+                          type={2}
+                          text={spotlightItem.uploadTime}
+                          style={{fontSize: 12}}
+                        />
+                      </View>
+                    </View>
+                    <Feather
+                      name="more-horizontal"
+                      color="#c3c3c6"
+                      size={22}
+                      style={styles.moreIcon}
+                    />
+                  </View>
+                  <View style={styles.spotlightRowTwo}>
+                    <Image
+                      source={{
+                        uri: spotlightItem.albumImage,
+                      }}
+                      style={styles.albumImage}
                     />
                     <CustomText
-                      type={2}
-                      text={spotlightItem.uploadTime}
-                      size={12}
+                      type={1}
+                      text={spotlightItem.albumTitle}
+                      size={17}
                     />
                   </View>
                 </View>
-                <Feather
-                  name="more-horizontal"
-                  color="#c3c3c6"
-                  size={22}
-                  style={styles.moreIcon}
-                />
-              </View>
-              <View style={styles.spotlightRowTwo}>
-                <Image
-                  source={{
-                    uri: spotlightItem.albumImage,
-                  }}
-                  style={styles.albumImage}
-                />
-                <CustomText
-                  type={1}
-                  text={spotlightItem.albumTitle}
-                  size={17}
-                />
-              </View>
+              ))}
+            </>
+          ) : (
+            <View style={styles.noneFoundWrapper}>
+              <Text style={styles.noneFoundText}>None found</Text>
             </View>
-          ))}
+          )}
         </View>
       </ScrollView>
     </View>

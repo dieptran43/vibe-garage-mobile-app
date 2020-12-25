@@ -1,11 +1,11 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-  discoverContainer: {
+  latestMusicContainer: {
     flex: 1,
     backgroundColor: '#000',
   },
-  discoverContent: {
+  latestMusicContent: {
     marginBottom: 50,
     padding: 16,
   },

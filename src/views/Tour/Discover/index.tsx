@@ -7,13 +7,24 @@ import {
   Image,
   TouchableOpacity,
   KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
 // import Carousel from 'react-native-snap-carousel';
+import {DrawerScreenProps} from '@react-navigation/drawer';
+import shortid from 'shortid';
+import NavDrawerHeader from '../../../components/NavDrawerHeader';
+import {CustomText} from '../../../components/Global';
+import styles from './discoverStyle';
 
-export const Discover: React.FC<{}> = () => {
+export function Discover({navigation}: DrawerScreenProps<{}>) {
+  const [data, setData] = useState({});
+
   return (
-    <View>
-      <Text>Discover</Text>
+    <View style={styles.discoverContainer}>
+      <NavDrawerHeader navigation={navigation} />
+      <ScrollView style={styles.scrollViewContent}>
+        
+      </ScrollView>
     </View>
   );
-};
+}

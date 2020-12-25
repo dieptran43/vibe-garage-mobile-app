@@ -1,12 +1,12 @@
 import React from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
-export function CustomText({type, text, size}: any) {
+export function CustomText({type, text, size, style}: any) {
   return (
     <Text
       style={[
         type === 1 ? styles.colorOne : styles.colorTwo,
-        {fontSize: size ? size : 14},
+        style
       ]}
       numberOfLines={1}
       ellipsizeMode="tail">

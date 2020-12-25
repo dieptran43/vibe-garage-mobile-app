@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, Image, ScrollView} from 'react-native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import shortid from 'shortid';
 import styles from './topMusicStyle';
 import GraphImage from '../../../assets/icons/graph-icon.png';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
@@ -135,7 +136,7 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
               <>
                 <View style={styles.topSongsWrapper}>
                   {data.topMusic.map((music, index) => (
-                    <View key={index} style={styles.singleTopSong}>
+                    <View key={shortid.generate()} style={styles.singleTopSong}>
                       <Image
                         source={{
                           uri: music.image,

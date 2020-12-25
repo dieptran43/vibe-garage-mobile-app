@@ -24,7 +24,7 @@ const Drawer = createDrawerNavigator();
 const DrawerStack = () => {
   return (
     <Drawer.Navigator
-      initialRouteName="Spotlight"
+      initialRouteName="Genres"
       drawerStyle={{backgroundColor: '#222225'}}
       drawerContentOptions={{
         activeTintColor: '#e91e63',
