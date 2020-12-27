@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   Login,
   SignUp,
@@ -14,9 +15,16 @@ import {
   Spotlight,
   Genres,
   Playlists,
+  Browse,
+  Purchased,
+  RecentlyPlayed,
+  MyPlaylists,
+  Favourites,
 } from '../views';
 import GraphImage from '../assets/icons/graph-icon.png';
 import GenresImage from '../assets/icons/genres-icon.png';
+import BrowseImage from '../assets/icons/house-icon.png';
+import PurchaseImage from '../assets/icons/purchased-icon.png';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -111,6 +119,78 @@ const DrawerStack = () => {
           drawerIcon: ({focused, size}) => (
             <MaterialIcons
               name="playlist-play"
+              size={25}
+              color={focused ? '#fff' : '#ccc'}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Purchased"
+        component={Purchased}
+        options={{
+          drawerLabel: ({focused, color}) => (
+            <Text style={{color: '#fff'}}>Purchased</Text>
+          ),
+          drawerIcon: ({focused, size}) => (
+            <Image source={PurchaseImage} style={{height: 20, width: 20}} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Browse"
+        component={Browse}
+        options={{
+          drawerLabel: ({focused, color}) => (
+            <Text style={{color: '#fff'}}>Browse</Text>
+          ),
+          drawerIcon: ({focused, size}) => (
+            <Image source={BrowseImage} style={{height: 23, width: 23}} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="RecentlyPlayed"
+        component={RecentlyPlayed}
+        options={{
+          drawerLabel: ({focused, color}) => (
+            <Text style={{color: '#fff'}}>Recently Played</Text>
+          ),
+          drawerIcon: ({focused, size}) => (
+            <MaterialCommunityIcons
+              name="history"
+              size={25}
+              color={focused ? '#fff' : '#ccc'}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="MyPlaylists"
+        component={MyPlaylists}
+        options={{
+          drawerLabel: ({focused, color}) => (
+            <Text style={{color: '#fff'}}>My Playlists</Text>
+          ),
+          drawerIcon: ({focused, size}) => (
+            <MaterialIcons
+              name="queue-music"
+              size={25}
+              color={focused ? '#fff' : '#ccc'}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Favourites"
+        component={Favourites}
+        options={{
+          drawerLabel: ({focused, color}) => (
+            <Text style={{color: '#fff'}}>Favourites</Text>
+          ),
+          drawerIcon: ({focused, size}) => (
+            <Ionicons
+              name="star-outline"
               size={25}
               color={focused ? '#fff' : '#ccc'}
             />
