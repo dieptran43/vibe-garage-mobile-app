@@ -20,7 +20,7 @@ export function Favourites({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({});
 
   return (
-    <View style={styles.purchaseContainer}>
+    <View style={styles.favouritesContainer}>
       <NavDrawerHeader navigation={navigation} />
       <ScrollView style={styles.scrollViewContent}>
         

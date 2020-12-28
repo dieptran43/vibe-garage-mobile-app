@@ -126,18 +126,6 @@ const DrawerStack = () => {
         }}
       />
       <Drawer.Screen
-        name="Purchased"
-        component={Purchased}
-        options={{
-          drawerLabel: ({focused, color}) => (
-            <Text style={{color: '#fff'}}>Purchased</Text>
-          ),
-          drawerIcon: ({focused, size}) => (
-            <Image source={PurchaseImage} style={{height: 20, width: 20}} />
-          ),
-        }}
-      />
-      <Drawer.Screen
         name="Browse"
         component={Browse}
         options={{
@@ -146,6 +134,18 @@ const DrawerStack = () => {
           ),
           drawerIcon: ({focused, size}) => (
             <Image source={BrowseImage} style={{height: 23, width: 23}} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Purchased"
+        component={Purchased}
+        options={{
+          drawerLabel: ({focused, color}) => (
+            <Text style={{color: '#fff'}}>Purchased</Text>
+          ),
+          drawerIcon: ({focused, size}) => (
+            <Image source={PurchaseImage} style={{height: 20, width: 20}} />
           ),
         }}
       />
