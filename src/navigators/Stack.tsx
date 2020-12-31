@@ -32,7 +32,7 @@ const Drawer = createDrawerNavigator();
 const DrawerStack = () => {
   return (
     <Drawer.Navigator
-      initialRouteName="Genres"
+      initialRouteName="Discover"
       drawerStyle={{backgroundColor: '#222225'}}
       drawerContentOptions={{
         activeTintColor: '#e91e63',
