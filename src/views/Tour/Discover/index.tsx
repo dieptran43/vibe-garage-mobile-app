@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Dimensions,
-  FlatList
+  FlatList,
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -45,7 +45,14 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
           'https://musicport.com.ng/upload/photos/2020/01/MUDLnD9cXKhvkVJuUGAK_29_0c0801563af4b03dea742996a6cde2e0_image.png',
       },
     ],
-    recentlyPlayed:[]
+    recentlyPlayed: [
+      {
+        _id: '253tt3s38832absjjkdkk',
+        title: 'LABIS BOY_MAN OF THE YEAR.mp3',
+        image:
+          'https://musicport.com.ng/upload/photos/2019/10/J7qytBWEsADF5zBsC6Os_17_98885479029d3e547509c8e8ea8d1e3b_image.jpg',
+      },
+    ],
   });
 
   const _renderItem = ({item}: any) => {
@@ -59,20 +66,22 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
 
   const _renderColumn = () => {
     return (
-      <View style={styles.singleCard}>
-        <Image
-          source={{
-            uri:
-              'https://musicport.com.ng/upload/photos/2020/01/BTCHNCgZsQdDhSc3q2Uo_20_166e4ab24c7f858195f3a0c3909f2fe3_image.jpg',
-          }}
-          style={styles.cardImage}
-        />
-        <CustomText
-          type={1}
-          text="LABIS BOY_ROCK THE PARTY.mp3"
-          style={styles.cardText}
-        />
-        <CustomText type={2} text="Itz Labisboy" style={styles.cardText2} />
+      <View style={{width: '100%', backgroundColor: '#ccc'}}>
+        <View style={styles.singleCard}>
+          <Image
+            source={{
+              uri:
+                'https://musicport.com.ng/upload/photos/2020/01/BTCHNCgZsQdDhSc3q2Uo_20_166e4ab24c7f858195f3a0c3909f2fe3_image.jpg',
+            }}
+            style={styles.cardImage}
+          />
+          <CustomText
+            type={1}
+            text="LABIS BOY_ROCK THE PARTY.mp3"
+            style={styles.cardText}
+          />
+          <CustomText type={2} text="Itz Labisboy" style={styles.cardText2} />
+        </View>
       </View>
     );
   };
@@ -117,19 +126,15 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
             </View>
           </View>
           <View style={{marginTop: 16, width: '100%'}}>
-            {/* <FlatList
-              data={recentlyPlayed}
-              keyExtractor={(item) => item.id}
-              renderItem={this.renderGridItem}
-              horizontal={false}
-              numColumns={2}
-              contentContainerStyle={[
-                styles.sectionProducts,
-                isSearchVisible ? styles.paddingTop : styles.paddingTop15,
-              ]}
-              onEndReached={() => this.scrolledToBottom()}
-              onEndReachedThreshold={0.5}
-            /> */}
+            <FlatList
+              data={data.recentlyPlayed}
+              keyExtractor={(item) => item._id}
+              renderItem={_renderColumn}
+              horizontal={true}
+              style={{backgroundColor: 'red',  width: '100%'}}
+              // onEndReached={() => _scrolledToBottom()}
+              // onEndReachedThreshold={0.5}
+            />
           </View>
         </View>
       </ScrollView>
