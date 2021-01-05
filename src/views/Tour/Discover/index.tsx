@@ -24,8 +24,6 @@ import {RecentlyPlayed} from '../../Music';
 import {combineData} from '../../../utils/helpers';
 import {set} from 'react-native-reanimated';
 
-const windowWidth = Dimensions.get('window').width;
-
 export function Discover({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
     carouselItems: [
@@ -112,7 +110,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     ],
     recentlyPlayedScrollPosition: 0,
     newReleasesScrollPosition: 0,
-    mostPopular: [],
+    mostPopular: [] as any,
     recommended: [
       {
         image:
@@ -138,11 +136,12 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
         title: 'FRISKY',
         artiste: 'Emmanuel Jackson',
       },
-    ],
+    ] as any,
   });
 
+  const windowWidth = Dimensions.get('window').width;
+
   let scrollViewRef = createRef<ScrollView>();
-  // let scrollRef = useRef<ScrollView>();
 
   const _renderItem = ({item}: any) => {
     return (
@@ -152,10 +151,6 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
       </View>
     );
   };
-
-  // const setScrollViewRef = (element: any) => {
-  //   scrollRef = element;
-  // };
 
   const _renderColumn = () => {
     return (
@@ -187,8 +182,6 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     } else if (direction === 'right') {
       recentlyPlayedScrollPosition += viewWidth;
     }
-    console.log(recentlyPlayedScrollPosition);
-    console.log(scrollViewRef?.current);
     scrollViewRef?.current?.scrollTo({
       x: recentlyPlayedScrollPosition,
       animated: true,
@@ -216,7 +209,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                 <View style={[styles.graphBg, styles.greenBg]}>
                   <MaterialCommunityIcons
                     name="history"
-                    size={25}
+                    size={22}
                     color="#fff"
                   />
                 </View>
@@ -290,11 +283,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
             <View style={styles.rowTag}>
               <View style={styles.flexRow}>
                 <View style={[styles.graphBg, styles.blueBg]}>
-                  <MaterialCommunityIcons
-                    name="history"
-                    size={25}
-                    color="#fff"
-                  />
+                  <MaterialIcons name="music-note" size={22} color="#fff" />
                 </View>
                 <Text style={styles.playlistsText}>New Releases</Text>
               </View>
@@ -367,8 +356,8 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
               <View style={styles.flexRow}>
                 <View style={[styles.graphBg, styles.pinkBg]}>
                   <MaterialCommunityIcons
-                    name="history"
-                    size={25}
+                    name="calendar-clock"
+                    size={22}
                     color="#fff"
                   />
                 </View>
@@ -379,7 +368,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
               {data?.mostPopular?.length ? (
                 <>
                   <View style={styles.topSongsWrapper}>
-                    {data.mostPopular.map((music, index) => (
+                    {data.mostPopular.map((music: any) => (
                       <View
                         key={shortid.generate()}
                         style={styles.singleTopSong}>
@@ -421,8 +410,8 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
               <View style={styles.flexRow}>
                 <View style={[styles.graphBg, styles.maroonBg]}>
                   <MaterialCommunityIcons
-                    name="history"
-                    size={25}
+                    name="thumb-up"
+                    size={20}
                     color="#fff"
                   />
                 </View>
@@ -433,7 +422,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
               {data?.recommended?.length ? (
                 <>
                   <View style={styles.topSongsWrapper}>
-                    {data.recommended.map((music, index) => (
+                    {data.recommended.map((music: any) => (
                       <View
                         key={shortid.generate()}
                         style={styles.singleTopSong}>
@@ -461,7 +450,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                           name="more-horiz"
                           style={styles.musicMoreIcon}
                           color="#919191"
-                          size={25}
+                          size={22}
                         />
                       </View>
                     ))}
