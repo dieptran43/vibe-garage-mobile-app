@@ -23,6 +23,9 @@ import styles from './discoverStyle';
 import {RecentlyPlayed} from '../../Music';
 import {combineData} from '../../../utils/helpers';
 import {set} from 'react-native-reanimated';
+import {API_BASE} from '@env';
+console.log('less');
+console.log(API_BASE);
 
 export function Discover({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({

@@ -1,4 +1,4 @@
-import {API} from '../config';
+import {API_BASE} from '../config';
 import {
   ILogin,
   IRegistration,
@@ -8,7 +8,7 @@ import {
 
 export const login = (payload: ILogin) => {
   return new Promise((resolve, reject) => {
-    const url = `${API}/login`;
+    const url = `${API_BASE}/login`;
     fetch(url, {
       method: 'POST',
       headers: {
@@ -28,7 +28,7 @@ export const login = (payload: ILogin) => {
 
 export const registration = (payload: IRegistration) => {
   return new Promise((resolve, reject) => {
-    const url = `${API}/register`;
+    const url = `${API_BASE}/register`;
     fetch(url, {
       method: 'POST',
       headers: {
@@ -48,7 +48,7 @@ export const registration = (payload: IRegistration) => {
 
 export const activateAccount = (payload: IActivateAccount) => {
   return new Promise((resolve, reject) => {
-    const url = `${API}/activate`;
+    const url = `${API_BASE}/activate`;
     fetch(url, {
       method: 'POST',
       headers: {
@@ -68,7 +68,7 @@ export const activateAccount = (payload: IActivateAccount) => {
 
 export const authUser = ({token}: IToken) => {
   return new Promise((resolve, reject) => {
-    const url = `${API}/auth-user`;
+    const url = `${API_BASE}/auth-user`;
     fetch(url, {
       headers: {
         Accept: 'application/json',
@@ -87,7 +87,7 @@ export const authUser = ({token}: IToken) => {
 
 export const refreshToken = ({token}: IToken) => {
   return new Promise((resolve, reject) => {
-    const url = `${API}/refresh-token`;
+    const url = `${API_BASE}/refresh-token`;
     fetch(url, {
       headers: {
         Accept: 'application/json',
@@ -106,7 +106,7 @@ export const refreshToken = ({token}: IToken) => {
 
 export const logOut = ({token}: IToken) => {
   return new Promise((resolve, reject) => {
-    const url = `${API}/logout`;
+    const url = `${API_BASE}/logout`;
     fetch(url, {
       method: 'POST',
       headers: {
@@ -126,7 +126,7 @@ export const logOut = ({token}: IToken) => {
 
 export const resendCode = ({token}: IToken) => {
   return new Promise((resolve, reject) => {
-    const url = `${API}/resend-code`;
+    const url = `${API_BASE}/resend-code`;
     fetch(url, {
       headers: {
         Accept: 'application/json',
