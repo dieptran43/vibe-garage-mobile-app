@@ -1,1 +1,1 @@
-import {API} from '../config';
+import {API_BASE} from '@env';
