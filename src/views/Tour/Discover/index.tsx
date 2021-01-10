@@ -1,4 +1,4 @@
-import React, {useState, createRef, useRef} from 'react';
+import React, {useState, createRef, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -23,9 +23,8 @@ import styles from './discoverStyle';
 import {RecentlyPlayed} from '../../Music';
 import {combineData} from '../../../utils/helpers';
 import {set} from 'react-native-reanimated';
-import {API_BASE} from '@env';
-console.log('less');
-console.log(API_BASE);
+import {getNewReleases} from '../../../services/songsService';
+import {getImage} from '../../../utils/helpers';
 
 export function Discover({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
@@ -109,6 +108,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
         image:
           'https://musicport.com.ng/upload/photos/2020/12/iJodKj89pN23qhg6hDPG_02_9684b0c99e584ce72eae8c74ac1fd243_image.jpeg',
         artiste: 'Nuels',
+        thumbnail: '',
       },
     ],
     recentlyPlayedScrollPosition: 0,
@@ -140,11 +140,31 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
         artiste: 'Emmanuel Jackson',
       },
     ] as any,
+    newReleasesPageNo: 1,
   });
 
   const windowWidth = Dimensions.get('window').width;
 
   let scrollViewRef = createRef<ScrollView>();
+
+  useEffect(() => {
+    handleNewReleases();
+  }, []);
+
+  const handleNewReleases = async () => {
+    const newReleasesPageNo = data.newReleasesPageNo;
+    let newReleases: any = [];
+    await getNewReleases(newReleasesPageNo)
+      .then((response: any) => {
+        if (response && response?.success) {
+          newReleases = response?.songs?.data;
+          setData(combineData(data, {newReleases}));
+        }
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
 
   const _renderItem = ({item}: any) => {
     return (
@@ -333,7 +353,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                     key={shortid.generate()}>
                     <Image
                       source={{
-                        uri: newRelease.image,
+                        uri: getImage(newRelease?.thumbnail),
                       }}
                       style={styles.cardImage}
                     />
