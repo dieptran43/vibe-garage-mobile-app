@@ -8,6 +8,10 @@ export function navigate(name: any, params: any) {
   navigationRef.current?.navigate(name, params);
 }
 
+export function navigateToNestedRoute(name: any, route: any, params?: any) {
+  navigationRef.current?.navigate(name, {screen: route, params});
+}
+
 // export function navigate(name, params) {
 //   if (isReadyRef.current && navigationRef.current) {
 //     // Perform navigation if the app has mounted
