@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, Image, ScrollView} from 'react-native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -6,116 +6,39 @@ import shortid from 'shortid';
 import styles from './topMusicStyle';
 import GraphImage from '../../../assets/icons/graph-icon.png';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
+import {getTopSongs} from '../../../services/songService';
+import {getTopAlbums} from '../../../services/albumService';
+import {combineData} from '../../../utils/helpers';
+import {getImage} from '../../../utils/helpers';
+import {ISong, IAlbum} from '../../../types/interfaces';
 
 export function TopMusic({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
-    topMusic: [
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-    ],
-    topAlbums: [
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/07/kHefVG1WBtABPvydNEeG_15_df4eb27ba05bda27a9ab7ca7daed9a3a_image.jpg',
-        title: 'SLEEPING DEAD',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/07/kHefVG1WBtABPvydNEeG_15_df4eb27ba05bda27a9ab7ca7daed9a3a_image.jpg',
-        title: 'SLEEPING DEAD',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/07/kHefVG1WBtABPvydNEeG_15_df4eb27ba05bda27a9ab7ca7daed9a3a_image.jpg',
-        title: 'SLEEPING DEAD',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/07/kHefVG1WBtABPvydNEeG_15_df4eb27ba05bda27a9ab7ca7daed9a3a_image.jpg',
-        title: 'SLEEPING DEAD',
-        artiste: 'Emmanuel Jackson',
-      },
-    ],
+    topMusic: [],
+    topAlbums: [],
   });
+
+  useEffect(() => {
+    handleTopSongs();
+  }, []);
+
+  const handleTopSongs = async () => {
+    let topMusic: any = [],
+      topAlbums: any = [];
+    Promise.all([getTopSongs(), getTopAlbums()])
+      .then(([topMusicResponse, topAlbumsResponse]: any) => {
+        if (topMusicResponse && topMusicResponse?.success) {
+          topMusic = topMusicResponse?.songs?.data;
+        }
+        if (topAlbumsResponse && topAlbumsResponse?.success) {
+          topAlbums = topAlbumsResponse?.albums?.data;
+        }
+        setData(combineData(data, {topMusic, topAlbums}));
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
 
   return (
     <View style={styles.topMusicContainer}>
@@ -135,11 +58,11 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
             {data?.topMusic?.length ? (
               <>
                 <View style={styles.topSongsWrapper}>
-                  {data.topMusic.map((music, index) => (
+                  {data.topMusic.slice(0, 10).map((music: ISong, index) => (
                     <View key={shortid.generate()} style={styles.singleTopSong}>
                       <Image
                         source={{
-                          uri: music.image,
+                          uri: getImage(music?.thumbnail),
                         }}
                         style={styles.topMusicImage}
                       />
@@ -154,7 +77,7 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
                           style={styles.musicArtisteText}
                           numberOfLines={1}
                           ellipsizeMode="tail">
-                          {music.artiste}
+                          {music?.artist_name}
                         </Text>
                       </View>
                       <MaterialIcons
@@ -166,7 +89,9 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
                     </View>
                   ))}
                 </View>
-                <Text style={styles.seeAllTopSongsText}>See All</Text>
+                {data?.topMusic?.length > 10 ? (
+                  <Text style={styles.seeAllTopSongsText}>See All</Text>
+                ) : null}
               </>
             ) : (
               <View style={styles.noneFoundWrapper}>
@@ -186,11 +111,11 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
             {data?.topAlbums?.length ? (
               <>
                 <View style={styles.topAlbumsWrapper}>
-                  {data.topAlbums.map((album, index) => (
+                  {data.topAlbums.map((album: IAlbum, index) => (
                     <View key={index} style={styles.singleTopAlbum}>
                       <Image
                         source={{
-                          uri: album.image,
+                          uri: getImage(album?.thumbnail),
                         }}
                         style={styles.topAlbumImage}
                       />
@@ -204,7 +129,7 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
                         style={styles.musicArtisteText}
                         numberOfLines={1}
                         ellipsizeMode="tail">
-                        {album.artiste}
+                        {album.album_name}
                       </Text>
                     </View>
                   ))}
