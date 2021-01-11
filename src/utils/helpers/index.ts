@@ -5,7 +5,6 @@ export const combineData = (data: any, params: any) => {
   for (const property in params) {
     obj[property] = params[property];
   }
-  console.log(data, obj)
   return {...data, ...obj};
 };
 
