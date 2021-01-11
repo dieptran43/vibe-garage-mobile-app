@@ -23,7 +23,7 @@ import styles from './discoverStyle';
 import {RecentlyPlayed} from '../../Music';
 import {combineData} from '../../../utils/helpers';
 import {set} from 'react-native-reanimated';
-import {getNewReleases} from '../../../services/songsService';
+import {getNewReleases} from '../../../services/songService';
 import {getImage} from '../../../utils/helpers';
 
 export function Discover({navigation}: DrawerScreenProps<{}>) {

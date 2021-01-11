@@ -1,8 +1,8 @@
 import {API_BASE} from '@env';
 
-export const getNewReleases = (newReleasesPageNo: Number) => {
+export const getTopAlbums = () => {
   return new Promise((resolve, reject) => {
-    const url = `${API_BASE}/api/v1/new-releases?page=${newReleasesPageNo}`;
+    const url = `${API_BASE}/api/v1/top-albums`;
     fetch(url, {
       headers: {
         Accept: 'application/json',
