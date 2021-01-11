@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -12,120 +12,62 @@ import shortid from 'shortid';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './genresStyle';
+import {getSongsByGenre} from '../../../services/songService';
+import {combineData, getImage} from '../../../utils/helpers';
 
 export function Genres({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
-    activeGenre: 'Other',
     genres: [
       {
+        category_id: 1,
         title: 'Other',
         image:
           'https://musicport.com.ng/upload/photos/2019/04/FaS2oOegTOBm5OpFJiCK_17_6ad5d4edf1fb542961a2a64a8d0768e7_image.jpg',
       },
       {
+        category_id: 2,
         title: 'Afro',
         image:
           'https://musicport.com.ng/upload/photos/2019/07/68DkAlKr1GRtggiWRYhb_04_ad587e82bfc4592aaccbc3b2c4fe5b01_image.jpg',
       },
       {
+        category_id: 3,
         title: 'Gospel',
         image:
           'https://musicport.com.ng/upload/photos/2019/07/ZBpoVTDzliExTdYeZwrP_04_1408f1308928382c57cd20322e0ed78f_image.jpg',
       },
       {
+        category_id: 4,
         title: 'Reggae',
         image:
           'https://musicport.com.ng/upload/photos/2020/03/hDRq4v2VnWXFTNqaGF1c_16_e7dd0ef5c323dd9cb97c7066fa64f8d8_image.jpg',
       },
     ],
-    topMusic: [
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-    ],
+    songsInGenre: [],
+    activeGenre: 1,
   });
 
-  const handleSetData = (params: any) => {
-    const obj = {} as any;
-    for (const property in params) {
-      obj[property] = params[property];
-    }
-    setData({...data, ...obj});
+  useEffect(() => {
+    handleGenres(data?.activeGenre);
+  }, []);
+
+  const handleGenres = async (activeGenre: Number) => {
+    let songsInGenre: any = [];
+    getSongsByGenre(activeGenre)
+      .then((response: any) => {
+        if (response && response?.success) {
+          songsInGenre = response?.songs?.data;
+        }
+        setData(combineData(data, {songsInGenre, activeGenre}));
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
+
+  const handleLoadGenre = (category_id: Number) => {
+    setData(combineData(data, {activeGenre: category_id}));
+    handleGenres(category_id);
   };
 
   return (
@@ -138,7 +80,7 @@ export function Genres({navigation}: DrawerScreenProps<{}>) {
             ? data.genres.map((genre) => (
                 <TouchableWithoutFeedback
                   key={shortid.generate()}
-                  onPress={() => handleSetData({activeGenre: genre.title})}>
+                  onPress={() => handleLoadGenre(genre.category_id)}>
                   <View style={styles.singleGenreCard}>
                     <Image
                       source={{
@@ -150,7 +92,7 @@ export function Genres({navigation}: DrawerScreenProps<{}>) {
                       <CustomText
                         style={[
                           styles.genreCardText,
-                          data.activeGenre === genre.title
+                          data.activeGenre === genre.category_id
                             ? {color: '#CCAB52'}
                             : null,
                         ]}
@@ -166,14 +108,14 @@ export function Genres({navigation}: DrawerScreenProps<{}>) {
       </View>
       <ScrollView style={styles.scrollViewContent}>
         <View style={styles.topSongsContent}>
-          {data?.topMusic?.length ? (
+          {data?.songsInGenre?.length ? (
             <>
               <View style={styles.topSongsWrapper}>
-                {data.topMusic.map((music, index) => (
+                {data.songsInGenre.map((songInGenre: any, index) => (
                   <View key={shortid.generate()} style={styles.singleTopSong}>
                     <Image
                       source={{
-                        uri: music.image,
+                        uri: getImage(songInGenre?.thumbnail),
                       }}
                       style={styles.topMusicImage}
                     />
@@ -182,13 +124,13 @@ export function Genres({navigation}: DrawerScreenProps<{}>) {
                         style={styles.musicTitleText}
                         numberOfLines={1}
                         ellipsizeMode="tail">
-                        {music.title}
+                        {songInGenre.title}
                       </Text>
                       <Text
                         style={styles.musicArtisteText}
                         numberOfLines={1}
                         ellipsizeMode="tail">
-                        {music.artiste}
+                        {songInGenre?.artist_name}
                       </Text>
                     </View>
                     <MaterialIcons

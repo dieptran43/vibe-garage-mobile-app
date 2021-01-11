@@ -8,8 +8,7 @@ import GraphImage from '../../../assets/icons/graph-icon.png';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {getTopSongs} from '../../../services/songService';
 import {getTopAlbums} from '../../../services/albumService';
-import {combineData} from '../../../utils/helpers';
-import {getImage} from '../../../utils/helpers';
+import {combineData, getImage} from '../../../utils/helpers';
 import {ISong, IAlbum} from '../../../types/interfaces';
 
 export function TopMusic({navigation}: DrawerScreenProps<{}>) {
@@ -19,10 +18,10 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
   });
 
   useEffect(() => {
-    handleTopSongs();
+    handleTopMusic();
   }, []);
 
-  const handleTopSongs = async () => {
+  const handleTopMusic = async () => {
     let topMusic: any = [],
       topAlbums: any = [];
     Promise.all([getTopSongs(), getTopAlbums()])
