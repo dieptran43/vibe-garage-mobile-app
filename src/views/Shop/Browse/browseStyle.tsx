@@ -6,11 +6,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   browseContent: {
-    marginBottom: 50,
     padding: 16,
   },
   scrollViewContent: {
     height: '100%',
+  },
+  tabHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  tabText: {
+    fontSize: 16,
+    width: '25%',
+  },
+  activeTabText: {
+    color: 'red',
+    borderBottomColor: 'red',
+    borderBottomWidth: 2
   },
 });
 
