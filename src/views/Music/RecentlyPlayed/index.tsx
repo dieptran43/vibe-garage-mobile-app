@@ -31,13 +31,13 @@ export function RecentlyPlayed({navigation}: DrawerScreenProps<{}>) {
 
   const handleCheckLogin = () => {
     if (!state?.isLoggedIn) {
-      navigateToNestedRoute('Auth', 'Login');
+      navigateToNestedRoute('SingleStack', 'Login');
     }
   };
 
   const handleBackButtonClick = () => {
     if (!state?.isLoggedIn) {
-      navigateToNestedRoute('Drawer', 'Discover');
+      navigateToNestedRoute('DrawerStack', 'Discover');
     }
     return true;
   };

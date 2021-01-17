@@ -14,7 +14,7 @@ import {navigateToNestedRoute} from '../../navigators/RootNavigation';
 
 export function SignUp() {
   const handleStackNavigation = (route: String) => {
-    navigateToNestedRoute('Auth', route);
+    navigateToNestedRoute('SingleStack', route);
   };
 
   return (

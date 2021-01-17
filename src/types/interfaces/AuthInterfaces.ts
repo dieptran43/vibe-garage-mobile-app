@@ -1,7 +1,7 @@
 import {EAccountType} from '../enums';
 
 export interface ILogin {
-  email: String;
+  username: String;
   password: String;
 }
 
