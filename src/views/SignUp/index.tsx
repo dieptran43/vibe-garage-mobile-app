@@ -10,14 +10,18 @@ import {
 } from 'react-native';
 import styles from './signUpStyle';
 import Logo from '../../assets/images/logo.jpg';
+import {navigateToNestedRoute} from '../../navigators/RootNavigation';
+import {getScreenParent} from '../../utils/navigationHelper';
 
-export const SignUp: React.FC<{}> = () => {
+export function SignUp() {
+  const handleNavigation = (route: String) => {
+    navigateToNestedRoute(getScreenParent(route), route);
+  };
+
   return (
     <View style={styles.signUpContainer}>
-      <ScrollView
-        style={styles.signUpWrapper}
-        showsVerticalScrollIndicator={false}>
-        <KeyboardAvoidingView enabled>
+      <KeyboardAvoidingView enabled>
+        <View style={styles.signUpWrapper}>
           <Image style={styles.appLogo} source={Logo} />
           <TextInput style={[styles.textInput]} placeholder="Firstname" />
           <TextInput style={styles.textInput} placeholder="Lastname" />
@@ -29,7 +33,9 @@ export const SignUp: React.FC<{}> = () => {
           </TouchableOpacity>
           <View style={[styles.flexRow, styles.marginBottom20]}>
             <Text style={styles.grayText}>Already have an account ?</Text>
-            <Text style={styles.goldText}>Login</Text>
+            <TouchableOpacity onPress={() => handleNavigation('Login')}>
+              <Text style={styles.goldText}>Login</Text>
+            </TouchableOpacity>
           </View>
           <Text style={styles.grayText2}>By signing up, you agree to our</Text>
           <View style={[styles.flexRow]}>
@@ -39,8 +45,8 @@ export const SignUp: React.FC<{}> = () => {
               Privacy Policy
             </Text>
           </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
-};
+}

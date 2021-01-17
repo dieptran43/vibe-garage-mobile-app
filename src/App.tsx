@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useReducer} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,8 +11,13 @@ import {NavigationContainer} from '@react-navigation/native';
 import RNBootSplash from 'react-native-bootsplash';
 import AppStack from './navigators/Stack';
 import {navigationRef, isReadyRef} from './navigators/RootNavigation';
+import {AuthContext} from './context';
+import reducers from './store/reducer';
+import initialState from './store/state';
 
 const App = () => {
+  const [state, dispatch] = useReducer(reducers, initialState);
+
   useEffect(() => {
     setTimeout(() => {
       RNBootSplash.hide({fade: true});
@@ -20,14 +25,18 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <AuthContext.Provider
+      value={{
+        state,
+        dispatch,
+      }}>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.areaContainer}>
         <NavigationContainer ref={navigationRef}>
           <AppStack />
         </NavigationContainer>
       </SafeAreaView>
-    </>
+    </AuthContext.Provider>
   );
 };
 

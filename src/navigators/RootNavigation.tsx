@@ -4,8 +4,12 @@ import {NavigationContainerRef} from '@react-navigation/native';
 export const isReadyRef = createRef();
 export const navigationRef = createRef<NavigationContainerRef>();
 
-export function navigate(name: any, params: any) {
-  navigationRef.current?.navigate(name, params);
+export function navigate(parent: any, params: any) {
+  navigationRef.current?.navigate(parent, params);
+}
+
+export function navigateToNestedRoute(parent: any, route: any, params?: any) {
+  navigationRef.current?.navigate(parent, {screen: route, params});
 }
 
 // export function navigate(name, params) {

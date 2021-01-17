@@ -54,7 +54,7 @@ const DrawerStack = () => {
         }}
       />
       <Drawer.Screen
-        name="Latest Music"
+        name="LatestMusic"
         component={LatestMusic}
         options={{
           drawerLabel: ({focused, color}) => (
@@ -201,7 +201,7 @@ const DrawerStack = () => {
   );
 };
 
-const AuthStack = () => {
+const SingleStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -220,14 +220,14 @@ const AuthStack = () => {
 
 function AppStack() {
   return (
-    <Stack.Navigator initialRouteName="Drawer">
+    <Stack.Navigator initialRouteName="DrawerStack">
       <Stack.Screen
-        name="Auth"
-        component={AuthStack}
+        name="SingleStack"
+        component={SingleStack}
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="Drawer"
+        name="DrawerStack"
         component={DrawerStack}
         options={{headerShown: false}}
       />

@@ -6,7 +6,7 @@ export function CustomText({type, text, size, style}: any) {
     <Text
       style={[
         type === 1 ? styles.colorOne : styles.colorTwo,
-        style
+        style,
       ]}
       numberOfLines={1}
       ellipsizeMode="tail">
