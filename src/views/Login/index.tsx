@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {
   View,
   Text,
@@ -7,11 +7,44 @@ import {
   Image,
   TouchableOpacity,
   KeyboardAvoidingView,
+  BackHandler,
 } from 'react-native';
+import {StackScreenProps} from '@react-navigation/stack';
+import {useFocusEffect} from '@react-navigation/native';
 import styles from './loginStyle';
 import Logo from '../../assets/images/logo.jpg';
+import {navigateToNestedRoute} from '../../navigators/RootNavigation';
+import {login} from '../../services/authService';
 
-export const Login: React.FC<{}> = () => {
+export function Login({navigation}: StackScreenProps<{}>) {
+  const [data, setData] = useState({
+    hasFilledAllFields: false,
+  });
+
+  useFocusEffect(
+    useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+
+      return () =>
+        BackHandler.removeEventListener(
+          'hardwareBackPress',
+          handleBackButtonClick,
+        );
+    }, []),
+  );
+
+  const handleBackButtonClick = () => {
+    navigateToNestedRoute('Drawer', 'Discover');
+
+    return true;
+  };
+
+  const handleStackNavigation = (route: String) => {
+    navigateToNestedRoute('Auth', route);
+  };
+
+  const handleLogin = async () => {};
+
   return (
     <View style={styles.loginContainer}>
       <KeyboardAvoidingView enabled>
@@ -22,14 +55,31 @@ export const Login: React.FC<{}> = () => {
             placeholder="Username"
           />
           <TextInput style={styles.textInput} placeholder="Password" />
-          <Pressable style={styles.forgotPasswordWrapper}>
-            <Text style={styles.forgotPassword}>Forgot Password ?</Text>
-          </Pressable>
-          <TouchableOpacity style={styles.loginBtnWrapper}>
+          <View style={styles.forgotPwdView}>
+            <TouchableOpacity
+              style={styles.alignLeft}
+              onPress={() => handleStackNavigation('ForgotPassword')}>
+              <Text style={styles.linkText}>Forgot Password ?</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            style={[
+              styles.loginBtnWrapper,
+              data.hasFilledAllFields
+                ? styles.loginBtnWrapperEnabled
+                : styles.loginBtnWrapperDisabled,
+            ]}
+            onPress={() => handleLogin()}>
             <Text style={styles.loginBtnText}>Login</Text>
           </TouchableOpacity>
+          <View style={[styles.flexRow, styles.marginBottom20]}>
+            <Text style={styles.grayText}>Already have an account ?</Text>
+            <TouchableOpacity onPress={() => handleStackNavigation('SignUp')}>
+              <Text style={styles.goldText}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </KeyboardAvoidingView>
     </View>
   );
-};
+}

@@ -129,38 +129,36 @@ export function Browse({navigation}: DrawerScreenProps<{}>) {
           {data.tab === 'Songs' ? (
             <View>
               {data?.songs?.map((song) => (
-                <View style={styles.singleSong} key={shortid.generate()}>
-                  <View style={styles.singleSongWrapper}>
-                    <Image
-                      source={{uri: getImage(song?.avatar)}}
-                      style={styles.singleSongAvatar}
-                    />
-                    <View style={styles.sectionOne}>
-                      <View>
-                        <CustomText text={song?.title} type={1} />
-                        <CustomText text={song?.artist} />
-                      </View>
-                      {song?.isPurchased ? (
-                        <CustomText
-                          size={12}
-                          text="You have bought this track."
-                          style={styles.boughtTrackText}
-                        />
-                      ) : (
-                        <View style={styles.purchaseWrapper}>
-                          <CustomText
-                            type={1}
-                            size={14}
-                            text={`₦${song?.price}`}
-                            style={styles.priceText}
-                          />
-                          <TouchableWithoutFeedback>
-                            <Text style={styles.purchaseText}>Purchase</Text>
-                          </TouchableWithoutFeedback>
-                        </View>
-                      )}
+                <View style={styles.singleSongWrapper} key={shortid.generate()}>
+                  <Image
+                    source={{uri: getImage(song?.avatar)}}
+                    style={styles.singleSongAvatar}
+                  />
+                  <View style={styles.sectionOne}>
+                    <View style={styles.songOwner}>
+                      <CustomText text={song?.title} type={1} />
+                      <CustomText text={song?.artist} />
                     </View>
-                    <View style={styles.sectionTwo}>
+                    {song?.isPurchased ? (
+                      <CustomText
+                        size={12}
+                        text="You have bought this track."
+                        style={styles.boughtTrackText}
+                      />
+                    ) : (
+                      <View style={styles.purchaseWrapper}>
+                        <CustomText
+                          type={1}
+                          size={14}
+                          text={`₦${song?.price}`}
+                          style={styles.priceText}
+                        />
+                        <TouchableWithoutFeedback>
+                          <Text style={styles.purchaseText}>Purchase</Text>
+                        </TouchableWithoutFeedback>
+                      </View>
+                    )}
+                    <View style={styles.songBottomRow}>
                       <CustomText type={1} text={song?.duration} />
                       <CustomText type={1} text={song?.releasedOn} />
                       <Feather name="more-horizontal" size={20} color="#fff" />
@@ -179,46 +177,6 @@ export function Browse({navigation}: DrawerScreenProps<{}>) {
                 </View>
                 <Text style={styles.topMusicText}>Top Songs</Text>
               </View>
-              {data?.songs?.map((song) => (
-                <View style={styles.singleSong} key={shortid.generate()}>
-                  <View style={styles.singleSongWrapper}>
-                    <Image
-                      source={{uri: getImage(song?.avatar)}}
-                      style={styles.singleSongAvatar}
-                    />
-                    <View style={styles.sectionOne}>
-                      <View>
-                        <CustomText text={song?.title} type={1} />
-                        <CustomText text={song?.artist} />
-                      </View>
-                      {song?.isPurchased ? (
-                        <CustomText
-                          size={12}
-                          text="You have bought this track."
-                          style={styles.boughtTrackText}
-                        />
-                      ) : (
-                        <View style={styles.purchaseWrapper}>
-                          <CustomText
-                            type={1}
-                            size={14}
-                            text={`₦${song?.price}`}
-                            style={styles.priceText}
-                          />
-                          <TouchableWithoutFeedback>
-                            <Text style={styles.purchaseText}>Purchase</Text>
-                          </TouchableWithoutFeedback>
-                        </View>
-                      )}
-                    </View>
-                    <View style={styles.sectionTwo}>
-                      <CustomText type={1} text={song?.duration} />
-                      <CustomText type={1} text={song?.releasedOn} />
-                      <Feather name="more-horizontal" size={20} color="#fff" />
-                    </View>
-                  </View>
-                </View>
-              ))}
             </View>
           ) : null}
         </ScrollView>

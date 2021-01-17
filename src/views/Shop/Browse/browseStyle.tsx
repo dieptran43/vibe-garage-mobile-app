@@ -36,22 +36,23 @@ const styles = StyleSheet.create({
   activeTabText: {
     color: '#00bcd4',
   },
-  singleSong: {
+  singleSongWrapper: {
     backgroundColor: '#222225',
     padding: 10,
     borderRadius: 5,
     marginBottom: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   sectionOne: {
     borderBottomWidth: 1,
     borderBottomColor: '#363636',
-    flex: 1,
-    paddingBottom: 15,
+    paddingBottom: 10,
+    flex: 1
   },
-  singleSongWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+  songOwner: {
+    marginBottom: 15,
   },
   singleSongAvatar: {
     height: 60,
@@ -61,13 +62,14 @@ const styles = StyleSheet.create({
   boughtTrackText: {
     marginLeft: 'auto',
     fontSize: 11,
-    marginTop: 20,
+    marginBottom: 10,
   },
   purchaseWrapper: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
+    marginBottom: 10,
   },
   priceText: {
     marginRight: 15,
@@ -81,10 +83,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     fontSize: 14,
   },
-  sectionTwo: {
+  songBottomRow: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
   flexHeader: {
     display: 'flex',

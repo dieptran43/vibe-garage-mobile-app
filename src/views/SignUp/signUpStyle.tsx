@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   textInput: {
     height: 40,
     borderRadius: 3,
-    width: '100%',
+    width: '85%',
     borderColor: '#ccc',
     borderWidth: 1,
     paddingHorizontal: 7,
@@ -28,13 +28,14 @@ const styles = StyleSheet.create({
   },
   signUpBtnWrapper: {
     backgroundColor: '#800000',
-    width: '100%',
+    width: '85%',
     borderRadius: 5,
     height: 40,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 40,
+    marginTop: 10
   },
   signUpBtnText: {
     color: '#fff',

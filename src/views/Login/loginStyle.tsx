@@ -20,34 +20,59 @@ const styles = StyleSheet.create({
   textInput: {
     height: 40,
     borderRadius: 3,
-    width: '100%',
+    width: '85%',
     borderColor: '#ccc',
     borderWidth: 1,
     paddingHorizontal: 7,
   },
-  forgotPasswordWrapper: {
-    marginTop: 10,
-    marginLeft: 'auto',
-    marginBottom: 50,
+  forgotPwdView: {
+    width: '85%',
   },
-  forgotPassword: {
+  alignLeft: {
+    marginLeft: 'auto',
+    marginTop: 20,
+  },
+  linkText: {
     color: '#CCAB52',
+    marginBottom: 50,
+    alignSelf: 'flex-end',
   },
   marginBottom30: {
     marginBottom: 30,
   },
   loginBtnWrapper: {
-    backgroundColor: '#800000',
-    width: '100%',
+    width: '85%',
     borderRadius: 5,
-    height: 40,
+    height: 45,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 40,
+  },
+  loginBtnWrapperEnabled: {
+    backgroundColor: '#800000',
+  },
+  loginBtnWrapperDisabled: {
+    backgroundColor: 'rgba(128,0,0, 0.2)',
   },
   loginBtnText: {
     color: '#fff',
-    fontSize: 16
+    fontSize: 16,
+  },
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  marginBottom20: {
+    marginBottom: 20,
+  },
+  grayText: {
+    color: '#838383',
+    marginRight: 7,
+  },
+  goldText: {
+    color: '#CCAB52',
   },
 });
 
