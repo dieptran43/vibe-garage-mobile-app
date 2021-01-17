@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import RNBootSplash from 'react-native-bootsplash';
+import * as Keychain from 'react-native-keychain';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppStack from './navigators/Stack';
 import {navigationRef, isReadyRef} from './navigators/RootNavigation';
 import {AuthContext} from './context';
@@ -19,10 +21,21 @@ const App = () => {
   const [state, dispatch] = useReducer(reducers, initialState);
 
   useEffect(() => {
-    setTimeout(() => {
-      RNBootSplash.hide({fade: true});
-    }, 3000);
+    checkUserLogin();
   }, []);
+
+  const checkUserLogin = async () => {
+    let user = await AsyncStorage.getItem('userLogin');
+    const credentials = await Keychain.getGenericPassword();
+    if (user && Object.entries(user) && credentials) {
+      user = JSON.parse(user);
+      await dispatch({
+        type: 'populateUser',
+        payload: {user, isLoggedIn: true},
+      });
+    }
+    RNBootSplash.hide({fade: true});
+  };
 
   return (
     <AuthContext.Provider
