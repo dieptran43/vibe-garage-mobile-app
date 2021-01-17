@@ -11,9 +11,19 @@ import {
 import styles from './signUpStyle';
 import Logo from '../../assets/images/logo.jpg';
 import {navigateToNestedRoute} from '../../navigators/RootNavigation';
+import {register} from '../../services/authService';
 import {getScreenParent} from '../../utils/navigationHelper';
 
 export function SignUp() {
+  const initialFields = {email: '', password: '', firstname: '', lastname: ''};
+  const [data, setData] = useState({
+    hasFilledAllFields: false,
+    isPasswordHidden: true,
+    isSigningIn: false,
+    accountSignInError: '',
+    fields: initialFields,
+  });
+
   const handleNavigation = (route: String) => {
     navigateToNestedRoute(getScreenParent(route), route);
   };

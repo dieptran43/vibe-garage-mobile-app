@@ -11,6 +11,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import RNBootSplash from 'react-native-bootsplash';
 import * as Keychain from 'react-native-keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {MenuProvider} from 'react-native-popup-menu';
 import AppStack from './navigators/Stack';
 import {navigationRef, isReadyRef} from './navigators/RootNavigation';
 import {AuthContext} from './context';
@@ -43,12 +44,14 @@ const App = () => {
         state,
         dispatch,
       }}>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.areaContainer}>
-        <NavigationContainer ref={navigationRef}>
-          <AppStack />
-        </NavigationContainer>
-      </SafeAreaView>
+      <MenuProvider>
+        <StatusBar barStyle="dark-content" />
+        <SafeAreaView style={styles.areaContainer}>
+          <NavigationContainer ref={navigationRef}>
+            <AppStack />
+          </NavigationContainer>
+        </SafeAreaView>
+      </MenuProvider>
     </AuthContext.Provider>
   );
 };
