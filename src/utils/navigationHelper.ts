@@ -13,7 +13,7 @@ export const getScreenParent = (route: String) => {
     route === 'MyPlaylists' ||
     route === 'Favourites';
 
-  let isSingleStack = route === 'SignIn' || route === 'SignUp';
+  let isSingleStack = route === 'Login' || route === 'SignUp';
 
   if (isDrawerStack) {
     parent = 'DrawerStack';

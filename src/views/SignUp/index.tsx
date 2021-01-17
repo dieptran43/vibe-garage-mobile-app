@@ -11,10 +11,11 @@ import {
 import styles from './signUpStyle';
 import Logo from '../../assets/images/logo.jpg';
 import {navigateToNestedRoute} from '../../navigators/RootNavigation';
+import {getScreenParent} from '../../utils/navigationHelper';
 
 export function SignUp() {
-  const handleStackNavigation = (route: String) => {
-    navigateToNestedRoute('SingleStack', route);
+  const handleNavigation = (route: String) => {
+    navigateToNestedRoute(getScreenParent(route), route);
   };
 
   return (
@@ -32,7 +33,7 @@ export function SignUp() {
           </TouchableOpacity>
           <View style={[styles.flexRow, styles.marginBottom20]}>
             <Text style={styles.grayText}>Already have an account ?</Text>
-            <TouchableOpacity onPress={() => handleStackNavigation('Login')}>
+            <TouchableOpacity onPress={() => handleNavigation('Login')}>
               <Text style={styles.goldText}>Login</Text>
             </TouchableOpacity>
           </View>

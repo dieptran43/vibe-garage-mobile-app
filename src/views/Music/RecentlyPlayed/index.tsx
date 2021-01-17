@@ -31,7 +31,9 @@ export function RecentlyPlayed({navigation}: DrawerScreenProps<{}>) {
 
   const handleCheckLogin = () => {
     if (!state?.isLoggedIn) {
-      navigateToNestedRoute('SingleStack', 'Login');
+      navigateToNestedRoute('SingleStack', 'Login', {
+        screenFrom: 'RecentlyPlayed',
+      });
     }
   };
 

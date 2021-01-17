@@ -21,10 +21,11 @@ import {login} from '../../services/authService';
 import {AuthContext} from '../../context';
 import {getScreenParent} from '../../utils/navigationHelper';
 
-const initialFields = {username: '', password: ''};
+const initialFields = {email: '', password: ''};
 
-export function Login({navigation}: StackScreenProps<{}>) {
+export function Login({route, navigation}: StackScreenProps<{}>) {
   const {state, dispatch}: any = useContext(AuthContext);
+  const screenParams: any = route?.params;
   const [data, setData] = useState({
     hasFilledAllFields: false,
     isPasswordHidden: true,
@@ -67,37 +68,37 @@ export function Login({navigation}: StackScreenProps<{}>) {
       const fields = data?.fields;
       await login(fields)
         .then(async (response: any) => {
-          if (response && response?.success) {
-            const payload = response?.payload;
+          const payload = response?.user;
+          if (payload) {
             await dispatch({
               type: 'populateUser',
               payload,
             });
-            const {
-              _id,
-              username,
-              password,
-              name,
-              phoneNumber,
-              state,
-              selectedFacility,
-            } = payload;
+            const {email, password} = fields;
+            const {id, username, name} = payload;
             // await Keychain.setGenericPassword(username, password);
             // await AsyncStorage.setItem(
             //   'userLogin',
             //   JSON.stringify({
-            //     _id,
+            //     id,
             //     username,
             //     password,
             //     name,
-            //     phoneNumber,
-            //     state,
-            //     selectedFacility,
             //   }),
             // );
-            setData({...data, isLoggingIn: false, fields: initialFields});
-            // handleNavigation('');
-          } else if (response && response.message) {
+            // setData({...data, isLoggingIn: false, fields: initialFields});
+            const screenFrom = screenParams?.screenFrom;
+            if (screenFrom) {
+              handleNavigation(screenFrom);
+            } else {
+              handleNavigation('Discover');
+            }
+          } else {
+            const error = response?.error_messages;
+            let errorMessage = 'Sorry! An error occured!';
+            if (error) {
+              errorMessage = error[0];
+            }
             setData({
               ...data,
               isLoggingIn: false,
@@ -122,7 +123,7 @@ export function Login({navigation}: StackScreenProps<{}>) {
     let fields: any = data.fields;
     fields[field] = value;
 
-    let isValid = fields['username'] && fields['password'];
+    let isValid = fields['email'] && fields['password'];
 
     setData({
       ...data,
@@ -139,13 +140,14 @@ export function Login({navigation}: StackScreenProps<{}>) {
           <Image style={styles.appLogo} source={Logo} />
           <TextInput
             style={[styles.textInput, styles.marginBottom30]}
-            placeholder="Username"
-            onChangeText={(value) => handleSetValue('username', value)}
+            placeholder="Email"
+            onChangeText={(value) => handleSetValue('email', value)}
           />
           <TextInput
-            style={styles.textInput}
             placeholder="Password"
+            secureTextEntry={data.isPasswordHidden}
             onChangeText={(value) => handleSetValue('password', value)}
+            style={styles.textInput}
           />
           <View style={styles.forgotPwdView}>
             <TouchableOpacity
