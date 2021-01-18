@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   signUpBtnWrapper: {
-    backgroundColor: '#800000',
     width: '85%',
     borderRadius: 5,
     height: 45,
@@ -36,6 +35,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 40,
     marginTop: 10
+  },  
+  signUpBtnWrapperEnabled: {
+    backgroundColor: '#800000',
+  },
+  signUpBtnWrapperDisabled: {
+    backgroundColor: 'rgba(128,0,0, 0.2)',
   },
   signUpBtnText: {
     color: '#fff',

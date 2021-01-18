@@ -163,6 +163,7 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
             </View>
           ) : (
             <TouchableOpacity
+              disabled={data.hasFilledAllFields ? false : true}
               style={[
                 styles.loginBtnWrapper,
                 data.hasFilledAllFields

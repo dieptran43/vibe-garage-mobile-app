@@ -1,4 +1,4 @@
-import {EAccountType} from '../enums';
+// import {EAccountType} from '../enums';
 
 export interface ILogin {
   email: String;
@@ -10,7 +10,7 @@ export interface IRegistration {
   email: String;
   password: String;
   name: String;
-  account_type: EAccountType;
+  // account_type: EAccountType;
 }
 
 export interface IActivateAccount {
