@@ -17,13 +17,19 @@ import {register} from '../../services/authService';
 import {getScreenParent} from '../../utils/navigationHelper';
 
 export function SignUp() {
-  const initialFields = {username: '', email: '', password: '', name: ''};
+  const initialFields = {
+    username: '',
+    email: '',
+    password: '',
+    name: '',
+    confirm_password: '',
+  };
   const [data, setData] = useState({
     hasFilledAllFields: false,
     isPasswordHidden: true,
     isSigningUp: false,
-    accountSignUpError: '',
     fields: initialFields,
+    messageText: '',
   });
 
   const handleNavigation = (route: String) => {
@@ -34,11 +40,9 @@ export function SignUp() {
     let fields: any = data.fields;
     fields[field] = value;
 
-    fields['name'] = `${fields['firstname']} ${fields['lastname']}`;
-
     let isValid =
-      fields['firstname'] &&
-      fields['lastname'] &&
+      fields['name'] &&
+      fields['username'] &&
       fields['email'] &&
       fields['password'] &&
       fields['confirm_password'] &&
@@ -48,7 +52,7 @@ export function SignUp() {
       ...data,
       fields,
       hasFilledAllFields: isValid,
-      accountSignUpError: '',
+      messageText: '',
     });
   };
 
@@ -59,33 +63,35 @@ export function SignUp() {
       setData({
         ...data,
         isSigningUp: true,
-        accountSignUpError: '',
+        messageText: '',
       });
       const {name, email, password, username} = data?.fields;
+      let fields = data?.fields;
+      let messageText: any = '';
       await register({name, email, password, username})
         .then(async (response: any) => {
-          const user = response?.user;
-          if (user) {
-            setData({...data, isSigningUp: false, fields: initialFields});
+          console.log(response);
+          const success = response?.success;
+          if (success) {
+            fields = initialFields;
+            messageText = 'Registration successful! Proceed to login';
           } else {
             const error = response?.error_messages;
-            let errorMessage = 'Sorry! An error occured!';
-            if (error) {
-              errorMessage = error[0];
-            }
-            setData({
-              ...data,
-              isSigningUp: false,
-              accountSignUpError: response.message,
-            });
+            messageText = error[0];
           }
+          setData({
+            ...data,
+            isSigningUp: false,
+            fields,
+            messageText,
+          });
         })
         .catch((err) => {
           console.error(err);
           setData({
             ...data,
             isSigningUp: false,
-            accountSignUpError: 'Sorry! A server error occured.',
+            messageText: 'Sorry! A server error occured.',
           });
         });
     } catch (err) {
@@ -98,30 +104,40 @@ export function SignUp() {
       <KeyboardAvoidingView enabled>
         <View style={styles.signUpWrapper}>
           <Image style={styles.appLogo} source={Logo} />
+          {data.messageText ? (
+            <Text style={styles.messageField}>{data.messageText}</Text>
+          ) : null}
           <TextInput
             style={[styles.textInput]}
-            placeholder="Firstname"
-            onChangeText={(value) => handleSetValue('firstname', value)}
+            placeholder="Name"
+            onChangeText={(value) => handleSetValue('name', value)}
+            value={data.fields.name}
           />
           <TextInput
             style={styles.textInput}
-            placeholder="Lastname"
-            onChangeText={(value) => handleSetValue('lastname', value)}
+            placeholder="Username"
+            onChangeText={(value) => handleSetValue('username', value)}
+            value={data.fields.username}
           />
           <TextInput
             style={styles.textInput}
             placeholder="Email"
             onChangeText={(value) => handleSetValue('email', value)}
+            value={data.fields.email}
           />
           <TextInput
             style={styles.textInput}
             placeholder="Password"
             onChangeText={(value) => handleSetValue('password', value)}
+            value={data.fields.password}
+            secureTextEntry={true}
           />
           <TextInput
             style={styles.textInput}
             placeholder="Confirm Password"
             onChangeText={(value) => handleSetValue('confirm_password', value)}
+            value={data.fields.confirm_password}
+            secureTextEntry={true}
           />
           {data.isSigningUp ? (
             <View
