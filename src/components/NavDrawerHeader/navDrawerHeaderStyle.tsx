@@ -30,6 +30,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: 'auto',
   },
+  menuOptionText: {
+    fontSize: 15,
+    paddingLeft: 7,
+    paddingBottom: 5,
+  },
 });
 
 export default styles;

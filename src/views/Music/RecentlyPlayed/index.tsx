@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 // import Carousel from 'react-native-snap-carousel';
 import {DrawerScreenProps} from '@react-navigation/drawer';
-import {useFocusEffect, useIsFocused} from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import shortid from 'shortid';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
@@ -37,18 +37,11 @@ export function RecentlyPlayed({navigation}: DrawerScreenProps<{}>) {
     }
   };
 
-  const handleBackButtonClick = () => {
-    if (!state?.isLoggedIn) {
-      navigateToNestedRoute('DrawerStack', 'Discover');
-    }
-    return true;
-  };
-
   return (
     <View style={styles.recentlyPlayedContainer}>
       <NavDrawerHeader navigation={navigation} />
       <ScrollView style={styles.scrollViewContent}>
-        <Text>Hey</Text>
+        <Text>Recently Played</Text>
       </ScrollView>
     </View>
   );

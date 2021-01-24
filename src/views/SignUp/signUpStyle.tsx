@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   appLogo: {
     height: 100,
     width: 229,
-    marginBottom: 60,
+    marginBottom: 40,
   },
   textInput: {
     height: 40,
@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   signUpBtnWrapper: {
-    backgroundColor: '#800000',
     width: '85%',
     borderRadius: 5,
     height: 45,
@@ -35,7 +34,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 40,
-    marginTop: 10
+    marginTop: 10,
+  },
+  signUpBtnWrapperEnabled: {
+    backgroundColor: '#800000',
+  },
+  signUpBtnWrapperDisabled: {
+    backgroundColor: 'rgba(128,0,0, 0.2)',
   },
   signUpBtnText: {
     color: '#fff',
@@ -63,6 +68,10 @@ const styles = StyleSheet.create({
   },
   marginLeft5: {
     marginLeft: 5,
+  },
+  messageField: {
+    color: '#CCAB52',
+    marginBottom: 10,
   },
 });
 

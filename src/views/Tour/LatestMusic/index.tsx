@@ -1,4 +1,4 @@
-import React, {useState, createRef} from 'react';
+import React, {useState, createRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -18,127 +18,71 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './latestMusicStyle';
+import {
+  getBestNewReleases,
+  getLatestMusic,
+} from '../../../services/songService';
+import {getImage, combineData} from '../../../utils/helpers';
 
 export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
-    bestNewReleases: [
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'Follow-Me-Nuels+iPraiz_Prod_Nuels.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/12/QlWlWRCTHgmtUzCaS15V_25_c1388101c2d06d65fc383e0c8f8dae27_image.jpg',
-        artiste: 'Nuels',
-      },
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'Nuels Sunday-Ima-Abisi.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/12/iJodKj89pN23qhg6hDPG_02_9684b0c99e584ce72eae8c74ac1fd243_image.jpeg',
-        artiste: 'Nuels',
-      },
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'Follow-Me-Nuels+iPraiz_Prod_Nuels.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/12/QlWlWRCTHgmtUzCaS15V_25_c1388101c2d06d65fc383e0c8f8dae27_image.jpg',
-        artiste: 'Nuels',
-      },
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'Nuels Sunday-Ima-Abisi.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/12/iJodKj89pN23qhg6hDPG_02_9684b0c99e584ce72eae8c74ac1fd243_image.jpeg',
-        artiste: 'Nuels',
-      },
-    ],
+    bestNewReleases: [] as any,
+    bestNewReleasesPageNo: 1,
     bestNewReleasesScrollPosition: 0,
-    topMusic: [
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-    ],
+    latestMusic: [] as any,
+    latestMusicPageNo: 1,
   });
 
   const windowWidth = Dimensions.get('window').width;
 
   let scrollViewRef = createRef<ScrollView>();
 
-  const handleScrollRecentlyPlayed = (direction: string) => {};
+  useEffect(() => {
+    handleRequests();
+  }, []);
+
+  const handleRequests = async () => {
+    let {bestNewReleasesPageNo, latestMusicPageNo} = data;
+
+    await Promise.all([
+      getBestNewReleases(bestNewReleasesPageNo),
+      getLatestMusic(latestMusicPageNo),
+    ])
+      .then(([response, response1]: any) => {
+        let bestNewReleases: any = [],
+          latestMusic: any = [];
+
+        if (response && response?.success) {
+          bestNewReleases = response?.songs?.data;
+        }
+        if (response1 && response1?.success) {
+          latestMusic = response1?.songs?.data;
+        }
+        setData(combineData(data, {bestNewReleases, latestMusic}));
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
+
+  const handleBestNewReleases = (direction: string) => {
+    try {
+      let bestNewReleasesScrollPosition = data?.bestNewReleasesScrollPosition;
+      const viewWidth = windowWidth;
+      if (direction === 'left') {
+        bestNewReleasesScrollPosition -= viewWidth;
+      } else if (direction === 'right') {
+        bestNewReleasesScrollPosition += viewWidth;
+      }
+      scrollViewRef?.current?.scrollTo({
+        x: bestNewReleasesScrollPosition,
+        animated: true,
+      });
+      setData(combineData(data, {bestNewReleasesScrollPosition}));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View style={styles.latestMusicContainer}>
@@ -158,8 +102,7 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
                 <Text style={styles.playlistsText}>Best New Releases</Text>
               </View>
               <View style={styles.flexRow}>
-                <TouchableOpacity
-                  onPress={() => handleScrollRecentlyPlayed('left')}>
+                <TouchableOpacity onPress={() => handleBestNewReleases('left')}>
                   <View style={[styles.arrowWrapper, styles.marginRight]}>
                     <MaterialCommunityIcons
                       name="chevron-left"
@@ -169,7 +112,7 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => handleScrollRecentlyPlayed('right')}>
+                  onPress={() => handleBestNewReleases('right')}>
                   <View style={styles.arrowWrapper}>
                     <MaterialCommunityIcons
                       name="chevron-right"
@@ -182,7 +125,7 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
             </View>
             <ScrollView style={{marginTop: 16}} horizontal ref={scrollViewRef}>
               {data?.bestNewReleases ? (
-                data?.bestNewReleases.map((newRelease, index) => (
+                data?.bestNewReleases.map((newRelease: any, index: Number) => (
                   <View
                     style={[
                       styles.singleCard,
@@ -194,7 +137,7 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
                     key={shortid.generate()}>
                     <Image
                       source={{
-                        uri: newRelease.image,
+                        uri: getImage(newRelease?.thumbnail),
                       }}
                       style={styles.cardImage}
                     />
@@ -225,14 +168,16 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
               </View>
             </View>
             <View style={styles.topSongsContent}>
-              {data?.topMusic?.length ? (
+              {data?.latestMusic?.length ? (
                 <>
                   <View style={styles.topAlbumsWrapper}>
-                    {data.topMusic.map((album, index) => (
-                      <View key={index} style={styles.singleTopAlbum}>
+                    {data.latestMusic.map((album: any, index: Number) => (
+                      <View
+                        key={shortid.generate()}
+                        style={styles.singleTopAlbum}>
                         <Image
                           source={{
-                            uri: album.image,
+                            uri: getImage(album.thumbnail),
                           }}
                           style={styles.topAlbumImage}
                         />
@@ -240,18 +185,18 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
                           style={styles.musicTitleText}
                           numberOfLines={1}
                           ellipsizeMode="tail">
-                          {album.title}
+                          {album?.title}
                         </Text>
                         <Text
                           style={styles.musicArtisteText}
                           numberOfLines={1}
                           ellipsizeMode="tail">
-                          {album.artiste}
+                          {album?.artist_data?.name}
                         </Text>
                       </View>
                     ))}
                   </View>
-                  <Text style={styles.seeAllTopSongsText}>See All</Text>
+                  <Text style={styles.seeAllTopSongsText}>Load More</Text>
                 </>
               ) : null}
             </View>

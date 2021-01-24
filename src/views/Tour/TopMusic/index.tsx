@@ -76,7 +76,7 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
                           style={styles.musicArtisteText}
                           numberOfLines={1}
                           ellipsizeMode="tail">
-                          {music?.artist_name}
+                          {music?.artist_data?.name}
                         </Text>
                       </View>
                       <MaterialIcons

@@ -21,10 +21,15 @@ import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './discoverStyle';
 import {RecentlyPlayed} from '../../Music';
-import {combineData} from '../../../utils/helpers';
+import {combineData, getImage} from '../../../utils/helpers';
 import {set} from 'react-native-reanimated';
-import {getNewReleases} from '../../../services/songService';
-import {getImage} from '../../../utils/helpers';
+import {
+  getNewReleases,
+  getRecentlyPlayed,
+  getTopSongsThisWeek,
+  getRecommendedSongs,
+} from '../../../services/songService';
+import {ISong, IAlbum} from '../../../types/interfaces';
 
 export function Discover({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
@@ -49,98 +54,14 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
         image:
           'https://musicport.com.ng/upload/photos/2020/01/MUDLnD9cXKhvkVJuUGAK_29_0c0801563af4b03dea742996a6cde2e0_image.png',
       },
-    ],
-    recentlyPlayed: [
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'LABIS BOY_MAN OF THE YEAR.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/01/BTCHNCgZsQdDhSc3q2Uo_20_166e4ab24c7f858195f3a0c3909f2fe3_image.jpg',
-        artiste: 'Itz Labisboy',
-      },
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'LABIS BOY_MAN OF THE YEAR.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/01/BTCHNCgZsQdDhSc3q2Uo_20_166e4ab24c7f858195f3a0c3909f2fe3_image.jpg',
-        artiste: 'Itz Labisboy',
-      },
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'LABIS BOY_MAN OF THE YEAR.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/01/BTCHNCgZsQdDhSc3q2Uo_20_166e4ab24c7f858195f3a0c3909f2fe3_image.jpg',
-        artiste: 'Itz Labisboy',
-      },
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'LABIS BOY_MAN OF THE YEAR.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/01/BTCHNCgZsQdDhSc3q2Uo_20_166e4ab24c7f858195f3a0c3909f2fe3_image.jpg',
-        artiste: 'Itz Labisboy',
-      },
-    ],
-    newReleases: [
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'Follow-Me-Nuels+iPraiz_Prod_Nuels.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/12/QlWlWRCTHgmtUzCaS15V_25_c1388101c2d06d65fc383e0c8f8dae27_image.jpg',
-        artiste: 'Nuels',
-      },
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'Nuels Sunday-Ima-Abisi.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/12/iJodKj89pN23qhg6hDPG_02_9684b0c99e584ce72eae8c74ac1fd243_image.jpeg',
-        artiste: 'Nuels',
-      },
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'Follow-Me-Nuels+iPraiz_Prod_Nuels.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/12/QlWlWRCTHgmtUzCaS15V_25_c1388101c2d06d65fc383e0c8f8dae27_image.jpg',
-        artiste: 'Nuels',
-      },
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'Nuels Sunday-Ima-Abisi.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/12/iJodKj89pN23qhg6hDPG_02_9684b0c99e584ce72eae8c74ac1fd243_image.jpeg',
-        artiste: 'Nuels',
-        thumbnail: '',
-      },
-    ],
-    recentlyPlayedScrollPosition: 0,
-    newReleasesScrollPosition: 0,
-    mostPopular: [] as any,
-    recommended: [
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
-      {
-        image:
-          'https://musicport.com.ng/upload/photos/2020/04/3PdAmcAZOAxYhm75N3hu_01_67c4720aac05022fef9a4ba47653d165_image.jpeg',
-        title: 'FRISKY',
-        artiste: 'Emmanuel Jackson',
-      },
     ] as any,
+    recentlyPlayed: [] as any,
+    recentlyPlayedScrollPosition: 0,
+    newReleases: [] as any,
     newReleasesPageNo: 1,
+    newReleasesScrollPosition: 0,
+    mostPopularThisWeek: [] as any,
+    recommended: [] as any,
   });
 
   const windowWidth = Dimensions.get('window').width;
@@ -148,18 +69,44 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
   let scrollViewRef = createRef<ScrollView>();
 
   useEffect(() => {
-    handleNewReleases();
+    handleRequests();
   }, []);
 
-  const handleNewReleases = async () => {
-    const newReleasesPageNo = data.newReleasesPageNo;
-    let newReleases: any = [];
-    await getNewReleases(newReleasesPageNo)
-      .then((response: any) => {
+  const handleRequests = async () => {
+    let {newReleasesPageNo} = data;
+
+    await Promise.all([
+      getNewReleases(newReleasesPageNo),
+      getRecentlyPlayed(),
+      getTopSongsThisWeek(),
+      getRecommendedSongs(),
+    ])
+      .then(([response, response1, response2, response3]: any) => {
+        let newReleases: any = [],
+          recentlyPlayed: any = [],
+          mostPopularThisWeek: any = [],
+          recommended: any = [];
+
         if (response && response?.success) {
           newReleases = response?.songs?.data;
-          setData(combineData(data, {newReleases}));
         }
+        if (response1 && response1?.success) {
+          recentlyPlayed = response1?.songs?.data;
+        }
+        if (response2 && response2?.success) {
+          mostPopularThisWeek = response2?.songs;
+        }
+        if (response3 && response3?.success) {
+          recommended = response3?.songs;
+        }
+        setData(
+          combineData(data, {
+            newReleases,
+            recentlyPlayed,
+            recommended,
+            mostPopularThisWeek,
+          }),
+        );
       })
       .catch((error: any) => {
         console.log(error);
@@ -268,35 +215,37 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
             </View>
             <ScrollView style={{marginTop: 16}} horizontal ref={scrollViewRef}>
               {data?.recentlyPlayed ? (
-                data?.recentlyPlayed.map((recentlyPlayed, index) => (
-                  <View
-                    style={[
-                      styles.singleCard,
-                      {width: windowWidth / 2.34},
-                      // {marginRight: 20},
-                      index !== data?.recentlyPlayed?.length - 1 && {
-                        marginRight: 20,
-                      },
-                    ]}
-                    key={shortid.generate()}>
-                    <Image
-                      source={{
-                        uri: recentlyPlayed.image,
-                      }}
-                      style={styles.cardImage}
-                    />
-                    <CustomText
-                      type={1}
-                      text={recentlyPlayed.title}
-                      style={styles.cardText}
-                    />
-                    <CustomText
-                      type={2}
-                      text={recentlyPlayed.artiste}
-                      style={styles.cardText2}
-                    />
-                  </View>
-                ))
+                data?.recentlyPlayed.map(
+                  (recentlyPlayed: ISong, index: Number) => (
+                    <View
+                      style={[
+                        styles.singleCard,
+                        {width: windowWidth / 2.34},
+                        // {marginRight: 20},
+                        index !== data?.recentlyPlayed?.length - 1 && {
+                          marginRight: 20,
+                        },
+                      ]}
+                      key={shortid.generate()}>
+                      <Image
+                        source={{
+                          uri: getImage(recentlyPlayed?.thumbnail),
+                        }}
+                        style={styles.cardImage}
+                      />
+                      <CustomText
+                        type={1}
+                        text={recentlyPlayed.title}
+                        style={styles.cardText}
+                      />
+                      <CustomText
+                        type={2}
+                        text={recentlyPlayed?.artist_data?.name}
+                        style={styles.cardText2}
+                      />
+                    </View>
+                  ),
+                )
               ) : (
                 <Text>None found</Text>
               )}
@@ -340,7 +289,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
             </View>
             <ScrollView style={{marginTop: 16}} horizontal ref={scrollViewRef}>
               {data?.newReleases ? (
-                data?.newReleases.map((newRelease, index) => (
+                data?.newReleases.map((newRelease: ISong, index: Number) => (
                   <View
                     style={[
                       styles.singleCard,
@@ -364,7 +313,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                     />
                     <CustomText
                       type={2}
-                      text={newRelease.artiste}
+                      text={newRelease?.artist_data?.name}
                       style={styles.cardText2}
                     />
                   </View>
@@ -388,16 +337,17 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
               </View>
             </View>
             <View style={styles.topSongsContent}>
-              {data?.mostPopular?.length ? (
-                <>
-                  <View style={styles.topSongsWrapper}>
-                    {data.mostPopular.map((music: any) => (
+              {data?.mostPopularThisWeek?.length ? (
+                <View style={styles.topSongsWrapper}>
+                  {data.mostPopularThisWeek
+                    .slice(0, 10)
+                    .map((mostPopular: any) => (
                       <View
                         key={shortid.generate()}
                         style={styles.singleTopSong}>
                         <Image
                           source={{
-                            uri: music?.image,
+                            uri: getImage(mostPopular?.song?.thumbnail),
                           }}
                           style={styles.topMusicImage}
                         />
@@ -406,13 +356,13 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                             style={styles.musicTitleText}
                             numberOfLines={1}
                             ellipsizeMode="tail">
-                            {music?.title}
+                            {mostPopular?.song?.title}
                           </Text>
                           <Text
                             style={styles.musicArtisteText}
                             numberOfLines={1}
                             ellipsizeMode="tail">
-                            {music?.artiste}
+                            {mostPopular?.song?.artist_data?.name}
                           </Text>
                         </View>
                         <MaterialIcons
@@ -423,8 +373,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                         />
                       </View>
                     ))}
-                  </View>
-                </>
+                </View>
               ) : null}
             </View>
           </View>
@@ -442,44 +391,36 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
               </View>
             </View>
             <View style={styles.topSongsContent}>
-              {data?.recommended?.length ? (
-                <>
-                  <View style={styles.topSongsWrapper}>
-                    {data.recommended.map((music: any) => (
-                      <View
-                        key={shortid.generate()}
-                        style={styles.singleTopSong}>
-                        <Image
-                          source={{
-                            uri: music.image,
-                          }}
-                          style={styles.topMusicImage}
-                        />
-                        <View style={styles.musicTextWrapper}>
-                          <Text
-                            style={styles.musicTitleText}
-                            numberOfLines={1}
-                            ellipsizeMode="tail">
-                            {music.title}
-                          </Text>
-                          <Text
-                            style={styles.musicArtisteText}
-                            numberOfLines={1}
-                            ellipsizeMode="tail">
-                            {music.artiste}
-                          </Text>
-                        </View>
-                        <MaterialIcons
-                          name="more-horiz"
-                          style={styles.musicMoreIcon}
-                          color="#919191"
-                          size={22}
-                        />
-                      </View>
-                    ))}
+              {data.recommended.slice(0, 10).map((recommended: any) => (
+                <View key={shortid.generate()} style={styles.singleTopSong}>
+                  <Image
+                    source={{
+                      uri: getImage(recommended?.song?.thumbnail),
+                    }}
+                    style={styles.topMusicImage}
+                  />
+                  <View style={styles.musicTextWrapper}>
+                    <Text
+                      style={styles.musicTitleText}
+                      numberOfLines={1}
+                      ellipsizeMode="tail">
+                      {recommended?.song?.title}
+                    </Text>
+                    <Text
+                      style={styles.musicArtisteText}
+                      numberOfLines={1}
+                      ellipsizeMode="tail">
+                      {recommended?.song?.artist_data?.name}
+                    </Text>
                   </View>
-                </>
-              ) : null}
+                  <MaterialIcons
+                    name="more-horiz"
+                    style={styles.musicMoreIcon}
+                    color="#919191"
+                    size={25}
+                  />
+                </View>
+              ))}
             </View>
           </View>
         </View>

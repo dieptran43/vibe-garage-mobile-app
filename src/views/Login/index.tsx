@@ -68,25 +68,25 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
       const fields = data?.fields;
       await login(fields)
         .then(async (response: any) => {
-          const payload = response?.user;
-          if (payload) {
+          const user = response?.user;
+          if (user) {
             await dispatch({
               type: 'populateUser',
-              payload,
+              payload: {user, isLoggedIn: true},
             });
             const {email, password} = fields;
-            const {id, username, name} = payload;
-            // await Keychain.setGenericPassword(username, password);
-            // await AsyncStorage.setItem(
-            //   'userLogin',
-            //   JSON.stringify({
-            //     id,
-            //     username,
-            //     password,
-            //     name,
-            //   }),
-            // );
-            // setData({...data, isLoggingIn: false, fields: initialFields});
+            const {id, username, name} = user;
+            await Keychain.setGenericPassword(username, password);
+            await AsyncStorage.setItem(
+              'userLogin',
+              JSON.stringify({
+                id,
+                username,
+                password,
+                name,
+              }),
+            );
+            setData({...data, isLoggingIn: false, fields: initialFields});
             const screenFrom = screenParams?.screenFrom;
             if (screenFrom) {
               handleNavigation(screenFrom);
@@ -163,6 +163,7 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
             </View>
           ) : (
             <TouchableOpacity
+              disabled={data.hasFilledAllFields ? false : true}
               style={[
                 styles.loginBtnWrapper,
                 data.hasFilledAllFields
