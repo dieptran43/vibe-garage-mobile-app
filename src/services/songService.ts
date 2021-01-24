@@ -89,3 +89,58 @@ export const getLatestMusic = (latestMusicPageNo: Number) => {
       });
   });
 };
+
+export const getRecentlyPlayed = () => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/recently-played`;
+    fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};
+
+export const getTopSongsThisWeek = () => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/top-songs-this-week`;
+    fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};
+
+
+export const getRecommendedSongs = () => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/top-songs-this-week`;
+    fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};

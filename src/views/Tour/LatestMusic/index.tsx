@@ -49,8 +49,8 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
       getLatestMusic(latestMusicPageNo),
     ])
       .then(([response, response1]: any) => {
-        let bestNewReleases: any = [];
-        let latestMusic: any = [];
+        let bestNewReleases: any = [],
+          latestMusic: any = [];
 
         if (response && response?.success) {
           bestNewReleases = response?.songs?.data;
