@@ -21,10 +21,9 @@ import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './discoverStyle';
 import {RecentlyPlayed} from '../../Music';
-import {combineData} from '../../../utils/helpers';
+import {combineData, getImage} from '../../../utils/helpers';
 import {set} from 'react-native-reanimated';
 import {getNewReleases} from '../../../services/songService';
-import {getImage} from '../../../utils/helpers';
 
 export function Discover({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
@@ -49,7 +48,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
         image:
           'https://musicport.com.ng/upload/photos/2020/01/MUDLnD9cXKhvkVJuUGAK_29_0c0801563af4b03dea742996a6cde2e0_image.png',
       },
-    ],
+    ] as any,
     recentlyPlayed: [
       {
         _id: '253tt3s38832absjjkdkk',
@@ -79,39 +78,10 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
           'https://musicport.com.ng/upload/photos/2020/01/BTCHNCgZsQdDhSc3q2Uo_20_166e4ab24c7f858195f3a0c3909f2fe3_image.jpg',
         artiste: 'Itz Labisboy',
       },
-    ],
-    newReleases: [
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'Follow-Me-Nuels+iPraiz_Prod_Nuels.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/12/QlWlWRCTHgmtUzCaS15V_25_c1388101c2d06d65fc383e0c8f8dae27_image.jpg',
-        artiste: 'Nuels',
-      },
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'Nuels Sunday-Ima-Abisi.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/12/iJodKj89pN23qhg6hDPG_02_9684b0c99e584ce72eae8c74ac1fd243_image.jpeg',
-        artiste: 'Nuels',
-      },
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'Follow-Me-Nuels+iPraiz_Prod_Nuels.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/12/QlWlWRCTHgmtUzCaS15V_25_c1388101c2d06d65fc383e0c8f8dae27_image.jpg',
-        artiste: 'Nuels',
-      },
-      {
-        _id: '253tt3s38832absjjkdkk',
-        title: 'Nuels Sunday-Ima-Abisi.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/12/iJodKj89pN23qhg6hDPG_02_9684b0c99e584ce72eae8c74ac1fd243_image.jpeg',
-        artiste: 'Nuels',
-        thumbnail: '',
-      },
-    ],
+    ] as any,
     recentlyPlayedScrollPosition: 0,
+    newReleases: [] as any,
+    newReleasesPageNo: 1,
     newReleasesScrollPosition: 0,
     mostPopular: [] as any,
     recommended: [
@@ -140,7 +110,6 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
         artiste: 'Emmanuel Jackson',
       },
     ] as any,
-    newReleasesPageNo: 1,
   });
 
   const windowWidth = Dimensions.get('window').width;
@@ -268,7 +237,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
             </View>
             <ScrollView style={{marginTop: 16}} horizontal ref={scrollViewRef}>
               {data?.recentlyPlayed ? (
-                data?.recentlyPlayed.map((recentlyPlayed, index) => (
+                data?.recentlyPlayed.map((recentlyPlayed: any, index: Number) => (
                   <View
                     style={[
                       styles.singleCard,
@@ -340,7 +309,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
             </View>
             <ScrollView style={{marginTop: 16}} horizontal ref={scrollViewRef}>
               {data?.newReleases ? (
-                data?.newReleases.map((newRelease, index) => (
+                data?.newReleases.map((newRelease: any, index: Number) => (
                   <View
                     style={[
                       styles.singleCard,

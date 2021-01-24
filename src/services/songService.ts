@@ -53,3 +53,39 @@ export const getSongsByGenre = (genre: Number) => {
       });
   });
 };
+
+export const getBestNewReleases = (bestNewReleasesPageNo: Number) => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/top-songs?page=${bestNewReleasesPageNo}`;
+    fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};
+
+export const getLatestMusic = (latestMusicPageNo: Number) => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/new-releases?page=${latestMusicPageNo}`;
+    fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};
