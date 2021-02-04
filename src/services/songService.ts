@@ -90,13 +90,14 @@ export const getLatestMusic = (latestMusicPageNo: Number) => {
   });
 };
 
-export const getRecentlyPlayed = () => {
+export const getRecentlyPlayed = (token?: String) => {
   return new Promise((resolve, reject) => {
     const url = `${API_BASE}/api/v1/recently-played`;
     fetch(url, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())
@@ -125,7 +126,6 @@ export const getTopSongsThisWeek = () => {
       });
   });
 };
-
 
 export const getRecommendedSongs = () => {
   return new Promise((resolve, reject) => {
