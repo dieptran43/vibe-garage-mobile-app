@@ -19,6 +19,7 @@ import {navigateToNestedRoute} from '../../navigators/RootNavigation';
 
 export default function NavDrawerHeader({navigation}: any) {
   const {state, dispatch}: any = useContext(AuthContext);
+  const artist = state?.user?.artist;
 
   const handleToggleNavDrawer = () => {
     navigation.openDrawer();
@@ -58,9 +59,35 @@ export default function NavDrawerHeader({navigation}: any) {
           </MenuTrigger>
           <MenuOptions>
             {state?.isLoggedIn ? (
-              <MenuOption onSelect={() => handleLogout()}>
-                <Text style={styles.menuOptionText}>Logout</Text>
-              </MenuOption>
+              <>
+                <MenuOption onSelect={() => handleNavigation('GetCredit')}>
+                  <Text style={styles.menuOptionText}>Get credit</Text>
+                </MenuOption>
+                {artist == 0 ? (
+                  <>
+                    <MenuOption onSelect={() => handleNavigation('BecomeAnArtist')}>
+                      <Text style={styles.menuOptionText}>
+                        Become an artist
+                      </Text>
+                    </MenuOption>
+                  </>
+                ) : artist == 1 ? (
+                  <>
+                    <MenuOption onSelect={() => handleNavigation('MySongs')}>
+                      <Text style={styles.menuOptionText}>My Songs</Text>
+                    </MenuOption>
+                    <MenuOption onSelect={() => handleNavigation('MyAlbums')}>
+                      <Text style={styles.menuOptionText}>My Albums</Text>
+                    </MenuOption>
+                    <MenuOption onSelect={() => handleNavigation('Upload')}>
+                      <Text style={styles.menuOptionText}>Upload</Text>
+                    </MenuOption>
+                  </>
+                ) : null}
+                <MenuOption onSelect={() => handleLogout()}>
+                  <Text style={styles.menuOptionText}>Logout</Text>
+                </MenuOption>
+              </>
             ) : (
               <>
                 <MenuOption onSelect={() => handleNavigation('Login')}>
