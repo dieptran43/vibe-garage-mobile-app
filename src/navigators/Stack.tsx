@@ -25,6 +25,7 @@ import {
   BecomeAnArtist,
   MyAlbums,
   MySongs,
+  Track,
 } from '../views';
 import GraphImage from '../assets/icons/graph-icon.png';
 import GenresImage from '../assets/icons/genres-icon.png';
@@ -242,6 +243,11 @@ const SingleStack = () => {
       <Stack.Screen
         name="BecomeAnArtist"
         component={BecomeAnArtist}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Track"
+        component={Track}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
