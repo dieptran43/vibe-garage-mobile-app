@@ -19,18 +19,7 @@ import {combineData, getImage} from '../../../utils/helpers';
 
 export function Playlists({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
-    publicPlaylist: [
-      {
-        id: 4,
-        name: 'At the foot of the Cross vol2',
-        user_id: '30',
-        privacy: '0',
-        thumbnail:
-          'upload/photos/2019/07/WDKjK8iiyvmNQn4QtDCL_30_35332c0840e0ad3869c2fa5e862d35cb_image.jpg',
-        uid: 'rVlhmhsltApU',
-        time: '1564491929',
-      },
-    ],
+    publicPlaylist: [] as any,
   });
   useEffect(() => {
     handlePublicPlaylist();
@@ -72,34 +61,34 @@ export function Playlists({navigation}: DrawerScreenProps<{}>) {
       <ScrollView style={styles.scrollViewContent}>
         <View style={styles.playlistsItems}>
           {data.publicPlaylist?.length
-            ? data.publicPlaylist.map((playlist) => (
+            ? data.publicPlaylist.map((playlist: any) => (
                 <TouchableWithoutFeedback key={shortid.generate()}>
                   <View style={styles.singlePlaylist}>
                     <View style={styles.singlePlaylistRowOne}>
                       <View style={styles.flexRow}>
                         <Image
                           source={{
-                            uri: getImage(playlist?.thumbnail),
+                            uri: getImage(playlist?.artist_data?.avatar),
                           }}
                           style={styles.playlistImage}
                         />
                         <CustomText
                           style={styles.playlistTitle1}
                           type={1}
-                          text={playlist?.name}
+                          text={playlist?.artist_data?.name}
                         />
                       </View>
                       <CustomText
                         style={styles.playlistTitle2}
                         type={1}
-                        text="Glory E Praise"
+                        text={playlist?.name}
                       />
                       <View style={styles.albumNumberRow}>
                         <Fontisto name="music-note" color="#c3c3c6" size={15} />
                         <CustomText
                           style={styles.albumNumberText}
                           type={1}
-                          text={0}
+                          text={playlist?.songs_total_count}
                         />
                       </View>
                     </View>

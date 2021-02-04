@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   playlistTitle1: {
     color: '#fff',
-    maxWidth: "80%"
+    maxWidth: "70%"
   },
   playlistTitle2: {
     fontSize: 16,
