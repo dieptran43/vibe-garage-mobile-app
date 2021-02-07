@@ -47,22 +47,28 @@ export function Browse({navigation}: DrawerScreenProps<{}>) {
     albums: [
       {
         artistImage:
-          'https://musicport.com.ng/upload/photos/2020/06/eDbuX4CjczAZKYKB2wWf_27_dc2c86a1cbcb1e1b9a1f3fe6e6d7574f_image.jpg',
+          'upload/photos/2020/06/eDbuX4CjczAZKYKB2wWf_27_dc2c86a1cbcb1e1b9a1f3fe6e6d7574f_image.jpg',
         artistName: 'Glory E Praise',
         albumName: 'Glory E Praise',
         albumImage:
-          'https://musicport.com.ng/upload/photos/2020/06/kiSQblDDKUNKENFrinIh_24_68fc9d8a7fd60a42552efa4c6c1a9215_image.jpg',
+          'upload/photos/2020/06/kiSQblDDKUNKENFrinIh_24_68fc9d8a7fd60a42552efa4c6c1a9215_image.jpg',
+        releasedOn: '5 months ago',
+        price: 3000,
+        isPurchased: false,
       },
       {
         artistImage:
-          'https://musicport.com.ng/upload/photos/2020/06/eDbuX4CjczAZKYKB2wWf_27_dc2c86a1cbcb1e1b9a1f3fe6e6d7574f_image.jpg',
+          'upload/photos/2020/06/eDbuX4CjczAZKYKB2wWf_27_dc2c86a1cbcb1e1b9a1f3fe6e6d7574f_image.jpg',
         artistName: 'Glory E Praise',
         albumName: 'Glory E Praise',
         albumImage:
-          'https://musicport.com.ng/upload/photos/2020/06/kiSQblDDKUNKENFrinIh_24_68fc9d8a7fd60a42552efa4c6c1a9215_image.jpg',
+          'upload/photos/2020/06/kiSQblDDKUNKENFrinIh_24_68fc9d8a7fd60a42552efa4c6c1a9215_image.jpg',
+        releasedOn: '5 months ago',
+        price: 3000,
+        isPurchased: true,
       },
     ],
-    topseller: [],
+    topSeller: [],
   });
 
   const handleTab = (tab: String) => {
@@ -168,7 +174,45 @@ export function Browse({navigation}: DrawerScreenProps<{}>) {
               ))}
             </View>
           ) : data.tab === 'Albums' ? (
-            <View></View>
+            <View>
+              {data?.albums?.map((album) => (
+                <View style={styles.singleSongWrapper} key={shortid.generate()}>
+                  <Image
+                    source={{uri: getImage(album?.albumImage)}}
+                    style={styles.singleSongAvatar}
+                  />
+                  <View style={styles.sectionOne}>
+                    <View style={styles.songOwner}>
+                      <CustomText text={album?.albumName} type={1} />
+                      <CustomText text={album?.artistName} />
+                    </View>
+                    {album?.isPurchased ? (
+                      <CustomText
+                        size={12}
+                        text="You have bought this track."
+                        style={styles.boughtTrackText}
+                      />
+                    ) : (
+                      <View style={styles.purchaseWrapper}>
+                        <CustomText
+                          type={1}
+                          size={14}
+                          text={`₦${album?.price}`}
+                          style={styles.priceText}
+                        />
+                        <TouchableWithoutFeedback>
+                          <Text style={styles.purchaseText}>Purchase</Text>
+                        </TouchableWithoutFeedback>
+                      </View>
+                    )}
+                    <View style={styles.songBottomRow}>
+                      <CustomText type={1} text={album?.releasedOn} />
+                      <Feather name="more-horizontal" size={20} color="#fff" />
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
           ) : data.tab === 'Top Seller' ? (
             <View>
               <View style={styles.flexHeader}>

@@ -69,10 +69,11 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
       await login(fields)
         .then(async (response: any) => {
           const user = response?.user;
+          const token = response?.token;
           if (user) {
             await dispatch({
               type: 'populateUser',
-              payload: {user, isLoggedIn: true},
+              payload: {user, token, isLoggedIn: true},
             });
             const {email, password} = fields;
             const {id, username, name} = user;
@@ -84,6 +85,7 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
                 username,
                 password,
                 name,
+                token,
               }),
             );
             setData({...data, isLoggingIn: false, fields: initialFields});

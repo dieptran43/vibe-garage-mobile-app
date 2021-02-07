@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(151, 151, 151, 0.3)',
     borderRadius: 5,
-    marginBottom: 20,
+    marginBottom: 40,
     width: '47%',
   },
   singlePlaylistRowOne: {
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
   },
   playlistTitle1: {
     color: '#fff',
+    maxWidth: "70%"
   },
   playlistTitle2: {
     fontSize: 16,

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -14,60 +14,34 @@ import shortid from 'shortid';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './playlistsStyle';
+import {getRecentlyPublicPlaylist} from '../../../services/playlistService';
+import {combineData, getImage} from '../../../utils/helpers';
 
 export function Playlists({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
-    playlists: [
-      {
-        artistImage:
-          'https://musicport.com.ng/upload/photos/2020/06/eDbuX4CjczAZKYKB2wWf_27_dc2c86a1cbcb1e1b9a1f3fe6e6d7574f_image.jpg',
-        artistName: 'Glory E Praise',
-        albumName: 'Glory E Praise',
-        albumImage:
-          'https://musicport.com.ng/upload/photos/2020/06/kiSQblDDKUNKENFrinIh_24_68fc9d8a7fd60a42552efa4c6c1a9215_image.jpg',
-      },
-      {
-        artistImage:
-          'https://musicport.com.ng/upload/photos/2020/06/eDbuX4CjczAZKYKB2wWf_27_dc2c86a1cbcb1e1b9a1f3fe6e6d7574f_image.jpg',
-        artistName: 'Glory E Praise',
-        albumName: 'Glory E Praise',
-        albumImage:
-          'https://musicport.com.ng/upload/photos/2020/06/kiSQblDDKUNKENFrinIh_24_68fc9d8a7fd60a42552efa4c6c1a9215_image.jpg',
-      },
-      {
-        artistImage:
-          'https://musicport.com.ng/upload/photos/2020/06/eDbuX4CjczAZKYKB2wWf_27_dc2c86a1cbcb1e1b9a1f3fe6e6d7574f_image.jpg',
-        artistName: 'Glory E Praise',
-        albumName: 'Glory E Praise',
-        albumImage:
-          'https://musicport.com.ng/upload/photos/2020/06/kiSQblDDKUNKENFrinIh_24_68fc9d8a7fd60a42552efa4c6c1a9215_image.jpg',
-      },
-      {
-        artistImage:
-          'https://musicport.com.ng/upload/photos/2020/06/eDbuX4CjczAZKYKB2wWf_27_dc2c86a1cbcb1e1b9a1f3fe6e6d7574f_image.jpg',
-        artistName: 'Glory E Praise',
-        albumName: 'Glory E Praise',
-        albumImage:
-          'https://musicport.com.ng/upload/photos/2020/06/kiSQblDDKUNKENFrinIh_24_68fc9d8a7fd60a42552efa4c6c1a9215_image.jpg',
-      },
-      {
-        artistImage:
-          'https://musicport.com.ng/upload/photos/2020/06/eDbuX4CjczAZKYKB2wWf_27_dc2c86a1cbcb1e1b9a1f3fe6e6d7574f_image.jpg',
-        artistName: 'Glory E Praise',
-        albumName: 'Glory E Praise',
-        albumImage:
-          'https://musicport.com.ng/upload/photos/2020/06/kiSQblDDKUNKENFrinIh_24_68fc9d8a7fd60a42552efa4c6c1a9215_image.jpg',
-      },
-      {
-        artistImage:
-          'https://musicport.com.ng/upload/photos/2020/06/eDbuX4CjczAZKYKB2wWf_27_dc2c86a1cbcb1e1b9a1f3fe6e6d7574f_image.jpg',
-        artistName: 'Glory E Praise',
-        albumName: 'Glory E Praise',
-        albumImage:
-          'https://musicport.com.ng/upload/photos/2020/06/kiSQblDDKUNKENFrinIh_24_68fc9d8a7fd60a42552efa4c6c1a9215_image.jpg',
-      },
-    ],
+    publicPlaylist: [] as any,
   });
+  useEffect(() => {
+    handlePublicPlaylist();
+  }, []);
+
+  const handlePublicPlaylist = async () => {
+    try {
+      await getRecentlyPublicPlaylist()
+        .then((response: any) => {
+          let publicPlaylist = [];
+          if (response && response?.success) {
+            publicPlaylist = response?.playlists?.data;
+          }
+          setData(combineData(data, {publicPlaylist}));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View style={styles.playlistsContainer}>
@@ -86,44 +60,42 @@ export function Playlists({navigation}: DrawerScreenProps<{}>) {
       </View>
       <ScrollView style={styles.scrollViewContent}>
         <View style={styles.playlistsItems}>
-          {data.playlists?.length
-            ? data.playlists.map((playlist) => (
+          {data.publicPlaylist?.length
+            ? data.publicPlaylist.map((playlist: any) => (
                 <TouchableWithoutFeedback key={shortid.generate()}>
                   <View style={styles.singlePlaylist}>
                     <View style={styles.singlePlaylistRowOne}>
                       <View style={styles.flexRow}>
                         <Image
                           source={{
-                            uri:
-                              'https://musicport.com.ng/upload/photos/2020/06/eDbuX4CjczAZKYKB2wWf_27_dc2c86a1cbcb1e1b9a1f3fe6e6d7574f_image.jpg',
+                            uri: getImage(playlist?.artist_data?.avatar),
                           }}
                           style={styles.playlistImage}
                         />
                         <CustomText
                           style={styles.playlistTitle1}
                           type={1}
-                          text="Glory E Praise"
+                          text={playlist?.artist_data?.name}
                         />
                       </View>
                       <CustomText
                         style={styles.playlistTitle2}
                         type={1}
-                        text="Glory E Praise"
+                        text={playlist?.name}
                       />
                       <View style={styles.albumNumberRow}>
                         <Fontisto name="music-note" color="#c3c3c6" size={15} />
                         <CustomText
                           style={styles.albumNumberText}
                           type={1}
-                          text={0}
+                          text={playlist?.songs_total_count}
                         />
                       </View>
                     </View>
                     <View style={styles.imageBackgroundWrapper}>
                       <Image
                         source={{
-                          uri:
-                            'https://musicport.com.ng/upload/photos/2020/06/kiSQblDDKUNKENFrinIh_24_68fc9d8a7fd60a42552efa4c6c1a9215_image.jpg',
+                          uri: getImage(playlist?.thumbnail),
                         }}
                         style={styles.imageBackground}
                       />

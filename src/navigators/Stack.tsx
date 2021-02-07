@@ -20,6 +20,12 @@ import {
   RecentlyPlayed,
   MyPlaylists,
   Favourites,
+  Upload,
+  GetCredit,
+  BecomeAnArtist,
+  MyAlbums,
+  MySongs,
+  Track,
 } from '../views';
 import GraphImage from '../assets/icons/graph-icon.png';
 import GenresImage from '../assets/icons/genres-icon.png';
@@ -212,6 +218,36 @@ const SingleStack = () => {
       <Stack.Screen
         name="SignUp"
         component={SignUp}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Upload"
+        component={Upload}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="MyAlbums"
+        component={MyAlbums}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="MySongs"
+        component={MySongs}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="GetCredit"
+        component={GetCredit}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="BecomeAnArtist"
+        component={BecomeAnArtist}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Track"
+        component={Track}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
