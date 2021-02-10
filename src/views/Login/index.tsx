@@ -68,6 +68,8 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
       const fields = data?.fields;
       await login(fields)
         .then(async (response: any) => {
+          console.log('reewdfghh');
+          console.log(response);
           const user = response?.user;
           const token = response?.token;
           if (user) {

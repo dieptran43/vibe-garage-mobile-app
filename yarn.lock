@@ -3142,15 +3142,15 @@ escape-html@~1.0.3:
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
 
+escape-string-regexp@2.0.0, escape-string-regexp@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
+  integrity sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==
+
 escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
-
-escape-string-regexp@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
-  integrity sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==
 
 escape-string-regexp@^4.0.0:
   version "4.0.0"
@@ -4203,7 +4203,7 @@ internal-slot@^1.0.2:
     has "^1.0.3"
     side-channel "^1.0.2"
 
-invariant@^2.2.4:
+invariant@2.2.4, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -6708,6 +6708,11 @@ react-native-keychain@^6.2.0:
   resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-6.2.0.tgz#8f4cff503aad367141db5aea0189ead9240c28ff"
   integrity sha512-U6fnOQRJPq+c0Abl+FoYy9v0H3kQU587tMamU/o+MoBSUScFLE3DQpkyT1PW4NF5IObgiGuqQdmjC2KgtBpjGA==
 
+react-native-paystack-webview@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-paystack-webview/-/react-native-paystack-webview-3.2.1.tgz#4c5024a924a20bf37b6385dd02f3ad49e7206e48"
+  integrity sha512-AjiP6erq47CyxScEJ9WojEnDBDSHYTfb9jCZMvXHCXExfOFTpH/rygpjtuOOzMbm9tMutYBO8jxHumnqe87bkQ==
+
 react-native-popup-menu@^0.15.10:
   version "0.15.10"
   resolved "https://registry.yarnpkg.com/react-native-popup-menu/-/react-native-popup-menu-0.15.10.tgz#49f2a67c8d1ea329f44e56288eca4a5c04835828"
@@ -6768,6 +6773,14 @@ react-native-vector-icons@^7.1.0:
     lodash.template "^4.5.0"
     prop-types "^15.7.2"
     yargs "^15.0.2"
+
+react-native-webview@^11.2.2:
+  version "11.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-11.2.2.tgz#dcc6138f0a07d889d14e11a45d54ec79178c5b5d"
+  integrity sha512-N2BEcK+md0gY1Ej26ocRy3Khtukjv2FeO+z25i+jxiGDRrwYRs8ElRnM3ObQgfnV76UL67FwJlskydX6iB9PDg==
+  dependencies:
+    escape-string-regexp "2.0.0"
+    invariant "2.2.4"
 
 react-native@0.63.3:
   version "0.63.3"

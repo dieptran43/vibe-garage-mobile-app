@@ -203,6 +203,9 @@ const DrawerStack = () => {
           ),
         }}
       />
+      <Drawer.Screen name="GetCredit" component={GetCredit} />
+      <Drawer.Screen name="BecomeAnArtist" component={BecomeAnArtist} />
+      <Drawer.Screen name="Upload" component={Upload} />
     </Drawer.Navigator>
   );
 };
@@ -221,11 +224,6 @@ const SingleStack = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="Upload"
-        component={Upload}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
         name="MyAlbums"
         component={MyAlbums}
         options={{headerShown: false}}
@@ -233,16 +231,6 @@ const SingleStack = () => {
       <Stack.Screen
         name="MySongs"
         component={MySongs}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="GetCredit"
-        component={GetCredit}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="BecomeAnArtist"
-        component={BecomeAnArtist}
         options={{headerShown: false}}
       />
       <Stack.Screen

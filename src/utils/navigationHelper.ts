@@ -11,16 +11,16 @@ export const getScreenParent = (route: String) => {
     route === 'Purchased' ||
     route === 'RecentlyPlayed' ||
     route === 'MyPlaylists' ||
-    route === 'Favourites';
+    route === 'Favourites' ||
+    route === 'GetCredit' ||
+    route === 'BecomeAnArtist' ||
+    route === 'Upload';
 
   let isSingleStack =
     route === 'Login' ||
     route === 'SignUp' ||
-    route === 'Upload' ||
-    route === 'GetCredit' ||
     route === 'MySongs' ||
-    route === 'MyAlbums' ||
-    route === 'BecomeAnArtist';
+    route === 'MyAlbums';
 
   if (isDrawerStack) {
     parent = 'DrawerStack';

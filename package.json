@@ -24,6 +24,7 @@
     "react-native-dotenv": "^2.5.0",
     "react-native-gesture-handler": "^1.9.0",
     "react-native-keychain": "^6.2.0",
+    "react-native-paystack-webview": "^3.2.1",
     "react-native-popup-menu": "^0.15.10",
     "react-native-reanimated": "^1.13.2",
     "react-native-safe-area-context": "^3.1.9",
@@ -31,6 +32,7 @@
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^12.1.0",
     "react-native-vector-icons": "^7.1.0",
+    "react-native-webview": "^11.2.2",
     "shortid": "^2.2.16"
   },
   "devDependencies": {

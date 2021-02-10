@@ -22,7 +22,7 @@ export default function NavDrawerHeader({navigation}: any) {
   const artist = state?.user?.artist;
 
   const handleToggleNavDrawer = () => {
-    navigation.openDrawer();
+    navigation?.openDrawer();
   };
 
   const handleLogout = async () => {
