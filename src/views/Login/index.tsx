@@ -78,7 +78,7 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
               payload: {user, token, isLoggedIn: true},
             });
             const {email, password} = fields;
-            const {id, username, name} = user;
+            const {id, username, name, wallet} = user;
             await Keychain.setGenericPassword(username, password);
             await AsyncStorage.setItem(
               'userLogin',
@@ -88,6 +88,8 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
                 password,
                 name,
                 token,
+                email,
+                wallet
               }),
             );
             setData({...data, isLoggingIn: false, fields: initialFields});

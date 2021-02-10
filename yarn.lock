@@ -6687,6 +6687,13 @@ react-native-dotenv@^2.5.0:
   dependencies:
     dotenv "^8.0.0"
 
+react-native-dropdown-picker@^3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-dropdown-picker/-/react-native-dropdown-picker-3.8.0.tgz#42df896f8bc1b54b9a2c0a518c02904d5cdeed5d"
+  integrity sha512-r692A4gmJAdSzUrJs6Uu3XRxh/ZSuzuuHCdJGdUeQVP8o+15E4Le5Tj76DpOy7IOxSlHadEE8BzMFFupwNDZAQ==
+  dependencies:
+    react-native-vector-icons "^7.0.0"
+
 react-native-gesture-handler@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.9.0.tgz#e441b1c0277c3fd4ca3e5c58fdd681e2f0ceddf0"
@@ -6760,7 +6767,7 @@ react-native-svg@^12.1.0:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
 
-react-native-vector-icons@^7.1.0:
+react-native-vector-icons@^7.0.0, react-native-vector-icons@^7.1.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-7.1.0.tgz#145487d617b2a81d395d2cf64e6e065fcab3a454"
   integrity sha512-V2a1zJ4i+kS8O4j183gIwX14St9AxxXabxwYpFBgRhvr2NDXyFcjHDEAgrOYYlt2W57e20aN1tBDU/I+wn9WtQ==

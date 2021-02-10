@@ -22,7 +22,9 @@ import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 
 export function GetCredit({navigation}) {
   const {state, dispatch} = useContext(AuthContext);
-  const [data, setData] = useState({wallet: 0, credit: 0});
+  const user = state?.user;
+  const wallet = user?.wallet || 0;
+  const [data, setData] = useState({wallet, credit: 0});
   const isFocused = useIsFocused();
   const paystackWebViewRef = useRef();
 
@@ -69,10 +71,10 @@ export function GetCredit({navigation}) {
               buttonText="Pay With Paystack"
               showPayButton={true}
               paystackKey="pk_test_6cd877e43ae9e66ee03e9b2aefc19523324c23ea"
-              amount={120000}
-              billingEmail="testuser@email.com"
-              billingMobile="08012345678"
-              billingName="Test User"
+              amount={data.credit}
+              billingEmail={user?.email}
+              billingMobile=""
+              billingName={user?.name}
               ActivityIndicatorColor="green"
               SafeAreaViewContainer={{marginTop: 5}}
               SafeAreaViewContainerModal={{marginTop: 5}}

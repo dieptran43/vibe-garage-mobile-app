@@ -63,7 +63,7 @@ export default function NavDrawerHeader({navigation}: any) {
                 <MenuOption onSelect={() => handleNavigation('GetCredit')}>
                   <Text style={styles.menuOptionText}>Get credit</Text>
                 </MenuOption>
-                {artist == 0 ? (
+                {artist != 1 ? (
                   <>
                     <MenuOption onSelect={() => handleNavigation('BecomeAnArtist')}>
                       <Text style={styles.menuOptionText}>
