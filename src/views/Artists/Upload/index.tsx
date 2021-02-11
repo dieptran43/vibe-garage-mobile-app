@@ -28,7 +28,15 @@ export function Upload({navigation}: DrawerScreenProps<{}>) {
     <View style={styles.uploadContainer}>
       <NavDrawerHeader navigation={navigation} />
       <ScrollView style={styles.scrollViewContent}>
-        <Text>Upload</Text>
+        <View style={styles.layoutContent}>
+          <View>
+            <CustomText
+              type={1}
+              text="Upload single song"
+              style={styles.uploadSingleSongText}
+            />
+          </View>
+        </View>
       </ScrollView>
     </View>
   );

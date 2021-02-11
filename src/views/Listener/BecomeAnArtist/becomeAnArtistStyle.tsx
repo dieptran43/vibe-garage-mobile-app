@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   layoutContent: {
     marginTop: 40,
     display: 'flex',
-    paddingBottom: 300,
+    paddingBottom: 100,
   },
   becomeArtistText: {
     fontSize: 18,
