@@ -10,7 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.13.2",
+    "@react-native-async-storage/async-storage": "^1.13.4",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/drawer": "^5.11.4",
     "@react-navigation/native": "^5.8.10",
@@ -32,7 +32,7 @@
     "react-native-screens": "^2.15.0",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^12.1.0",
-    "react-native-vector-icons": "^7.1.0",
+    "react-native-vector-icons": "^8.0.0",
     "react-native-webview": "^11.2.2",
     "shortid": "^2.2.16"
   },
