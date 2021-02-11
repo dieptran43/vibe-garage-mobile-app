@@ -31,6 +31,7 @@ import GraphImage from '../assets/icons/graph-icon.png';
 import GenresImage from '../assets/icons/genres-icon.png';
 import BrowseImage from '../assets/icons/house-icon.png';
 import PurchaseImage from '../assets/icons/purchased-icon.png';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -203,6 +204,30 @@ const DrawerStack = () => {
           ),
         }}
       />
+      <Drawer.Screen
+        name="GetCredit"
+        component={GetCredit}
+        options={{
+          drawerLabel: ({focused, color}) => null,
+          drawerIcon: ({focused, size}) => null,
+        }}
+      />
+      <Drawer.Screen
+        name="BecomeAnArtist"
+        component={BecomeAnArtist}
+        options={{
+          drawerLabel: ({focused, color}) => null,
+          drawerIcon: ({focused, size}) => null,
+        }}
+      />
+      <Drawer.Screen
+        name="Upload"
+        component={Upload}
+        options={{
+          drawerLabel: ({focused, color}) => null,
+          drawerIcon: ({focused, size}) => null,
+        }}
+      />
     </Drawer.Navigator>
   );
 };
@@ -221,11 +246,6 @@ const SingleStack = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="Upload"
-        component={Upload}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
         name="MyAlbums"
         component={MyAlbums}
         options={{headerShown: false}}
@@ -233,16 +253,6 @@ const SingleStack = () => {
       <Stack.Screen
         name="MySongs"
         component={MySongs}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="GetCredit"
-        component={GetCredit}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="BecomeAnArtist"
-        component={BecomeAnArtist}
         options={{headerShown: false}}
       />
       <Stack.Screen

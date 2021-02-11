@@ -41,6 +41,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 40,
     marginBottom: 40,
+    color: '#fff',
+    fontSize: 16
   },
   divider: {
     borderTopColor: 'gray',
@@ -48,11 +50,17 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   btnPayWith: {
-    backgroundColor: '#00bcd4',
     borderRadius: 5,
     alignSelf: 'flex-end',
     paddingHorizontal: 22,
-    paddingVertical: 12
+    paddingVertical: 12,
+    flex: 1,
+  },
+  btnPayWithEnabled: {
+    backgroundColor: '#00bcd4',
+  },
+  btnPayWithDisabled: {
+    backgroundColor: '#A0A0A0',
   },
   payWithText: {
     fontWeight: 'bold',
