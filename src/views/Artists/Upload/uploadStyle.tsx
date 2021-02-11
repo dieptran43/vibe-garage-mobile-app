@@ -20,6 +20,24 @@ const styles = StyleSheet.create({
   uploadSingleSongText: {
     fontSize: 20,
   },
+  iconWrapper: {
+    backgroundColor: '#00bcd4',
+    height: 70,
+    width: 70,
+    borderRadius: 50,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  singleCard: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#222225',
+    height: 280,
+    marginTop: 40,
+  },
 });
 
 export default styles;
