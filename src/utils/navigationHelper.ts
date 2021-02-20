@@ -20,7 +20,8 @@ export const getScreenParent = (route: String) => {
     route === 'Login' ||
     route === 'SignUp' ||
     route === 'MySongs' ||
-    route === 'MyAlbums';
+    route === 'MyAlbums' ||
+    route === 'Track';
 
   if (isDrawerStack) {
     parent = 'DrawerStack';

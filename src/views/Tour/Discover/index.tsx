@@ -30,6 +30,8 @@ import {
   getRecommendedSongs,
 } from '../../../services/songService';
 import {ISong, IAlbum} from '../../../types/interfaces';
+import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
+import {getScreenParent} from '../../../utils/navigationHelper';
 
 export function Discover({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
@@ -157,6 +159,10 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
       animated: true,
     });
     setData(combineData(data, {recentlyPlayedScrollPosition}));
+  };
+
+  const handleNavigation = (route: String, params: ISong) => {
+    navigateToNestedRoute(getScreenParent(route), route, params);
   };
 
   return (
@@ -290,7 +296,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
             <ScrollView style={{marginTop: 16}} horizontal ref={scrollViewRef}>
               {data?.newReleases ? (
                 data?.newReleases.map((newRelease: ISong, index: Number) => (
-                  <View
+                  <TouchableOpacity
                     style={[
                       styles.singleCard,
                       {width: windowWidth / 2.34},
@@ -299,7 +305,8 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                         marginRight: 20,
                       },
                     ]}
-                    key={shortid.generate()}>
+                    key={shortid.generate()}
+                    onPress={() => handleNavigation('Track', newRelease)}>
                     <Image
                       source={{
                         uri: getImage(newRelease?.thumbnail),
@@ -316,7 +323,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                       text={newRelease?.artist_data?.name}
                       style={styles.cardText2}
                     />
-                  </View>
+                  </TouchableOpacity>
                 ))
               ) : (
                 <Text>None found</Text>
