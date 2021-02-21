@@ -349,9 +349,10 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                   {data.mostPopularThisWeek
                     .slice(0, 10)
                     .map((mostPopular: any) => (
-                      <View
+                      <TouchableOpacity
                         key={shortid.generate()}
-                        style={styles.singleTopSong}>
+                        style={styles.singleTopSong}
+                        onPress={() => handleNavigation('Track', mostPopular)}>
                         <Image
                           source={{
                             uri: getImage(mostPopular?.song?.thumbnail),
@@ -378,7 +379,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                           color="#919191"
                           size={25}
                         />
-                      </View>
+                      </TouchableOpacity>
                     ))}
                 </View>
               ) : null}
@@ -399,7 +400,10 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
             </View>
             <View style={styles.topSongsContent}>
               {data.recommended.slice(0, 10).map((recommended: any) => (
-                <View key={shortid.generate()} style={styles.singleTopSong}>
+                <TouchableOpacity
+                  key={shortid.generate()}
+                  style={styles.singleTopSong}
+                  onPress={() => handleNavigation('Track', recommended)}>
                   <Image
                     source={{
                       uri: getImage(recommended?.song?.thumbnail),
@@ -426,7 +430,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                     color="#919191"
                     size={25}
                   />
-                </View>
+                </TouchableOpacity>
               ))}
             </View>
           </View>
