@@ -1,3 +1,2 @@
 export * from './Upload';
-export * from './MyAlbums';
-export * from './MySongs';
+export * from './MyPlatform';

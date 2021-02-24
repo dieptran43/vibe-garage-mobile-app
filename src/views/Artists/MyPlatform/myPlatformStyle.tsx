@@ -1,16 +1,20 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-  mySongsContainer: {
+  myPlatformContainer: {
     flex: 1,
     backgroundColor: '#000',
   },
-  mySongsContent: {
+  myPlatformContent: {
     marginBottom: 50,
     padding: 16,
+    position: 'relative',
   },
   scrollViewContent: {
     height: '100%',
+  },
+  usernameText: {
+    fontSize: 16,
   },
 });
 

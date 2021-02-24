@@ -23,8 +23,7 @@ import {
   Upload,
   GetCredit,
   BecomeAnArtist,
-  MyAlbums,
-  MySongs,
+  MyPlatform,
   Track,
 } from '../views';
 import GraphImage from '../assets/icons/graph-icon.png';
@@ -245,13 +244,8 @@ const SingleStack = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="MyAlbums"
-        component={MyAlbums}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="MySongs"
-        component={MySongs}
+        name="MyPlatform"
+        component={MyPlatform}
         options={{headerShown: false}}
       />
       <Stack.Screen

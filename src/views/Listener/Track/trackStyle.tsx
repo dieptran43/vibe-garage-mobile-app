@@ -54,11 +54,44 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'red',
-    marginBottom: 30
+    marginBottom: 30,
   },
-  tracktitle: {
+  trackTitle: {
     fontSize: 18,
-    marginBottom: 10
+    marginBottom: 10,
+  },
+  trackActions: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  actionRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 7,
+  },
+  trackDivider: {
+    width: 50,
+    height: 2,
+    backgroundColor: '#474747',
+  },
+  trackDescription: {
+    marginBottom: 40,
+  },
+  downloadBtn: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  downloadText: {
+    marginLeft: 5,
+  },
+  flexJustify: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });
 
