@@ -13,7 +13,7 @@ import * as Keychain from 'react-native-keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MenuProvider} from 'react-native-popup-menu';
 import AppStack from './navigators/Stack';
-import {navigationRef, isReadyRef} from './navigators/RootNavigation';
+import {navigationRef} from './navigators/RootNavigation';
 import {AuthContext} from './context';
 import reducers from './store/reducer';
 import initialState from './store/state';
@@ -26,13 +26,15 @@ const App = () => {
   }, []);
 
   const checkUserLogin = async () => {
-    let user = await AsyncStorage.getItem('userLogin');
+    let response: any = await AsyncStorage.getItem('userLogin');
     const credentials = await Keychain.getGenericPassword();
-    if (user && Object.entries(user) && credentials) {
-      user = JSON.parse(user);
+    if (response && Object.entries(response) && credentials) {
+      response = JSON.parse(response);
+      const user = response?.user;
+      const token = response?.token;
       await dispatch({
         type: 'populateUser',
-        payload: {user, isLoggedIn: true},
+        payload: {user, token, isLoggedIn: true},
       });
     }
     RNBootSplash.hide({fade: true});

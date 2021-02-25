@@ -68,8 +68,6 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
       const fields = data?.fields;
       await login(fields)
         .then(async (response: any) => {
-          console.log('reewdfghh');
-          console.log(response);
           const user = response?.user;
           const token = response?.token;
           if (user) {
@@ -78,20 +76,9 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
               payload: {user, token, isLoggedIn: true},
             });
             const {email, password} = fields;
-            const {id, username, name, wallet} = user;
+            const {id, username} = user;
             await Keychain.setGenericPassword(username, password);
-            await AsyncStorage.setItem(
-              'userLogin',
-              JSON.stringify({
-                id,
-                username,
-                password,
-                name,
-                token,
-                email,
-                wallet
-              }),
-            );
+            await AsyncStorage.setItem('userLogin', JSON.stringify(response));
             setData({...data, isLoggingIn: false, fields: initialFields});
             const screenFrom = screenParams?.screenFrom;
             if (screenFrom) {

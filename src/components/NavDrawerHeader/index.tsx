@@ -65,7 +65,8 @@ export default function NavDrawerHeader({navigation}: any) {
                 </MenuOption>
                 {artist != 1 ? (
                   <>
-                    <MenuOption onSelect={() => handleNavigation('BecomeAnArtist')}>
+                    <MenuOption
+                      onSelect={() => handleNavigation('BecomeAnArtist')}>
                       <Text style={styles.menuOptionText}>
                         Become an artist
                       </Text>

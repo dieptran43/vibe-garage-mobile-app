@@ -1,4 +1,5 @@
 export const userState = {
   user: {},
-  isLoggedIn: false
+  token: '',
+  isLoggedIn: false,
 };
