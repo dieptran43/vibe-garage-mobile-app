@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.11)',
+    borderBottomColor: 'rgba(255, 255, 255, 0.15)',
     paddingBottom: 20,
     paddingTop: 20,
     justifyContent: 'center',
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   spotlightText: {color: '#fff', fontSize: 20},
   singleSpotlightWrapper: {
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.11)',
+    borderBottomColor: 'rgba(255, 255, 255, 0.15)',
     paddingVertical: 20,
   },
   spotlightRowOne: {

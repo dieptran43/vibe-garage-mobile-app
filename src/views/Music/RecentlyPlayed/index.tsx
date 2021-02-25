@@ -1,10 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-} from 'react-native';
+import {View, Text, Image, ScrollView} from 'react-native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {useIsFocused} from '@react-navigation/native';
 import shortid from 'shortid';

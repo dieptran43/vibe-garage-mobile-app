@@ -59,8 +59,6 @@ export function Favourites({navigation}: DrawerScreenProps<{}>) {
               <Text style={styles.topMusicText}>Favourites</Text>
             </View>
           </View>
-          <View style={styles.divider}></View>
-
           {data?.favourites?.length ? (
             <CustomText
               type={1}

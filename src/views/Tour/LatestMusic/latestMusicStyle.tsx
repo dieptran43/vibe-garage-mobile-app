@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.11)',
+    borderBottomColor: 'rgba(255, 255, 255, 0.15)',
     paddingBottom: 15,
     justifyContent: 'space-between',
   },
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2196F3',
   },
   arrowWrapper: {
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     borderRadius: 50,
     height: 32,
     width: 32,

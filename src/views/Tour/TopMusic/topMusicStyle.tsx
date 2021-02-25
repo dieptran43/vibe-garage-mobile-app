@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.11)',
+    borderBottomColor: 'rgba(255, 255, 255, 0.15)',
     paddingBottom: 16,
     paddingTop: 20,
   },
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.11)',
+    borderBottomColor: 'rgba(255, 255, 255, 0.15)',
     paddingVertical: 10,
   },
   seeAllTopSongsText: {

@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   genresText: {
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.11)',
+    borderBottomColor: 'rgba(255, 255, 255, 0.15)',
     paddingBottom: 15,
     fontSize: 20,
   },
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderTopWidth: 1,
-    borderTopColor: 'rgba(255, 255, 255, 0.11)',
+    borderTopColor: 'rgba(255, 255, 255, 0.15)',
     paddingVertical: 10,
   },
   topMusicImage: {height: 40, width: 40, marginRight: 15, borderRadius: 3},
