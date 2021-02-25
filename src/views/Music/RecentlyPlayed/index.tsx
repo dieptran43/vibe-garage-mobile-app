@@ -8,14 +8,16 @@ import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import styles from './recentlyPlayedStyle';
 import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
+import {CustomText} from '../../../components/Global';
 import {getRecentlyPlayed} from '../../../services/songService';
 import {combineData, getImage} from '../../../utils/helpers';
 
 export function RecentlyPlayed({navigation}: DrawerScreenProps<{}>) {
   const {state, dispatch}: any = useContext(AuthContext);
-  const token = state?.user?.token;
+  const token = state?.token;
   const [data, setData] = useState({
     recentlyPlayed: [] as any,
+    isLoading: true,
   });
   const isFocused = useIsFocused();
 
@@ -40,8 +42,9 @@ export function RecentlyPlayed({navigation}: DrawerScreenProps<{}>) {
           let recentlyPlayed = [];
           if (response && response?.success) {
             recentlyPlayed = response?.recentlyPlayed?.data;
+            console.log(recentlyPlayed);
           }
-          setData(combineData(data, {recentlyPlayed}));
+          setData(combineData(data, {recentlyPlayed, isLoading: false}));
         })
         .catch((error) => {
           console.log(error);
@@ -90,8 +93,9 @@ export function RecentlyPlayed({navigation}: DrawerScreenProps<{}>) {
                   </View>
                 ))}
               </View>
-              {/* <Text style={styles.seeAllTopSongsText}>Load More</Text> */}
             </>
+          ) : data?.recentlyPlayed?.length && !data?.isLoading ? (
+            <CustomText type={1} text="No tracks found, try to listen more?" />
           ) : null}
         </View>
       </ScrollView>

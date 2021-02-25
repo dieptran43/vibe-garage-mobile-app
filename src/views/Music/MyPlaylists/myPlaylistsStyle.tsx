@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   playlistName: {
     marginTop: 5,
-    fontSize: 15
+    fontSize: 15,
   },
   iconWrapper: {
     display: 'flex',
@@ -95,9 +95,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 5,
   },
-  playlistIcon:{
-    marginRight: 5
-  }
+  playlistIcon: {
+    marginRight: 5,
+  },
+  moreWrapper: {
+    position: 'relative',
+  },
+  moreBtns: {
+    position: 'absolute',
+    top: 25,
+    left: -102,
+    backgroundColor: '#222225',
+    borderRadius: 5,
+    width: 125,
+    zIndex: 1,
+    paddingLeft: 15,
+    paddingVertical: 15
+  },
 });
 
 export default styles;

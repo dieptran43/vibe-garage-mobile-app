@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   recentlyPlayedText: {color: '#cecece', fontSize: 18, marginLeft: 10},
   graphBg: {
-    backgroundColor: '#00bcd4',
+    backgroundColor: '#4caf50',
     borderRadius: 50,
     height: 35,
     width: 35,

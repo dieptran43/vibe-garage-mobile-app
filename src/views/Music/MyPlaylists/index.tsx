@@ -17,6 +17,7 @@ export function MyPlaylists({navigation}: DrawerScreenProps<{}>) {
   const {state, dispatch}: any = useContext(AuthContext);
   const [data, setData] = useState({
     myPlaylist: [] as any,
+    moreView: null,
   });
   const isFocused = useIsFocused();
   const token = state?.token;
@@ -53,6 +54,16 @@ export function MyPlaylists({navigation}: DrawerScreenProps<{}>) {
     }
   };
 
+  const handleSetMoreView = (index: any) => {
+    let {moreView} = data;
+    if (moreView === index) {
+      moreView = null;
+    } else {
+      moreView = index;
+    }
+    setData(combineData(data, {moreView}));
+  };
+
   return (
     <View style={styles.myPlaylistsContainer}>
       <NavDrawerHeader navigation={navigation} />
@@ -83,8 +94,10 @@ export function MyPlaylists({navigation}: DrawerScreenProps<{}>) {
       </View>
       <ScrollView style={styles.scrollViewContent}>
         <View style={styles.myPlaylistsContent}>
-          {data?.myPlaylist.map((playlist: any) => (
-            <TouchableOpacity style={styles.singlePlayList}>
+          {data?.myPlaylist.map((playlist: any, index: Number) => (
+            <TouchableOpacity
+              style={styles.singlePlayList}
+              key={shortid.generate()}>
               <Image
                 source={{
                   uri: getImage(playlist?.thumbnail),
@@ -116,7 +129,27 @@ export function MyPlaylists({navigation}: DrawerScreenProps<{}>) {
                   <CustomText type={2} text="Public" />
                 </View>
               </View>
-              <MaterialIcons name="more-horiz" size={25} color="#8d8d8d" />
+              <View style={styles.moreWrapper}>
+                <TouchableOpacity onPress={() => handleSetMoreView(index)}>
+                  <MaterialIcons name="more-horiz" size={25} color="#8d8d8d" />
+                </TouchableOpacity>
+                {data?.moreView === index ? (
+                  <View style={styles.moreBtns}>
+                    <TouchableOpacity style={{marginBottom: 10}}>
+                      <CustomText
+                        type={1}
+                        text="Edit Playlist"
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                      <CustomText
+                        type={1}
+                        text="Delete Playlist"
+                      />
+                    </TouchableOpacity>
+                  </View>
+                ) : null}
+              </View>
             </TouchableOpacity>
           ))}
         </View>
