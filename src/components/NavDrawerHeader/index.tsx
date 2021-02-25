@@ -73,11 +73,8 @@ export default function NavDrawerHeader({navigation}: any) {
                   </>
                 ) : artist == 1 ? (
                   <>
-                    <MenuOption onSelect={() => handleNavigation('MySongs')}>
-                      <Text style={styles.menuOptionText}>My Songs</Text>
-                    </MenuOption>
-                    <MenuOption onSelect={() => handleNavigation('MyAlbums')}>
-                      <Text style={styles.menuOptionText}>My Albums</Text>
+                    <MenuOption onSelect={() => handleNavigation('MyPlatform')}>
+                      <Text style={styles.menuOptionText}>My Platform</Text>
                     </MenuOption>
                     <MenuOption onSelect={() => handleNavigation('Upload')}>
                       <Text style={styles.menuOptionText}>Upload</Text>

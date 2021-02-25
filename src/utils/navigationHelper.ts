@@ -14,13 +14,11 @@ export const getScreenParent = (route: String) => {
     route === 'Favourites' ||
     route === 'GetCredit' ||
     route === 'BecomeAnArtist' ||
-    route === 'Upload';
+    route === 'Upload' ||
+    route === 'Track' ||
+    route === 'MyPlatform';
 
-  let isSingleStack =
-    route === 'Login' ||
-    route === 'SignUp' ||
-    route === 'MySongs' ||
-    route === 'MyAlbums';
+  let isSingleStack = route === 'Login' || route === 'SignUp';
 
   if (isDrawerStack) {
     parent = 'DrawerStack';

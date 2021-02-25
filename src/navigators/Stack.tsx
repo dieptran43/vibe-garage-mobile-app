@@ -23,8 +23,7 @@ import {
   Upload,
   GetCredit,
   BecomeAnArtist,
-  MyAlbums,
-  MySongs,
+  MyPlatform,
   Track,
 } from '../views';
 import GraphImage from '../assets/icons/graph-icon.png';
@@ -228,6 +227,22 @@ const DrawerStack = () => {
           drawerIcon: ({focused, size}) => null,
         }}
       />
+      <Drawer.Screen
+        name="MyPlatform"
+        component={MyPlatform}
+        options={{
+          drawerLabel: ({focused, color}) => null,
+          drawerIcon: ({focused, size}) => null,
+        }}
+      />
+      <Drawer.Screen
+        name="Track"
+        component={Track}
+        options={{
+          drawerLabel: ({focused, color}) => null,
+          drawerIcon: ({focused, size}) => null,
+        }}
+      />
     </Drawer.Navigator>
   );
 };
@@ -243,21 +258,6 @@ const SingleStack = () => {
       <Stack.Screen
         name="SignUp"
         component={SignUp}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="MyAlbums"
-        component={MyAlbums}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="MySongs"
-        component={MySongs}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Track"
-        component={Track}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
