@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   playlistsText: {color: '#cecece', fontSize: 18, marginLeft: 10},
   graphBg: {
-    backgroundColor: '#CCAB52',
+    backgroundColor: '#00bcd4',
     borderRadius: 50,
     height: 35,
     width: 35,

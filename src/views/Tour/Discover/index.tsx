@@ -1,4 +1,4 @@
-import React, {useState, createRef, useRef, useEffect} from 'react';
+import React, {useState, createRef, useContext, useEffect} from 'react';
 import {
   View,
   Text,
@@ -30,8 +30,12 @@ import {
   getRecommendedSongs,
 } from '../../../services/songService';
 import {ISong, IAlbum} from '../../../types/interfaces';
+import {AuthContext} from '../../../context';
+import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
+import {getScreenParent} from '../../../utils/navigationHelper';
 
 export function Discover({navigation}: DrawerScreenProps<{}>) {
+  const {state, dispatch}: any = useContext(AuthContext);
   const [data, setData] = useState({
     carouselItems: [
       {
@@ -63,10 +67,9 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     mostPopularThisWeek: [] as any,
     recommended: [] as any,
   });
-
   const windowWidth = Dimensions.get('window').width;
-
   let scrollViewRef = createRef<ScrollView>();
+  const token = state?.token;
 
   useEffect(() => {
     handleRequests();
@@ -77,7 +80,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
 
     await Promise.all([
       getNewReleases(newReleasesPageNo),
-      getRecentlyPlayed(),
+      getRecentlyPlayed(token),
       getTopSongsThisWeek(),
       getRecommendedSongs(),
     ])
@@ -91,7 +94,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
           newReleases = response?.songs?.data;
         }
         if (response1 && response1?.success) {
-          recentlyPlayed = response1?.songs?.data;
+          recentlyPlayed = response1?.recentlyPlayed?.data;
         }
         if (response2 && response2?.success) {
           mostPopularThisWeek = response2?.songs;
@@ -159,6 +162,10 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     setData(combineData(data, {recentlyPlayedScrollPosition}));
   };
 
+  const handleNavigation = (route: String, params: ISong) => {
+    navigateToNestedRoute(getScreenParent(route), route, params);
+  };
+
   return (
     <View style={styles.discoverContainer}>
       <NavDrawerHeader navigation={navigation} />
@@ -215,37 +222,36 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
             </View>
             <ScrollView style={{marginTop: 16}} horizontal ref={scrollViewRef}>
               {data?.recentlyPlayed ? (
-                data?.recentlyPlayed.map(
-                  (recentlyPlayed: ISong, index: Number) => (
-                    <View
-                      style={[
-                        styles.singleCard,
-                        {width: windowWidth / 2.34},
-                        // {marginRight: 20},
-                        index !== data?.recentlyPlayed?.length - 1 && {
-                          marginRight: 20,
-                        },
-                      ]}
-                      key={shortid.generate()}>
-                      <Image
-                        source={{
-                          uri: getImage(recentlyPlayed?.thumbnail),
-                        }}
-                        style={styles.cardImage}
-                      />
-                      <CustomText
-                        type={1}
-                        text={recentlyPlayed.title}
-                        style={styles.cardText}
-                      />
-                      <CustomText
-                        type={2}
-                        text={recentlyPlayed?.artist_data?.name}
-                        style={styles.cardText2}
-                      />
-                    </View>
-                  ),
-                )
+                data?.recentlyPlayed.map((rPlayed: any, index: Number) => (
+                  <TouchableOpacity
+                    style={[
+                      styles.singleCard,
+                      {width: windowWidth / 2.34},
+                      // {marginRight: 20},
+                      index !== data?.recentlyPlayed?.length - 1 && {
+                        marginRight: 20,
+                      },
+                    ]}
+                    key={shortid.generate()}
+                    onPress={() => handleNavigation('Track', rPlayed?.song)}>
+                    <Image
+                      source={{
+                        uri: getImage(rPlayed?.song?.thumbnail),
+                      }}
+                      style={styles.cardImage}
+                    />
+                    <CustomText
+                      type={1}
+                      text={rPlayed?.song?.title}
+                      style={styles.cardText}
+                    />
+                    <CustomText
+                      type={2}
+                      text={rPlayed?.song?.artist_data?.name}
+                      style={styles.cardText2}
+                    />
+                  </TouchableOpacity>
+                ))
               ) : (
                 <Text>None found</Text>
               )}
@@ -290,7 +296,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
             <ScrollView style={{marginTop: 16}} horizontal ref={scrollViewRef}>
               {data?.newReleases ? (
                 data?.newReleases.map((newRelease: ISong, index: Number) => (
-                  <View
+                  <TouchableOpacity
                     style={[
                       styles.singleCard,
                       {width: windowWidth / 2.34},
@@ -299,7 +305,8 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                         marginRight: 20,
                       },
                     ]}
-                    key={shortid.generate()}>
+                    key={shortid.generate()}
+                    onPress={() => handleNavigation('Track', newRelease)}>
                     <Image
                       source={{
                         uri: getImage(newRelease?.thumbnail),
@@ -316,7 +323,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                       text={newRelease?.artist_data?.name}
                       style={styles.cardText2}
                     />
-                  </View>
+                  </TouchableOpacity>
                 ))
               ) : (
                 <Text>None found</Text>
@@ -342,9 +349,10 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                   {data.mostPopularThisWeek
                     .slice(0, 10)
                     .map((mostPopular: any) => (
-                      <View
+                      <TouchableOpacity
                         key={shortid.generate()}
-                        style={styles.singleTopSong}>
+                        style={styles.singleTopSong}
+                        onPress={() => handleNavigation('Track', mostPopular)}>
                         <Image
                           source={{
                             uri: getImage(mostPopular?.song?.thumbnail),
@@ -371,7 +379,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                           color="#919191"
                           size={25}
                         />
-                      </View>
+                      </TouchableOpacity>
                     ))}
                 </View>
               ) : null}
@@ -392,7 +400,10 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
             </View>
             <View style={styles.topSongsContent}>
               {data.recommended.slice(0, 10).map((recommended: any) => (
-                <View key={shortid.generate()} style={styles.singleTopSong}>
+                <TouchableOpacity
+                  key={shortid.generate()}
+                  style={styles.singleTopSong}
+                  onPress={() => handleNavigation('Track', recommended?.song)}>
                   <Image
                     source={{
                       uri: getImage(recommended?.song?.thumbnail),
@@ -419,7 +430,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                     color="#919191"
                     size={25}
                   />
-                </View>
+                </TouchableOpacity>
               ))}
             </View>
           </View>
