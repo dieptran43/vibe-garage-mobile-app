@@ -95,7 +95,7 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
               </>
             ) : (
               <View style={styles.noneFoundWrapper}>
-                <Text style={styles.noneFoundText}>None found</Text>
+                {/* <Text style={styles.noneFoundText}>None found</Text> */}
               </View>
             )}
           </View>
@@ -138,7 +138,7 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
               </>
             ) : (
               <View style={styles.noneFoundWrapper}>
-                <Text style={styles.noneFoundText}>None found</Text>
+                {/* <Text style={styles.noneFoundText}>None found</Text> */}
               </View>
             )}
           </View>
