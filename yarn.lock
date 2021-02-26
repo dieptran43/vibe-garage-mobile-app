@@ -6764,6 +6764,11 @@ react-native-snap-carousel@^3.9.1:
     prop-types "^15.6.1"
     react-addons-shallow-compare "15.6.2"
 
+react-native-sound-player@^0.10.6:
+  version "0.10.6"
+  resolved "https://registry.yarnpkg.com/react-native-sound-player/-/react-native-sound-player-0.10.6.tgz#cba4fc6b079bc9f92e64b77308eedbb04ab07de6"
+  integrity sha512-gK3a5d5iLBLqOQREVlGuTvHk8Qorx/HySPH1ZFpKhHExhXN6r/P036pYAGeUTSmhxwdJ5vnjsFE6Qq1BM9TRSA==
+
 react-native-svg-app-icon@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/react-native-svg-app-icon/-/react-native-svg-app-icon-0.2.0.tgz#906e54a56473a1daea2b7e7be425645acef4d2a5"

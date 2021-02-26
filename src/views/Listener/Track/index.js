@@ -5,18 +5,19 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
+import SoundPlayer from 'react-native-sound-player'
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import styles from './trackStyle';
 import {CustomText} from '../../../components/Global';
 import {combineData, getImage} from '../../../utils/helpers';
 import shortid from 'shortid';
 
-export function Track({navigation, route}: any) {
+export function Track({navigation, route}) {
   const track = route?.params;
 
-  const getNumberOfYears = (dt: any) => {
-    let oldDate: any = new Date(`2019/10/01`);
-    let currentDate: any = new Date();
+  const getNumberOfYears = (dt) => {
+    let oldDate = new Date(`2019/10/01`);
+    let currentDate = new Date();
     currentDate = currentDate.getFullYear() * 12 + currentDate.getMonth();
     oldDate = oldDate.getFullYear() * 12 + oldDate.getMonth();
     let difference = currentDate - oldDate;
@@ -30,12 +31,21 @@ export function Track({navigation, route}: any) {
     return `${difference} ${range} ago`;
   };
 
-  const getHashTags = (tags: any) => {
+  const getHashTags = (tags) => {
     let arr = tags?.split(',');
     return arr;
   };
 
-  const handlePlayTrack = () => {}
+  const handlePlayTrack = () => {
+    try {
+      // play the file tone.mp3
+      // SoundPlayer.playSoundFile('tone', 'mp3')
+      // or play from url
+      SoundPlayer.playUrl('https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3')
+  } catch (e) {
+      console.log(`cannot play the sound file`, e)
+  }
+  }
 
   return (
     <View style={styles.container}>
@@ -102,7 +112,7 @@ export function Track({navigation, route}: any) {
             {track?.description}
           </Text>
           <View style={styles.tagRow}>
-            {getHashTags(track?.tags)?.map((tag: any) => (
+            {getHashTags(track?.tags)?.map((tag) => (
               <Text key={shortid.generate()} style={styles.tagText}>
                 {`#${tag}`}
               </Text>
