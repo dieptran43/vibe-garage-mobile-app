@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginRight: 10,
   },
-  playlistsText: {color: '#cecece', fontSize: 16, marginLeft: 10},  
+  playlistsText: {color: '#cecece', fontSize: 16, marginLeft: 10},
   graphBg: {
     borderRadius: 50,
     height: 35,
@@ -109,8 +109,8 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 16,
   },
-  cardText2: {},  
-  topSongsContent: {display: 'flex'},  
+  cardText2: {},
+  topSongsContent: {display: 'flex'},
   noneFoundWrapper: {
     height: 200,
     display: 'flex',
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   noneFoundText: {color: '#cecece'},
   topSongsWrapper: {
     marginTop: 20,
-  },  
+  },
   singleTopSong: {
     display: 'flex',
     flexDirection: 'row',
@@ -143,6 +143,23 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginTop: 30,
     justifyContent: 'space-between',
+  },
+  moreWrapper: {
+    position: 'relative',
+  },
+  moreBtnsWrapper: {
+    position: 'absolute',
+    top: 25,
+    left: -102,
+    backgroundColor: '#222222',
+    borderRadius: 5,
+    width: 125,
+    zIndex: 2,
+    paddingLeft: 15,
+    // paddingVertical: 5,
+  },
+  moreBtn: {
+    paddingVertical: 10
   },
 });
 

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, Text, ScrollView, Image, ImageBackground} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -8,13 +8,14 @@ import Feather from 'react-native-vector-icons/Feather';
 import SoundPlayer from 'react-native-sound-player';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import styles from './trackStyle';
+import {AuthContext} from '../../../context';
 import {CustomText} from '../../../components/Global';
 import {combineData, getFromOldUrl} from '../../../utils/helpers';
 import shortid from 'shortid';
 
 export function Track({navigation, route}) {
   const track = route?.params;
-
+  const {state, dispatch} = useContext(AuthContext);
   const [data, setData] = useState({isPlaying: false, isPaused: false});
 
   useEffect(() => {

@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Pressable,
   Image,
   TouchableOpacity,
   KeyboardAvoidingView,
@@ -30,7 +29,7 @@ export function Upload({navigation}: DrawerScreenProps<{}>) {
       <NavDrawerHeader navigation={navigation} />
       <ScrollView style={styles.scrollViewContent}>
         <View style={styles.layoutContent}>
-          <View style={styles.singleCard}>
+          <TouchableOpacity style={styles.singleCard}>
             <View style={styles.iconWrapper}>
               <MaterialIcons name="music-note" color="#fff" size={30} />
             </View>
@@ -39,8 +38,8 @@ export function Upload({navigation}: DrawerScreenProps<{}>) {
               text="Upload single song"
               style={styles.uploadSingleSongText}
             />
-          </View>
-          <View style={styles.singleCard}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.singleCard}>
             <View style={styles.iconWrapper}>
               <MaterialIcons name="library-music" color="#fff" size={30} />
             </View>
@@ -49,7 +48,7 @@ export function Upload({navigation}: DrawerScreenProps<{}>) {
               text="Upload single song"
               style={styles.uploadSingleSongText}
             />
-          </View>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

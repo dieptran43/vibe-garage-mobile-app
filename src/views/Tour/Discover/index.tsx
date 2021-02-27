@@ -66,6 +66,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     newReleasesScrollPosition: 0,
     mostPopularThisWeek: [] as any,
     recommended: [] as any,
+    moreView: null,
   });
   const windowWidth = Dimensions.get('window').width;
   let scrollViewRef = createRef<ScrollView>();
@@ -125,28 +126,6 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     );
   };
 
-  const _renderColumn = () => {
-    return (
-      <View style={{width: '100%', backgroundColor: '#ccc'}}>
-        <View style={styles.singleCard}>
-          <Image
-            source={{
-              uri:
-                'https://musicport.com.ng/upload/photos/2020/01/BTCHNCgZsQdDhSc3q2Uo_20_166e4ab24c7f858195f3a0c3909f2fe3_image.jpg',
-            }}
-            style={styles.cardImage}
-          />
-          <CustomText
-            type={1}
-            text="LABIS BOY_ROCK THE PARTY.mp3"
-            style={styles.cardText}
-          />
-          <CustomText type={2} text="Itz Labisboy" style={styles.cardText2} />
-        </View>
-      </View>
-    );
-  };
-
   const handleScrollRecentlyPlayed = (direction: string) => {
     let recentlyPlayedScrollPosition = data?.recentlyPlayedScrollPosition;
     const viewWidth = windowWidth;
@@ -164,6 +143,24 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
 
   const handleNavigation = (route: String, params: ISong) => {
     navigateToNestedRoute(getScreenParent(route), route, params);
+  };
+
+  const handleSetMoreView = (index: any) => {
+    let {moreView} = data;
+    if (moreView === index) {
+      moreView = null;
+    } else {
+      moreView = index;
+    }
+    setData(combineData(data, {moreView}));
+  };
+
+  const getMoreIndex = (type: any, index: any) => {
+    return `${type}-${index}`;
+  };
+
+  const handlePlaylist = (recommended: any) => {
+    console.log(recommended);
   };
 
   return (
@@ -348,7 +345,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                 <View style={styles.topSongsWrapper}>
                   {data.mostPopularThisWeek
                     .slice(0, 10)
-                    .map((mostPopular: any) => (
+                    .map((mostPopular: any, index: Number) => (
                       <TouchableOpacity
                         key={shortid.generate()}
                         style={styles.singleTopSong}
@@ -373,12 +370,31 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                             {mostPopular?.song?.artist_data?.name}
                           </Text>
                         </View>
-                        <MaterialIcons
-                          name="more-horiz"
-                          style={styles.musicMoreIcon}
-                          color="#919191"
-                          size={25}
-                        />
+                        <View style={styles.moreWrapper}>
+                          <TouchableOpacity
+                            onPress={() =>
+                              handleSetMoreView(
+                                getMoreIndex('recommended', index),
+                              )
+                            }>
+                            <MaterialIcons
+                              name="more-horiz"
+                              style={styles.musicMoreIcon}
+                              color="#919191"
+                              size={25}
+                            />
+                          </TouchableOpacity>
+                          {data?.moreView ===
+                          getMoreIndex('recommended', index) ? (
+                            <View style={styles.moreBtnsWrapper}>
+                              <TouchableOpacity
+                                style={styles.moreBtn}
+                                onPress={() => handlePlaylist(mostPopular)}>
+                                <CustomText type={1} text="Add to Playlist" />
+                              </TouchableOpacity>
+                            </View>
+                          ) : null}
+                        </View>
                       </TouchableOpacity>
                     ))}
                 </View>
@@ -399,39 +415,59 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
               </View>
             </View>
             <View style={styles.topSongsContent}>
-              {data.recommended.slice(0, 10).map((recommended: any) => (
-                <TouchableOpacity
-                  key={shortid.generate()}
-                  style={styles.singleTopSong}
-                  onPress={() => handleNavigation('Track', recommended?.song)}>
-                  <Image
-                    source={{
-                      uri: getFromOldUrl(recommended?.song?.thumbnail),
-                    }}
-                    style={styles.topMusicImage}
-                  />
-                  <View style={styles.musicTextWrapper}>
-                    <Text
-                      style={styles.musicTitleText}
-                      numberOfLines={1}
-                      ellipsizeMode="tail">
-                      {recommended?.song?.title}
-                    </Text>
-                    <Text
-                      style={styles.musicArtisteText}
-                      numberOfLines={1}
-                      ellipsizeMode="tail">
-                      {recommended?.song?.artist_data?.name}
-                    </Text>
-                  </View>
-                  <MaterialIcons
-                    name="more-horiz"
-                    style={styles.musicMoreIcon}
-                    color="#919191"
-                    size={25}
-                  />
-                </TouchableOpacity>
-              ))}
+              {data.recommended
+                .slice(0, 10)
+                .map((recommended: any, index: Number) => (
+                  <TouchableOpacity
+                    key={shortid.generate()}
+                    style={styles.singleTopSong}
+                    onPress={() =>
+                      handleNavigation('Track', recommended?.song)
+                    }>
+                    <Image
+                      source={{
+                        uri: getFromOldUrl(recommended?.song?.thumbnail),
+                      }}
+                      style={styles.topMusicImage}
+                    />
+                    <View style={styles.musicTextWrapper}>
+                      <Text
+                        style={styles.musicTitleText}
+                        numberOfLines={1}
+                        ellipsizeMode="tail">
+                        {recommended?.song?.title}
+                      </Text>
+                      <Text
+                        style={styles.musicArtisteText}
+                        numberOfLines={1}
+                        ellipsizeMode="tail">
+                        {recommended?.song?.artist_data?.name}
+                      </Text>
+                    </View>
+                    <View style={styles.moreWrapper}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          handleSetMoreView(getMoreIndex('recommended', index))
+                        }>
+                        <MaterialIcons
+                          name="more-horiz"
+                          style={styles.musicMoreIcon}
+                          color="#919191"
+                          size={25}
+                        />
+                      </TouchableOpacity>
+                      {data?.moreView === getMoreIndex('recommended', index) ? (
+                        <View style={styles.moreBtnsWrapper}>
+                          <TouchableOpacity
+                            style={styles.moreBtn}
+                            onPress={() => handlePlaylist(recommended)}>
+                            <CustomText type={1} text="Add to Playlist" />
+                          </TouchableOpacity>
+                        </View>
+                      ) : null}
+                    </View>
+                  </TouchableOpacity>
+                ))}
             </View>
           </View>
         </View>

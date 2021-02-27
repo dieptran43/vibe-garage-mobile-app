@@ -1476,6 +1476,61 @@
     color "^3.1.3"
     react-native-iphone-x-helper "^1.3.0"
 
+"@rpldy/life-events@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@rpldy/life-events/-/life-events-0.10.0.tgz#3b9347c49156c8d6fb113b2d526fb0973907ddef"
+  integrity sha512-eeNf4cu5cpfWio3RQWWKMcOj2cnkocMfIQhrYbQWeEZVWOOZxj71LG9Kr2YgLRRiSn3dRIx4Xrv5JbDl9q9A5Q==
+  dependencies:
+    "@rpldy/shared" "^0.10.0"
+    is-promise "^4.0.0"
+
+"@rpldy/native-uploady@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@rpldy/native-uploady/-/native-uploady-0.10.0.tgz#52e0f8750658c01916943f0098973f044d55e012"
+  integrity sha512-uuZPxDWbJ2cXz2bI0V0gu96aA+9O1PFs/zIRJlOszYV1kU9aDXQqxdFGZk/idE5UtwXMM0nWgGe18eMJT7OfMw==
+  dependencies:
+    "@rpldy/shared-ui" "^0.10.0"
+
+"@rpldy/sender@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@rpldy/sender/-/sender-0.10.0.tgz#6331cecb1d4d1af2c11ab35369ebf0d722f4f8e6"
+  integrity sha512-LnLs7QxULdhM247lOqHXz72qjBboDgExJuh3FJ99WIuqvjFqz5VtyBanHWpE/QPjPJRmgPfv2hDlPVf63Haj7Q==
+  dependencies:
+    "@rpldy/shared" "^0.10.0"
+
+"@rpldy/shared-ui@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@rpldy/shared-ui/-/shared-ui-0.10.0.tgz#59b4306a6373cbfcfd5a83b1974a02b717b34589"
+  integrity sha512-QrtszhSO+MeSDK7AJWvvXEQjL+pnF9KRW6vcwr30C4AMfTGnXF/IKq3qGYYYsBoaJV3M2Q8kxHLj3OrEStWV+g==
+  dependencies:
+    "@rpldy/shared" "^0.10.0"
+    "@rpldy/uploader" "^0.10.0"
+
+"@rpldy/shared@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@rpldy/shared/-/shared-0.10.0.tgz#0d6ba5b2c411d27235b0358fbefc1e5ac9fa185f"
+  integrity sha512-0v09CEjVcMPljfopd9Cjhw4shdw9yD/POvqRnlLqmAVLLBlPToAuxIKqkFAp0uY9qPnNGnNC9B7OFLWuqZwLuQ==
+  dependencies:
+    invariant "^2.2.4"
+    just-throttle "^1.1.0"
+
+"@rpldy/simple-state@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@rpldy/simple-state/-/simple-state-0.10.0.tgz#9580ed568d86332ba877b56d7828839f428a285e"
+  integrity sha512-8UImgzykrAElFckMId5bQYZL8nSGWsTUUaM88mUgUGrX6xm6yj5HD+qC5ZW+2pq8bfn55D7Q2JSV5yI6nQ5faw==
+  dependencies:
+    "@rpldy/shared" "^0.10.0"
+
+"@rpldy/uploader@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@rpldy/uploader/-/uploader-0.10.0.tgz#d029878f38b15be43aa26d7941f91fd33863e758"
+  integrity sha512-P9bJhkBB1fLDafL29dSrgLMzbnINC0EfxDRnWxuJM4krCLza6dIPyFdm/A3hduPN6+fx/zJekP0DNJiG9Ff+Dw==
+  dependencies:
+    "@rpldy/life-events" "^0.10.0"
+    "@rpldy/sender" "^0.10.0"
+    "@rpldy/shared" "^0.10.0"
+    "@rpldy/simple-state" "^0.10.0"
+
 "@sinonjs/commons@^1.7.0":
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.8.1.tgz#e7df00f98a203324f6dc7cc606cad9d4a8ab2217"
@@ -4409,6 +4464,11 @@ is-plain-object@^2.0.3, is-plain-object@^2.0.4:
   dependencies:
     isobject "^3.0.1"
 
+is-promise@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/is-promise/-/is-promise-4.0.0.tgz#42ff9f84206c1991d26debf520dd5c01042dd2f3"
+  integrity sha512-hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ==
+
 is-regex@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/is-regex/-/is-regex-1.1.1.tgz#c6f98aacc546f6cec5468a07b7b153ab564a57b9"
@@ -5173,6 +5233,11 @@ jsx-ast-utils@^2.2.3:
   dependencies:
     array-includes "^3.1.1"
     object.assign "^4.1.0"
+
+just-throttle@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/just-throttle/-/just-throttle-1.1.0.tgz#178d305ece9876a8a0759abd8d403aafcc6e4849"
+  integrity sha512-iePC/13XYX1Tyn9C6jY+DG3UEejkDvrKsw5xxgGhtGUwYWmoJm4CoKexscBKELOu3FTyCDzjr21ZJ67AXnz+bg==
 
 kind-of@^1.1.0:
   version "1.1.0"
@@ -6693,6 +6758,11 @@ react-native-bootsplash@^3.1.2:
     chalk "^4.1.0"
     fs-extra "^9.0.1"
     jimp "^0.16.1"
+
+react-native-document-picker@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-document-picker/-/react-native-document-picker-5.0.0.tgz#15c2557edd6c3ebc129b529e52556ec378c99853"
+  integrity sha512-VL1fcYyAx5d9/JlGI3hyuZm3JRGPHAYaU6rKD2Kn3K4b11xB4NdjVvtAiRRFEwDm8BCBKxDoTXRWoGYOhtefyQ==
 
 react-native-dotenv@^2.5.0:
   version "2.5.0"
