@@ -20,9 +20,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './discoverStyle';
-import {RecentlyPlayed} from '../../Music';
 import {combineData, getFromOldUrl} from '../../../utils/helpers';
-import {set} from 'react-native-reanimated';
 import {
   getNewReleases,
   getRecentlyPlayed,
@@ -33,6 +31,7 @@ import {ISong, IAlbum} from '../../../types/interfaces';
 import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import {getScreenParent} from '../../../utils/navigationHelper';
+import {AddToPlaylist} from '../../../components/Global';
 
 export function Discover({navigation}: DrawerScreenProps<{}>) {
   const {state, dispatch}: any = useContext(AuthContext);
@@ -67,6 +66,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     mostPopularThisWeek: [] as any,
     recommended: [] as any,
     moreView: null,
+    canAddToPlaylist: false,
   });
   const windowWidth = Dimensions.get('window').width;
   let scrollViewRef = createRef<ScrollView>();
@@ -159,8 +159,8 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     return `${type}-${index}`;
   };
 
-  const handlePlaylist = (recommended: any) => {
-    console.log(recommended);
+  const handlePlaylist = (song: any) => {
+    setData(combineData(data, {canAddToPlaylist: true}));
   };
 
   return (
@@ -472,6 +472,13 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
           </View>
         </View>
       </ScrollView>
+      {data?.canAddToPlaylist ? (
+        <AddToPlaylist
+          onClose={() => setData(combineData(data, {canAddToPlaylist: false}))}
+          height="40%"
+          width="100%"
+        />
+      ) : null}
     </View>
   );
 }
