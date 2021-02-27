@@ -11,7 +11,7 @@ import styles from './myPlaylistsStyle';
 import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import {getMyPlaylist} from '../../../services/playlistService';
-import {combineData, getImage} from '../../../utils/helpers';
+import {combineData, getFromOldUrl} from '../../../utils/helpers';
 
 export function MyPlaylists({navigation}: DrawerScreenProps<{}>) {
   const {state, dispatch}: any = useContext(AuthContext);
@@ -100,7 +100,7 @@ export function MyPlaylists({navigation}: DrawerScreenProps<{}>) {
               key={shortid.generate()}>
               <Image
                 source={{
-                  uri: getImage(playlist?.thumbnail),
+                  uri: getFromOldUrl(playlist?.thumbnail),
                 }}
                 style={styles.playlistImage}
               />

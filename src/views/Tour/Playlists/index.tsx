@@ -15,7 +15,7 @@ import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './playlistsStyle';
 import {getRecentlyPublicPlaylist} from '../../../services/playlistService';
-import {combineData, getImage} from '../../../utils/helpers';
+import {combineData, getFromOldUrl} from '../../../utils/helpers';
 
 export function Playlists({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
@@ -68,7 +68,7 @@ export function Playlists({navigation}: DrawerScreenProps<{}>) {
                       <View style={styles.flexRow}>
                         <Image
                           source={{
-                            uri: getImage(playlist?.artist_data?.avatar),
+                            uri: getFromOldUrl(playlist?.artist_data?.avatar),
                           }}
                           style={styles.playlistImage}
                         />
@@ -95,7 +95,7 @@ export function Playlists({navigation}: DrawerScreenProps<{}>) {
                     <View style={styles.imageBackgroundWrapper}>
                       <Image
                         source={{
-                          uri: getImage(playlist?.thumbnail),
+                          uri: getFromOldUrl(playlist?.thumbnail),
                         }}
                         style={styles.imageBackground}
                       />

@@ -22,7 +22,7 @@ import {
   getBestNewReleases,
   getLatestMusic,
 } from '../../../services/songService';
-import {getImage, combineData} from '../../../utils/helpers';
+import {getFromOldUrl, combineData} from '../../../utils/helpers';
 
 export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
@@ -137,7 +137,7 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
                     key={shortid.generate()}>
                     <Image
                       source={{
-                        uri: getImage(newRelease?.thumbnail),
+                        uri: getFromOldUrl(newRelease?.thumbnail),
                       }}
                       style={styles.cardImage}
                     />
@@ -177,7 +177,7 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
                         style={styles.singleTopAlbum}>
                         <Image
                           source={{
-                            uri: getImage(album.thumbnail),
+                            uri: getFromOldUrl(album.thumbnail),
                           }}
                           style={styles.topAlbumImage}
                         />

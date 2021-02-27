@@ -10,7 +10,7 @@ import {CustomText} from '../../../components/Global';
 import styles from './favouritesStyle';
 import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
-import {combineData, getImage} from '../../../utils/helpers';
+import {combineData, getFromOldUrl} from '../../../utils/helpers';
 
 export function Favourites({navigation}: DrawerScreenProps<{}>) {
   const {state, dispatch}: any = useContext(AuthContext);
@@ -71,7 +71,7 @@ export function Favourites({navigation}: DrawerScreenProps<{}>) {
               <View key={shortid.generate()} style={styles.singleTopSong}>
                 <Image
                   source={{
-                    uri: getImage(music?.song?.thumbnail),
+                    uri: getFromOldUrl(music?.song?.thumbnail),
                   }}
                   style={styles.topMusicImage}
                 />

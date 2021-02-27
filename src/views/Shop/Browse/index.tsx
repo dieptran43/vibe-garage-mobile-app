@@ -17,7 +17,7 @@ import GraphImage from '../../../assets/icons/graph-icon.png';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './browseStyle';
-import {combineData, getImage} from '../../../utils/helpers';
+import {combineData, getFromOldUrl} from '../../../utils/helpers';
 
 export function Browse({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
@@ -137,7 +137,7 @@ export function Browse({navigation}: DrawerScreenProps<{}>) {
               {data?.songs?.map((song) => (
                 <View style={styles.singleSongWrapper} key={shortid.generate()}>
                   <Image
-                    source={{uri: getImage(song?.avatar)}}
+                    source={{uri: getFromOldUrl(song?.avatar)}}
                     style={styles.singleSongAvatar}
                   />
                   <View style={styles.sectionOne}>
@@ -178,7 +178,7 @@ export function Browse({navigation}: DrawerScreenProps<{}>) {
               {data?.albums?.map((album) => (
                 <View style={styles.singleSongWrapper} key={shortid.generate()}>
                   <Image
-                    source={{uri: getImage(album?.albumImage)}}
+                    source={{uri: getFromOldUrl(album?.albumImage)}}
                     style={styles.singleSongAvatar}
                   />
                   <View style={styles.sectionOne}>

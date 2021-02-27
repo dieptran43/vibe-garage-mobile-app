@@ -21,7 +21,7 @@ import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './discoverStyle';
 import {RecentlyPlayed} from '../../Music';
-import {combineData, getImage} from '../../../utils/helpers';
+import {combineData, getFromOldUrl} from '../../../utils/helpers';
 import {set} from 'react-native-reanimated';
 import {
   getNewReleases,
@@ -236,7 +236,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                     onPress={() => handleNavigation('Track', rPlayed?.song)}>
                     <Image
                       source={{
-                        uri: getImage(rPlayed?.song?.thumbnail),
+                        uri: getFromOldUrl(rPlayed?.song?.thumbnail),
                       }}
                       style={styles.cardImage}
                     />
@@ -309,7 +309,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                     onPress={() => handleNavigation('Track', newRelease)}>
                     <Image
                       source={{
-                        uri: getImage(newRelease?.thumbnail),
+                        uri: getFromOldUrl(newRelease?.thumbnail),
                       }}
                       style={styles.cardImage}
                     />
@@ -355,7 +355,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                         onPress={() => handleNavigation('Track', mostPopular)}>
                         <Image
                           source={{
-                            uri: getImage(mostPopular?.song?.thumbnail),
+                            uri: getFromOldUrl(mostPopular?.song?.thumbnail),
                           }}
                           style={styles.topMusicImage}
                         />
@@ -406,7 +406,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                   onPress={() => handleNavigation('Track', recommended?.song)}>
                   <Image
                     source={{
-                      uri: getImage(recommended?.song?.thumbnail),
+                      uri: getFromOldUrl(recommended?.song?.thumbnail),
                     }}
                     style={styles.topMusicImage}
                   />

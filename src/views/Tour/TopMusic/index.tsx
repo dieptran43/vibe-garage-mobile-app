@@ -8,7 +8,7 @@ import GraphImage from '../../../assets/icons/graph-icon.png';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {getTopSongs} from '../../../services/songService';
 import {getTopAlbums} from '../../../services/albumService';
-import {combineData, getImage} from '../../../utils/helpers';
+import {combineData, getFromOldUrl} from '../../../utils/helpers';
 import {ISong, IAlbum} from '../../../types/interfaces';
 
 export function TopMusic({navigation}: DrawerScreenProps<{}>) {
@@ -62,7 +62,7 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
                     <View key={shortid.generate()} style={styles.singleTopSong}>
                       <Image
                         source={{
-                          uri: getImage(music?.thumbnail),
+                          uri: getFromOldUrl(music?.thumbnail),
                         }}
                         style={styles.topMusicImage}
                       />
@@ -115,7 +115,7 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
                     <View key={index} style={styles.singleTopAlbum}>
                       <Image
                         source={{
-                          uri: getImage(album?.thumbnail),
+                          uri: getFromOldUrl(album?.thumbnail),
                         }}
                         style={styles.topAlbumImage}
                       />

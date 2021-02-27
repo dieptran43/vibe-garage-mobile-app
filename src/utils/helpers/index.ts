@@ -8,6 +8,6 @@ export const combineData = (data: any, params: any) => {
   return {...data, ...obj};
 };
 
-export const getImage = (url: any) => {
+export const getFromOldUrl = (url: any) => {
   return `${API_OLD_URL}/${url}`;
 };

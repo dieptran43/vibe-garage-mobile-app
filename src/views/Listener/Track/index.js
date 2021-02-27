@@ -1,19 +1,30 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, ScrollView, Image, ImageBackground} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
-import SoundPlayer from 'react-native-sound-player'
+import SoundPlayer from 'react-native-sound-player';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import styles from './trackStyle';
 import {CustomText} from '../../../components/Global';
-import {combineData, getImage} from '../../../utils/helpers';
+import {combineData, getFromOldUrl} from '../../../utils/helpers';
 import shortid from 'shortid';
 
 export function Track({navigation, route}) {
   const track = route?.params;
+
+  const [data, setData] = useState({isPlaying: false, isPaused: false});
+
+  useEffect(() => {
+    SoundPlayer.addEventListener('FinishedPlaying', ({success}) => {
+      console.log('finished playing', success);
+    });
+    SoundPlayer.addEventListener('FinishedLoadingURL', ({success, url}) => {
+      // setData({...data, isPlaying: true});
+    });
+  });
 
   const getNumberOfYears = (dt) => {
     let oldDate = new Date(`2019/10/01`);
@@ -36,16 +47,27 @@ export function Track({navigation, route}) {
     return arr;
   };
 
-  const handlePlayTrack = () => {
+  const handleTrack = (param) => {
     try {
-      // play the file tone.mp3
-      // SoundPlayer.playSoundFile('tone', 'mp3')
-      // or play from url
-      SoundPlayer.playUrl('https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3')
-  } catch (e) {
-      console.log(`cannot play the sound file`, e)
-  }
-  }
+      let {isPlaying, isPaused} = data;
+      if (param === 'play') {
+        isPlaying = true;
+        if (isPaused) {
+          SoundPlayer.play();
+        } else {
+          isPaused = false;
+          SoundPlayer.playUrl(getFromOldUrl(track?.audio_location));
+        }
+      } else if (param === 'pause') {
+        isPlaying = false;
+        isPaused = true;
+        SoundPlayer.pause();
+      }
+      setData({...data, isPlaying, isPaused});
+    } catch (e) {
+      console.log(`cannot play the sound file`, e);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -55,7 +77,7 @@ export function Track({navigation, route}) {
           <View style={styles.row1}>
             <Image
               source={{
-                uri: getImage(track?.artist_data?.avatar),
+                uri: getFromOldUrl(track?.artist_data?.avatar),
               }}
               style={styles.artisteImage}
             />
@@ -77,11 +99,21 @@ export function Track({navigation, route}) {
           </View>
           <View style={styles.imageContainer}>
             <ImageBackground
-              source={{uri: getImage(track?.thumbnail)}}
+              source={{uri: getFromOldUrl(track?.thumbnail)}}
               style={styles.imageBg}>
-              <TouchableOpacity onPress={()=>handlePlayTrack()}>
-                <AntDesign name="playcircleo" size={50} color="#00bcd4" />
-              </TouchableOpacity>
+              {data?.isPlaying ? (
+                <TouchableOpacity onPress={() => handleTrack('pause')}>
+                  <MaterialIcons
+                    name="pause-circle-outline"
+                    size={50}
+                    color="#00bcd4"
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={() => handleTrack('play')}>
+                  <AntDesign name="playcircleo" size={50} color="#00bcd4" />
+                </TouchableOpacity>
+              )}
             </ImageBackground>
           </View>
           <CustomText type={1} text={track?.title} style={styles.trackTitle} />
@@ -96,7 +128,11 @@ export function Track({navigation, route}) {
             </View>
             <View style={styles.actionRow}>
               <MaterialIcons name="share" size={16} color="#D4D4D4" />
-              <CustomText type={1} text={track?.shares} style={styles.iconText} />
+              <CustomText
+                type={1}
+                text={track?.shares}
+                style={styles.iconText}
+              />
             </View>
             <View style={styles.actionRow}>
               <Ionicons name="md-chatbox-sharp" size={16} color="#D4D4D4" />

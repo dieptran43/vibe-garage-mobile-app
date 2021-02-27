@@ -10,7 +10,7 @@ import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import {CustomText} from '../../../components/Global';
 import {getRecentlyPlayed} from '../../../services/songService';
-import {combineData, getImage} from '../../../utils/helpers';
+import {combineData, getFromOldUrl} from '../../../utils/helpers';
 
 export function RecentlyPlayed({navigation}: DrawerScreenProps<{}>) {
   const {state, dispatch}: any = useContext(AuthContext);
@@ -74,7 +74,7 @@ export function RecentlyPlayed({navigation}: DrawerScreenProps<{}>) {
                   <View key={shortid.generate()} style={styles.singleTopAlbum}>
                     <Image
                       source={{
-                        uri: getImage(rPlayed?.song?.thumbnail),
+                        uri: getFromOldUrl(rPlayed?.song?.thumbnail),
                       }}
                       style={styles.topAlbumImage}
                     />

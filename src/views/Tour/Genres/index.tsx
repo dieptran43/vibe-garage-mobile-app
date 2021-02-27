@@ -13,7 +13,7 @@ import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './genresStyle';
 import {getSongsByGenre} from '../../../services/songService';
-import {combineData, getImage} from '../../../utils/helpers';
+import {combineData, getFromOldUrl} from '../../../utils/helpers';
 
 export function Genres({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
@@ -115,7 +115,7 @@ export function Genres({navigation}: DrawerScreenProps<{}>) {
                   <View key={shortid.generate()} style={styles.singleTopSong}>
                     <Image
                       source={{
-                        uri: getImage(songInGenre?.thumbnail),
+                        uri: getFromOldUrl(songInGenre?.thumbnail),
                       }}
                       style={styles.topMusicImage}
                     />
