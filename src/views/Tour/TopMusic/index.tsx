@@ -10,6 +10,9 @@ import {getTopSongs} from '../../../services/songService';
 import {getTopAlbums} from '../../../services/albumService';
 import {combineData, getFromOldUrl} from '../../../utils/helpers';
 import {ISong, IAlbum} from '../../../types/interfaces';
+import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
+import {getScreenParent} from '../../../utils/navigationHelper';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export function TopMusic({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
@@ -40,6 +43,10 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
       });
   };
 
+  const handleNavigation = (route: String, params: ISong) => {
+    navigateToNestedRoute(getScreenParent(route), route, params);
+  };
+
   return (
     <View style={styles.topMusicContainer}>
       <NavDrawerHeader navigation={navigation} />
@@ -59,7 +66,10 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
               <>
                 <View style={styles.topSongsWrapper}>
                   {data.topMusic.slice(0, 10).map((music: ISong, index) => (
-                    <View key={shortid.generate()} style={styles.singleTopSong}>
+                    <TouchableOpacity
+                      key={shortid.generate()}
+                      style={styles.singleTopSong}
+                      onPress={() => handleNavigation('Track', music)}>
                       <Image
                         source={{
                           uri: getFromOldUrl(music?.thumbnail),
@@ -86,7 +96,7 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
                         color="#919191"
                         size={25}
                       />
-                    </View>
+                    </TouchableOpacity>
                   ))}
                 </View>
                 {data?.topMusic?.length > 10 ? (

@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {View, Text, Image, ScrollView} from 'react-native';
+import {View, Text, Image, ScrollView, TouchableOpacity} from 'react-native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {useIsFocused} from '@react-navigation/native';
 import shortid from 'shortid';
@@ -11,6 +11,8 @@ import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import {CustomText} from '../../../components/Global';
 import {getRecentlyPlayed} from '../../../services/songService';
 import {combineData, getFromOldUrl} from '../../../utils/helpers';
+import {getScreenParent} from '../../../utils/navigationHelper';
+import {ISong} from '../../../types/interfaces';
 
 export function RecentlyPlayed({navigation}: DrawerScreenProps<{}>) {
   const {state, dispatch}: any = useContext(AuthContext);
@@ -42,7 +44,6 @@ export function RecentlyPlayed({navigation}: DrawerScreenProps<{}>) {
           let recentlyPlayed = [];
           if (response && response?.success) {
             recentlyPlayed = response?.recentlyPlayed?.data;
-            console.log(recentlyPlayed);
           }
           setData(combineData(data, {recentlyPlayed, isLoading: false}));
         })
@@ -52,6 +53,10 @@ export function RecentlyPlayed({navigation}: DrawerScreenProps<{}>) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleNavigation = (route: String, params: ISong) => {
+    navigateToNestedRoute(getScreenParent(route), route, params);
   };
 
   return (
@@ -71,7 +76,10 @@ export function RecentlyPlayed({navigation}: DrawerScreenProps<{}>) {
             <>
               <View style={styles.topAlbumsWrapper}>
                 {data.recentlyPlayed.map((rPlayed: any, index: Number) => (
-                  <View key={shortid.generate()} style={styles.singleTopAlbum}>
+                  <TouchableOpacity
+                    key={shortid.generate()}
+                    style={styles.singleTopAlbum}
+                    onPress={() => handleNavigation('Track', rPlayed?.song)}>
                     <Image
                       source={{
                         uri: getFromOldUrl(rPlayed?.song?.thumbnail),
@@ -90,7 +98,7 @@ export function RecentlyPlayed({navigation}: DrawerScreenProps<{}>) {
                       ellipsizeMode="tail">
                       {rPlayed?.song?.artist_data?.name}
                     </Text>
-                  </View>
+                  </TouchableOpacity>
                 ))}
               </View>
             </>

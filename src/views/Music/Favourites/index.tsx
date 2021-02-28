@@ -11,6 +11,8 @@ import styles from './favouritesStyle';
 import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import {combineData, getFromOldUrl} from '../../../utils/helpers';
+import {getScreenParent} from '../../../utils/navigationHelper';
+import {ISong} from '../../../types/interfaces';
 
 export function Favourites({navigation}: DrawerScreenProps<{}>) {
   const {state, dispatch}: any = useContext(AuthContext);
@@ -46,6 +48,10 @@ export function Favourites({navigation}: DrawerScreenProps<{}>) {
       });
   };
 
+  const handleNavigation = (route: String, params: ISong) => {
+    navigateToNestedRoute(getScreenParent(route), route, params);
+  };
+
   return (
     <View style={styles.favouritesContainer}>
       <NavDrawerHeader navigation={navigation} />
@@ -68,7 +74,10 @@ export function Favourites({navigation}: DrawerScreenProps<{}>) {
           ) : null}
           <View style={styles.topSongsWrapper}>
             {data.favourites.map((music: any, index) => (
-              <View key={shortid.generate()} style={styles.singleTopSong}>
+              <TouchableOpacity
+                key={shortid.generate()}
+                style={styles.singleTopSong}
+                onPress={() => handleNavigation('Track', music?.song)}>
                 <Image
                   source={{
                     uri: getFromOldUrl(music?.song?.thumbnail),
@@ -87,7 +96,7 @@ export function Favourites({navigation}: DrawerScreenProps<{}>) {
                     style={styles.musicArtisteText}
                   />
                 </View>
-              </View>
+              </TouchableOpacity>
             ))}
           </View>
         </View>

@@ -14,6 +14,10 @@ import {CustomText} from '../../../components/Global';
 import styles from './genresStyle';
 import {getSongsByGenre} from '../../../services/songService';
 import {combineData, getFromOldUrl} from '../../../utils/helpers';
+import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
+import {getScreenParent} from '../../../utils/navigationHelper';
+import {ISong} from '../../../types/interfaces';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export function Genres({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
@@ -70,6 +74,10 @@ export function Genres({navigation}: DrawerScreenProps<{}>) {
     handleGenres(category_id);
   };
 
+  const handleNavigation = (route: String, params: ISong) => {
+    navigateToNestedRoute(getScreenParent(route), route, params);
+  };
+
   return (
     <View style={styles.genresContainer}>
       <NavDrawerHeader navigation={navigation} />
@@ -112,7 +120,10 @@ export function Genres({navigation}: DrawerScreenProps<{}>) {
             <>
               <View style={styles.topSongsWrapper}>
                 {data.songsInGenre.map((songInGenre: any, index) => (
-                  <View key={shortid.generate()} style={styles.singleTopSong}>
+                  <TouchableOpacity
+                    key={shortid.generate()}
+                    style={styles.singleTopSong}
+                    onPress={() => handleNavigation('Track', songInGenre)}>
                     <Image
                       source={{
                         uri: getFromOldUrl(songInGenre?.thumbnail),
@@ -139,7 +150,7 @@ export function Genres({navigation}: DrawerScreenProps<{}>) {
                       color="#919191"
                       size={25}
                     />
-                  </View>
+                  </TouchableOpacity>
                 ))}
               </View>
             </>

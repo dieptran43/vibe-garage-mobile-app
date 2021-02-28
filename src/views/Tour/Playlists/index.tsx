@@ -16,6 +16,9 @@ import {CustomText} from '../../../components/Global';
 import styles from './playlistsStyle';
 import {getRecentlyPublicPlaylist} from '../../../services/playlistService';
 import {combineData, getFromOldUrl} from '../../../utils/helpers';
+import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
+import {getScreenParent} from '../../../utils/navigationHelper';
+import {ISong} from '../../../types/interfaces';
 
 export function Playlists({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
@@ -43,6 +46,10 @@ export function Playlists({navigation}: DrawerScreenProps<{}>) {
     }
   };
 
+  const handleNavigation = (route: String, params: ISong) => {
+    navigateToNestedRoute(getScreenParent(route), route, params);
+  };
+
   return (
     <View style={styles.playlistsContainer}>
       <NavDrawerHeader navigation={navigation} />
@@ -62,7 +69,9 @@ export function Playlists({navigation}: DrawerScreenProps<{}>) {
         <View style={styles.playlistsItems}>
           {data.publicPlaylist?.length
             ? data.publicPlaylist.map((playlist: any) => (
-                <TouchableWithoutFeedback key={shortid.generate()}>
+                <TouchableWithoutFeedback
+                  key={shortid.generate()}
+                  onPress={() => handleNavigation('Track', playlist)}>
                   <View style={styles.singlePlaylist}>
                     <View style={styles.singlePlaylistRowOne}>
                       <View style={styles.flexRow}>

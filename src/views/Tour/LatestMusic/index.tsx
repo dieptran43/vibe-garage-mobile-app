@@ -23,6 +23,9 @@ import {
   getLatestMusic,
 } from '../../../services/songService';
 import {getFromOldUrl, combineData} from '../../../utils/helpers';
+import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
+import {getScreenParent} from '../../../utils/navigationHelper';
+import {ISong} from '../../../types/interfaces';
 
 export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
@@ -84,6 +87,14 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
     }
   };
 
+  const handleNavigation = (route: String, params: ISong) => {
+    navigateToNestedRoute(getScreenParent(route), route, params);
+  };
+
+  const handlePlaylist = (song: any) => {
+    setData(combineData(data, {canAddToPlaylist: true}));
+  };
+
   return (
     <View style={styles.latestMusicContainer}>
       <NavDrawerHeader navigation={navigation} />
@@ -126,7 +137,7 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
             <ScrollView style={{marginTop: 16}} horizontal ref={scrollViewRef}>
               {data?.bestNewReleases ? (
                 data?.bestNewReleases.map((newRelease: any, index: Number) => (
-                  <View
+                  <TouchableOpacity
                     style={[
                       styles.singleCard,
                       {width: windowWidth / 2.34},
@@ -134,7 +145,8 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
                         marginRight: 20,
                       },
                     ]}
-                    key={shortid.generate()}>
+                    key={shortid.generate()}
+                    onPress={() => handleNavigation('Track', newRelease)}>
                     <Image
                       source={{
                         uri: getFromOldUrl(newRelease?.thumbnail),
@@ -151,7 +163,7 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
                       text={newRelease.artiste}
                       style={styles.cardText2}
                     />
-                  </View>
+                  </TouchableOpacity>
                 ))
               ) : (
                 <Text>None found</Text>
@@ -172,9 +184,10 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
                 <>
                   <View style={styles.topAlbumsWrapper}>
                     {data.latestMusic.map((album: any, index: Number) => (
-                      <View
+                      <TouchableOpacity
                         key={shortid.generate()}
-                        style={styles.singleTopAlbum}>
+                        style={styles.singleTopAlbum}
+                        onPress={() => handleNavigation('Track', album)}>
                         <Image
                           source={{
                             uri: getFromOldUrl(album.thumbnail),
@@ -193,7 +206,7 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
                           ellipsizeMode="tail">
                           {album?.artist_data?.name}
                         </Text>
-                      </View>
+                      </TouchableOpacity>
                     ))}
                   </View>
                   <Text style={styles.seeAllTopSongsText}>Load More</Text>
