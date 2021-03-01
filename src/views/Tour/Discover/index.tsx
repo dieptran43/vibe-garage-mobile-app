@@ -142,6 +142,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
   };
 
   const handleNavigation = (route: String, params: ISong) => {
+    setData(combineData(data, {moreView: null}));
     navigateToNestedRoute(getScreenParent(route), route, params);
   };
 
@@ -349,7 +350,9 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                       <TouchableOpacity
                         key={shortid.generate()}
                         style={styles.singleTopSong}
-                        onPress={() => handleNavigation('Track', mostPopular)}>
+                        onPress={() =>
+                          handleNavigation('Track', mostPopular?.song)
+                        }>
                         <Image
                           source={{
                             uri: getFromOldUrl(mostPopular?.song?.thumbnail),
