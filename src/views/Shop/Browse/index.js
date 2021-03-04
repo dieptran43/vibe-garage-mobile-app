@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -18,61 +18,62 @@ import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './browseStyle';
 import {combineData, getFromOldUrl} from '../../../utils/helpers';
+import {getTopSongs} from '../../../services/songService';
+import {getTopAlbums} from '../../../services/albumService';
 
-export function Browse({navigation}: DrawerScreenProps<{}>) {
+export function Browse({navigation}) {
   const [data, setData] = useState({
     tab: 'Songs',
-    songs: [
-      {
-        avatar:
-          'upload/photos/2020/08/yNQ3m8obUoXmi7M4NONa_19_b3d46154a4dd0209624b466cf54b2294_image.jpg',
-        title: 'Exhausted (I don tire).mp3',
-        artist: 'Prince Amadi',
-        duration: '3:32',
-        releasedOn: '5 months ago',
-        price: 200,
-        isPurchased: true,
-      },
-      {
-        avatar:
-          'upload/photos/2020/06/RtyN25AvtFozMVwGmP66_25_bd9233a0e026b0e1a6f7f5e6fb579b00_image.jpg',
-        title: 'MY MATTER ft KENNY ARA mp3',
-        artist: 'Ebohon Tunde Tony',
-        duration: '00:00:43',
-        releasedOn: '7 months ago',
-        price: 200,
-        isPurchased: false,
-      },
-    ],
-    albums: [
-      {
-        artistImage:
-          'upload/photos/2020/06/eDbuX4CjczAZKYKB2wWf_27_dc2c86a1cbcb1e1b9a1f3fe6e6d7574f_image.jpg',
-        artistName: 'Glory E Praise',
-        albumName: 'Glory E Praise',
-        albumImage:
-          'upload/photos/2020/06/kiSQblDDKUNKENFrinIh_24_68fc9d8a7fd60a42552efa4c6c1a9215_image.jpg',
-        releasedOn: '5 months ago',
-        price: 3000,
-        isPurchased: false,
-      },
-      {
-        artistImage:
-          'upload/photos/2020/06/eDbuX4CjczAZKYKB2wWf_27_dc2c86a1cbcb1e1b9a1f3fe6e6d7574f_image.jpg',
-        artistName: 'Glory E Praise',
-        albumName: 'Glory E Praise',
-        albumImage:
-          'upload/photos/2020/06/kiSQblDDKUNKENFrinIh_24_68fc9d8a7fd60a42552efa4c6c1a9215_image.jpg',
-        releasedOn: '5 months ago',
-        price: 3000,
-        isPurchased: true,
-      },
-    ],
+    songs: [],
+    albums: [],
     topSeller: [],
   });
 
-  const handleTab = (tab: String) => {
+  useEffect(() => {
+    handleFetchData();
+  }, []);
+
+  const handleTab = (tab) => {
     setData(combineData(data, {tab}));
+  };
+
+  const handleFetchData = async () => {
+    try {
+      Promise.all([getTopSongs(), getTopAlbums()])
+        .then(([topMusicResponse, topAlbumsResponse]) => {
+          let songs = [],
+            albums = [];
+          if (topMusicResponse && topMusicResponse?.success) {
+            songs = topMusicResponse?.songs?.data;
+          }
+          if (topAlbumsResponse && topAlbumsResponse?.success) {
+            albums = topAlbumsResponse?.albums?.data;
+            console.log(albums);
+          }
+          setData(combineData(data, {songs, albums}));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getNumberOfYears = (dt) => {
+    let oldDate = new Date(`${dt}/01`);
+    let currentDate = new Date();
+    currentDate = currentDate.getFullYear() * 12 + currentDate.getMonth();
+    oldDate = oldDate.getFullYear() * 12 + oldDate.getMonth();
+    let difference = currentDate - oldDate;
+    let range;
+    if (difference < 12) {
+      range = difference > 1 ? 'months' : 'month';
+    } else {
+      difference = Math.ceil(difference / 12);
+      range = difference > 1 ? 'years' : 'year';
+    }
+    return `${difference} ${range} ago`;
   };
 
   return (
@@ -137,13 +138,13 @@ export function Browse({navigation}: DrawerScreenProps<{}>) {
               {data?.songs?.map((song) => (
                 <View style={styles.singleSongWrapper} key={shortid.generate()}>
                   <Image
-                    source={{uri: getFromOldUrl(song?.avatar)}}
+                    source={{uri: getFromOldUrl(song?.thumbnail)}}
                     style={styles.singleSongAvatar}
                   />
                   <View style={styles.sectionOne}>
                     <View style={styles.songOwner}>
                       <CustomText text={song?.title} type={1} />
-                      <CustomText text={song?.artist} />
+                      <CustomText text={song?.artist_data?.name} />
                     </View>
                     {song?.isPurchased ? (
                       <CustomText
@@ -166,7 +167,10 @@ export function Browse({navigation}: DrawerScreenProps<{}>) {
                     )}
                     <View style={styles.songBottomRow}>
                       <CustomText type={1} text={song?.duration} />
-                      <CustomText type={1} text={song?.releasedOn} />
+                      <CustomText
+                        type={1}
+                        text={getNumberOfYears(song?.registered)}
+                      />
                       <Feather name="more-horizontal" size={20} color="#fff" />
                     </View>
                   </View>
@@ -178,12 +182,12 @@ export function Browse({navigation}: DrawerScreenProps<{}>) {
               {data?.albums?.map((album) => (
                 <View style={styles.singleSongWrapper} key={shortid.generate()}>
                   <Image
-                    source={{uri: getFromOldUrl(album?.albumImage)}}
+                    source={{uri: getFromOldUrl(album?.thumbnail)}}
                     style={styles.singleSongAvatar}
                   />
                   <View style={styles.sectionOne}>
                     <View style={styles.songOwner}>
-                      <CustomText text={album?.albumName} type={1} />
+                      <CustomText text={album?.title} type={1} />
                       <CustomText text={album?.artistName} />
                     </View>
                     {album?.isPurchased ? (
@@ -206,7 +210,10 @@ export function Browse({navigation}: DrawerScreenProps<{}>) {
                       </View>
                     )}
                     <View style={styles.songBottomRow}>
-                      <CustomText type={1} text={album?.releasedOn} />
+                      <CustomText
+                        type={1}
+                        text={getNumberOfYears(album?.registered)}
+                      />
                       <Feather name="more-horizontal" size={20} color="#fff" />
                     </View>
                   </View>

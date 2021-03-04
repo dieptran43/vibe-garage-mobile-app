@@ -41,6 +41,21 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontWeight: 'bold',
   },
+  checkBg: {
+    backgroundColor: '#3D8CFA',
+    width: 20,
+    height: 20,
+    borderRadius: 50,
+    marginLeft: 10
+  },
+  checkRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  artisteUsername:{
+    marginBottom: 15
+  },
   artisteInfoWrapper: {
     display: 'flex',
     alignItems: 'center',
@@ -52,7 +67,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   artisteFollowText: {
-    fontSize: 17,
+    fontSize: 15,
   },
   artisteFollowBullet: {
     marginHorizontal: 15,
@@ -61,10 +76,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 25,
+    paddingVertical: 7,
+    paddingHorizontal: 15,
     backgroundColor: '#434345',
-    borderRadius: 20
+    borderRadius: 20,
   },
   editProfileText: {
     fontWeight: 'bold',

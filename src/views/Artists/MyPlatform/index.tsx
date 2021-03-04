@@ -13,6 +13,7 @@ import {
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import shortid from 'shortid';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './myPlatformStyle';
@@ -42,11 +43,19 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
           </View>
           <View style={styles.myPlatformWrapper}>
             <View style={styles.artisteInfoWrapper}>
-              <CustomText
-                type={1}
-                text={user?.name}
-                style={styles.artisteNameText}
-              />
+              <View style={styles.checkRow}>
+                <CustomText
+                  type={1}
+                  text={user?.name}
+                  style={styles.artisteNameText}
+                />
+                {user?.verified ? (
+                  <View style={styles.checkBg}>
+                    <Feather name="check-circle" size={20} color="#fff" />
+                  </View>
+                ) : null}
+              </View>
+              <CustomText text={`@${user?.username}`} style={styles.artisteUsername}/>
               <View style={styles.artisteFollowWrapper}>
                 <CustomText
                   type={2}
@@ -77,7 +86,6 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
                 />
               </TouchableOpacity>
             </View>
-            
           </View>
         </View>
       </ScrollView>

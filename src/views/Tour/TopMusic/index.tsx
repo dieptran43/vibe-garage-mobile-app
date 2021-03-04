@@ -34,7 +34,6 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
         }
         if (topAlbumsResponse && topAlbumsResponse?.success) {
           topAlbums = topAlbumsResponse?.albums?.data;
-          console.log(topAlbums);
         }
         setData(combineData(data, {topMusic, topAlbums}));
       })

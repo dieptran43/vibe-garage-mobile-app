@@ -43,13 +43,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   sectionOne: {
     borderBottomWidth: 1,
     borderBottomColor: '#363636',
     paddingBottom: 10,
-    flex: 1
+    flex: 1,
   },
   songOwner: {
     marginBottom: 15,

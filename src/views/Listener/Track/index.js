@@ -28,7 +28,7 @@ export function Track({navigation, route}) {
   });
 
   const getNumberOfYears = (dt) => {
-    let oldDate = new Date(`2019/10/01`);
+    let oldDate = new Date(`${dt}/01`);
     let currentDate = new Date();
     currentDate = currentDate.getFullYear() * 12 + currentDate.getMonth();
     oldDate = oldDate.getFullYear() * 12 + oldDate.getMonth();
