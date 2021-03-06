@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   layoutContent: {
-    marginTop: 40,
     display: 'flex',
   },
   uploadSingleSongText: {
@@ -90,6 +89,58 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     textAlignVertical: 'top',
     marginTop: 5,
+    color: '#c3c3c6',
+    paddingHorizontal: 5,
+    fontSize: 16,
+  },
+  attentionText: {
+    color: '#c3c3c6',
+    marginBottom: 40,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  radioBtnsWrapper: {
+    marginTop: 10,
+    marginBottom: 40,
+  },
+  flexRowPrice: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  markerView: {
+    height: 20,
+    width: 20,
+    borderRadius: 20,
+    borderColor: '#F0F0F0',
+    borderWidth: 1,
+    marginRight: 7,
+  },
+  markerSelected: {
+    backgroundColor: '#0364FF',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnSend: {
+    borderRadius: 5,
+    alignSelf: 'flex-end',
+    paddingHorizontal: 25,
+    paddingVertical: 12,
+    flex: 1,
+    marginTop: 20,
+  },
+  btnSendEnabled: {
+    backgroundColor: '#00bcd4',
+  },
+  btnSendDisabled: {
+    backgroundColor: '#A0A0A0',
+  },
+  btnSendText: {
+    fontWeight: 'bold',
+    color: '#fff',
+    fontSize: 16,
   },
 });
 
