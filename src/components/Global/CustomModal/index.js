@@ -3,7 +3,13 @@ import {View, StyleSheet, Modal, TouchableOpacity} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {CustomText} from '../CustomText';
 
-export function CustomModal({height, width, title, onModalClose, customContent}) {
+export function CustomModal({
+  height,
+  width,
+  title,
+  onModalClose,
+  customContent,
+}) {
   return (
     <Modal
       animationType="slide"
@@ -54,6 +60,8 @@ const styles = StyleSheet.create({
   modalHeader: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: 10
   },
   modalTitle: {
     fontSize: 16,

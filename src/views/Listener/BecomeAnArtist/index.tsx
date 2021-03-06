@@ -106,7 +106,7 @@ export function BecomeAnArtist({navigation}: DrawerScreenProps<{}>) {
             <CustomText text="Genre" style={styles.nameText} />
           </View>
           <DropDownPicker
-            placeholder="Branches"
+            placeholder="Genres"
             placeholderStyle={{color: '#ccc'}}
             items={data.genres}
             containerStyle={{height: 40, marginBottom: 30}}

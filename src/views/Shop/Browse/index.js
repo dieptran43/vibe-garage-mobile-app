@@ -20,6 +20,8 @@ import styles from './browseStyle';
 import {combineData, getFromOldUrl} from '../../../utils/helpers';
 import {getTopSongs} from '../../../services/songService';
 import {getTopAlbums} from '../../../services/albumService';
+import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
+import {getScreenParent} from '../../../utils/navigationHelper';
 
 export function Browse({navigation}) {
   const [data, setData] = useState({
@@ -42,15 +44,18 @@ export function Browse({navigation}) {
       Promise.all([getTopSongs(), getTopAlbums()])
         .then(([topMusicResponse, topAlbumsResponse]) => {
           let songs = [],
-            albums = [];
+            albums = [],
+            topSeller = [];
           if (topMusicResponse && topMusicResponse?.success) {
             songs = topMusicResponse?.songs?.data;
           }
           if (topAlbumsResponse && topAlbumsResponse?.success) {
             albums = topAlbumsResponse?.albums?.data;
-            console.log(albums);
           }
-          setData(combineData(data, {songs, albums}));
+          if (topMusicResponse && topMusicResponse?.success) {
+            topSeller = topMusicResponse?.songs?.data;
+          }
+          setData(combineData(data, {songs, albums, topSeller}));
         })
         .catch((error) => {
           console.log(error);
@@ -74,6 +79,11 @@ export function Browse({navigation}) {
       range = difference > 1 ? 'years' : 'year';
     }
     return `${difference} ${range} ago`;
+  };
+
+  const handleNavigation = (route, params) => {
+    setData(combineData(data, {moreView: null}));
+    navigateToNestedRoute(getScreenParent(route), route, params);
   };
 
   return (
@@ -137,10 +147,13 @@ export function Browse({navigation}) {
             <View>
               {data?.songs?.map((song) => (
                 <View style={styles.singleSongWrapper} key={shortid.generate()}>
-                  <Image
-                    source={{uri: getFromOldUrl(song?.thumbnail)}}
-                    style={styles.singleSongAvatar}
-                  />
+                  <TouchableOpacity
+                    onPress={() => handleNavigation('Track', song)}>
+                    <Image
+                      source={{uri: getFromOldUrl(song?.thumbnail)}}
+                      style={styles.singleSongAvatar}
+                    />
+                  </TouchableOpacity>
                   <View style={styles.sectionOne}>
                     <View style={styles.songOwner}>
                       <CustomText text={song?.title} type={1} />
@@ -227,6 +240,58 @@ export function Browse({navigation}) {
                   <Image source={GraphImage} style={styles.graphImage} />
                 </View>
                 <Text style={styles.topMusicText}>Top Songs</Text>
+              </View>
+              <View>
+                {data?.topSeller?.map((song) => (
+                  <View
+                    style={styles.singleSongWrapper}
+                    key={shortid.generate()}>
+                    <TouchableOpacity
+                      onPress={() => handleNavigation('Track', song)}>
+                      <Image
+                        source={{uri: getFromOldUrl(song?.thumbnail)}}
+                        style={styles.singleSongAvatar}
+                      />
+                    </TouchableOpacity>
+                    <View style={styles.sectionOne}>
+                      <View style={styles.songOwner}>
+                        <CustomText text={song?.title} type={1} />
+                        <CustomText text={song?.artist_data?.name} />
+                      </View>
+                      {song?.isPurchased ? (
+                        <CustomText
+                          size={12}
+                          text="You have bought this track."
+                          style={styles.boughtTrackText}
+                        />
+                      ) : (
+                        <View style={styles.purchaseWrapper}>
+                          <CustomText
+                            type={1}
+                            size={14}
+                            text={`₦${song?.price}`}
+                            style={styles.priceText}
+                          />
+                          <TouchableWithoutFeedback>
+                            <Text style={styles.purchaseText}>Purchase</Text>
+                          </TouchableWithoutFeedback>
+                        </View>
+                      )}
+                      <View style={styles.songBottomRow}>
+                        <CustomText type={1} text={song?.duration} />
+                        <CustomText
+                          type={1}
+                          text={getNumberOfYears(song?.registered)}
+                        />
+                        <Feather
+                          name="more-horizontal"
+                          size={20}
+                          color="#fff"
+                        />
+                      </View>
+                    </View>
+                  </View>
+                ))}
               </View>
             </View>
           ) : null}

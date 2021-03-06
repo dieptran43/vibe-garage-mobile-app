@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#363636',
+    marginBottom: 30
   },
   topMusicText: {color: '#cecece', fontSize: 18, marginLeft: 10},
   graphBg: {

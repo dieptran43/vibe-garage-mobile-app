@@ -35,7 +35,6 @@ export function AddToPlaylist({height, width, onClose}: any) {
           if (response && response?.success) {
             myPlaylist = response?.playlists?.data;
           }
-          console.log(myPlaylist);
           setData(combineData(data, {myPlaylist}));
         })
         .catch((error) => {
