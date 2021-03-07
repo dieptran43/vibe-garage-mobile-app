@@ -42,12 +42,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  songText: {
+    fontSize: 14,
+    marginBottom: 30,
+    marginTop: 7,
+    paddingVertical: 7,
+    backgroundColor: '#000',
+    borderRadius: 5,
+    textAlignVertical: 'top',
+    color: '#c3c3c6',
+    paddingHorizontal: 7,
+  },
   titleText: {
     fontSize: 16,
     marginLeft: 5,
   },
   modalContent: {
-    paddingTop: 30,
+    paddingTop: 20,
     paddingBottom: 80,
   },
   titleInput: {
@@ -69,6 +80,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 200,
     marginBottom: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   thumbnailPicker: {
     width: '100%',
@@ -78,6 +91,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: '#8d8d8d',
     borderStyle: 'dashed',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pickPhotoWrapper: {
+    backgroundColor: '#8d8d8d',
+    height: 50,
+    width: 50,
+    borderRadius: 50,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -141,6 +163,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     fontSize: 16,
+  },
+  emptyContainer: {
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  waitText: {
+    fontSize: 16,
+    marginTop: 10
   },
 });
 

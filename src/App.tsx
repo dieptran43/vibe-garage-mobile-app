@@ -12,6 +12,7 @@ import RNBootSplash from 'react-native-bootsplash';
 import * as Keychain from 'react-native-keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MenuProvider} from 'react-native-popup-menu';
+import Toast from 'react-native-toast-message';
 import AppStack from './navigators/Stack';
 import {navigationRef} from './navigators/RootNavigation';
 import {AuthContext} from './context';
@@ -52,6 +53,7 @@ const App = () => {
           <NavigationContainer ref={navigationRef}>
             <AppStack />
           </NavigationContainer>
+          <Toast ref={(ref) => Toast.setRef(ref)} />
         </SafeAreaView>
       </MenuProvider>
     </AuthContext.Provider>
