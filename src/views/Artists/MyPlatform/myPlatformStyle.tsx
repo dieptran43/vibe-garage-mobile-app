@@ -85,6 +85,32 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 10,
   },
+  tabHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 40,
+    marginBottom: 30,
+  },
+  tabTextWrapper: {
+    width: '30%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingBottom: 10,
+  },
+  activeTabTextWrapper: {
+    borderBottomColor: '#00bcd4',
+    borderBottomWidth: 2,
+  },
+  tabText: {
+    fontSize: 15,
+    textTransform: 'uppercase',
+    fontWeight: "bold"
+  },
+  activeTabText: {
+    color: '#00bcd4',
+  },
 });
 
 export default styles;

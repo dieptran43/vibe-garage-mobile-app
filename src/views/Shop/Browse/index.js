@@ -18,8 +18,7 @@ import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './browseStyle';
 import {combineData, getFromOldUrl} from '../../../utils/helpers';
-import {getTopSongs} from '../../../services/songService';
-import {getTopAlbums} from '../../../services/albumService';
+import {storeAlbums, storeSongs, topSongs} from '../../../services/storeService';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import {getScreenParent} from '../../../utils/navigationHelper';
 
@@ -41,19 +40,19 @@ export function Browse({navigation}) {
 
   const handleFetchData = async () => {
     try {
-      Promise.all([getTopSongs(), getTopAlbums()])
-        .then(([topMusicResponse, topAlbumsResponse]) => {
+      Promise.all([storeSongs(), storeAlbums(), topSongs()])
+        .then(([storeSongsResponse, storeAlbumsResponse, topSongsResponse]) => {
           let songs = [],
             albums = [],
             topSeller = [];
-          if (topMusicResponse && topMusicResponse?.success) {
-            songs = topMusicResponse?.songs?.data;
+          if (storeSongsResponse && storeSongsResponse?.success) {
+            songs = storeSongsResponse?.songs?.data;
           }
-          if (topAlbumsResponse && topAlbumsResponse?.success) {
-            albums = topAlbumsResponse?.albums?.data;
+          if (storeAlbumsResponse && storeAlbumsResponse?.success) {
+            albums = storeAlbumsResponse?.albums?.data;
           }
-          if (topMusicResponse && topMusicResponse?.success) {
-            topSeller = topMusicResponse?.songs?.data;
+          if (topSongsResponse && topSongsResponse?.success) {
+            topSeller = topSongsResponse?.songs?.data;
           }
           setData(combineData(data, {songs, albums, topSeller}));
         })

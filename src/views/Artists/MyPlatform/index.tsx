@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   ImageBackground,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import shortid from 'shortid';
@@ -21,11 +22,21 @@ import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import BannerImage from '../../../assets/images/d-cover.jpg';
 import ArtisteImage from '../../../assets/images/d-avatar.jpg';
+import {combineData, getFromOldUrl} from '../../../utils/helpers';
 
 export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
   const {state, dispatch}: any = useContext(AuthContext);
-  const [data, setData] = useState({});
   const user = state?.user;
+
+  const [data, setData] = useState({
+    tab: 'My Songs',
+    mySongs: [],
+    myAlbums: [],
+  });
+
+  const handleTab = (tab: any) => {
+    setData(combineData(data, {tab}));
+  };
 
   return (
     <View style={styles.myPlatformContainer}>
@@ -55,7 +66,10 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
                   </View>
                 ) : null}
               </View>
-              <CustomText text={`@${user?.username}`} style={styles.artisteUsername}/>
+              <CustomText
+                text={`@${user?.username}`}
+                style={styles.artisteUsername}
+              />
               <View style={styles.artisteFollowWrapper}>
                 <CustomText
                   type={2}
@@ -85,6 +99,58 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
                   style={styles.editProfileText}
                 />
               </TouchableOpacity>
+            </View>
+            <View style={styles.tabHeader}>
+              <TouchableWithoutFeedback onPress={() => handleTab('My Songs')}>
+                <View
+                  style={[
+                    styles.tabTextWrapper,
+                    data.tab === 'My Songs' && styles.activeTabTextWrapper,
+                  ]}>
+                  <CustomText
+                    type={1}
+                    text="My Songs"
+                    style={[
+                      styles.tabText,
+                      data.tab === 'My Songs' && styles.activeTabText,
+                    ]}
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+
+              <TouchableWithoutFeedback onPress={() => handleTab('My Albums')}>
+                <View
+                  style={[
+                    styles.tabTextWrapper,
+                    data.tab === 'My Albums' && styles.activeTabTextWrapper,
+                  ]}>
+                  <CustomText
+                    type={1}
+                    text="My Albums"
+                    style={[
+                      styles.tabText,
+                      data.tab === 'My Albums' && styles.activeTabText,
+                    ]}
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+
+              {/* <TouchableWithoutFeedback onPress={() => handleTab('Top Seller')}>
+                <View
+                  style={[
+                    styles.tabTextWrapper,
+                    data.tab === 'Top Seller' && styles.activeTabTextWrapper,
+                  ]}>
+                  <CustomText
+                    type={1}
+                    text="Top Seller"
+                    style={[
+                      styles.tabText,
+                      data.tab === 'Top Seller' && styles.activeTabText,
+                    ]}
+                  />
+                </View>
+              </TouchableWithoutFeedback> */}
             </View>
           </View>
         </View>
