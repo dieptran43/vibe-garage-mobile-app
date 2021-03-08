@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   artistName: {
     marginBottom: 10,
-    fontSize: 13
+    fontSize: 13,
   },
   artistInfo: {
     marginLeft: 10,
@@ -76,8 +76,18 @@ const styles = StyleSheet.create({
   albumImage: {
     height: 55,
     width: 55,
-    marginRight: 15
+    marginRight: 15,
   },
+  albumName: {
+    width: '60%',
+  },
+  songDuration: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 'auto',
+  },
+  historyIcon: {fontSize: 12, marginLeft: 5},
 });
 
 export default styles;

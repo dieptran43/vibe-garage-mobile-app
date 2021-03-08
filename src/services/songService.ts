@@ -183,3 +183,20 @@ export const submitSong = ({token, payload}: any) => {
       });
   });
 };
+
+export const getSpotlight = () => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/spotlight`;
+    fetch(url, {
+      headers: {
+        Accept: 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};
