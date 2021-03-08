@@ -67,7 +67,7 @@ export default function SingleSongModal({onClose, album_id}: any) {
       } else {
         throw err;
       }
-      onClose();
+      // onClose();
     }
   };
 
@@ -128,18 +128,22 @@ export default function SingleSongModal({onClose, album_id}: any) {
       payload.append(key, JSON.stringify(value));
     }
     await submitSong({token, payload})
-      .then((response) => {
-        Toast.show({
-          type: 'success',
-          position: 'bottom',
-          text1: 'Upload successful!',
-          visibilityTime: 1000,
-        });
-        onClose();
+      .then((response: any) => {
+        if (response?.success) {
+          Toast.show({
+            type: 'success',
+            position: 'bottom',
+            text1: 'Upload successful!',
+            visibilityTime: 1000,
+          });
+          onClose();
+        } else {
+          setData(combineData(data, {isUploadingSong: false}));
+        }
       })
       .catch((error) => {
         console.error(error);
-        onClose();
+        setData(combineData(data, {isUploadingSong: false}));
       });
   };
 

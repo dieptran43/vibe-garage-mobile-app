@@ -172,7 +172,29 @@ const styles = StyleSheet.create({
   },
   waitText: {
     fontSize: 16,
-    marginTop: 10
+    marginTop: 10,
+  },
+  controlButtonsContainer: {
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  closeBtn: {
+    backgroundColor: '#ccc',
+    borderRadius: 5,
+    paddingHorizontal: 25,
+    paddingVertical: 12,
+  },
+  addSongBtn: {
+    borderRadius: 5,
+    paddingHorizontal: 25,
+    paddingVertical: 12,
+    backgroundColor: '#00bcd4',
+  },
+  boldText: {
+    fontWeight: 'bold',
   },
 });
 

@@ -19,9 +19,10 @@ export function Upload({navigation}: DrawerScreenProps<{}>) {
     setData(combineData(data, {uploadType: value}));
   };
 
-  const handleAddSongToAlbum = () => {
-    
-  }
+  const handleAddSongToAlbum = (album: any) => {
+    const album_id = album?.album_id;
+    setData(combineData(data, {uploadType: 'song', album_id}));
+  };
 
   return (
     <View style={styles.uploadContainer}>
@@ -73,8 +74,7 @@ export function Upload({navigation}: DrawerScreenProps<{}>) {
               customContent={() => (
                 <SingleAlbumModal
                   onClose={() => handleModal(null)}
-                  album_id={data?.album_id}
-                  onAddSong={()=>handleAddSongToAlbum}
+                  onAddSong={(album: any) => handleAddSongToAlbum(album)}
                 />
               )}></CustomModal>
           ) : null}

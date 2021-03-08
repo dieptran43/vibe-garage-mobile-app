@@ -21,7 +21,7 @@ import {submitAlbum} from '../../../services/albumService';
 import styles from './uploadStyle';
 import {CustomText} from '../../../components/Global';
 
-export default function SingleAlbumModal({onClose}: any) {
+export default function SingleAlbumModal({onClose, onAddSong}: any) {
   const {state, dispatch}: any = useContext(AuthContext);
   const token = state?.token;
 
@@ -36,7 +36,7 @@ export default function SingleAlbumModal({onClose}: any) {
     prices: [100, 200, 300, 500],
     isCreatingAlbum: false,
     canAddSong: false,
-    album_id: null
+    album: {},
   });
 
   const handlePickImage = async () => {
@@ -77,7 +77,7 @@ export default function SingleAlbumModal({onClose}: any) {
   };
 
   const handleSubmitAlbum = async () => {
-    setData(combineData(data, {isUploadingSong: true}));
+    setData(combineData(data, {isCreatingAlbum: true}));
 
     let {singleAlbum} = data;
     const payload = new FormData();
@@ -85,19 +85,39 @@ export default function SingleAlbumModal({onClose}: any) {
       payload.append(key, JSON.stringify(value));
     }
     await submitAlbum({token, payload})
-      .then((response) => {
-        Toast.show({
-          type: 'success',
-          position: 'bottom',
-          text1: 'Album created successfully!',
-          visibilityTime: 1000,
-        });
-        onClose();
+      .then((response: any) => {
+        if (response?.success) {
+          Toast.show({
+            type: 'success',
+            position: 'bottom',
+            text1: 'Album created successfully!',
+            visibilityTime: 1000,
+          });
+          const album = response?.album;
+          setData(
+            combineData(data, {
+              isCreatingAlbum: false,
+              canAddSong: true,
+              album,
+            }),
+          );
+        }else{
+          setData(
+            combineData(data, {
+              isCreatingAlbum: false,
+            }),
+          );
+        }
       })
       .catch((error) => {
         console.error(error);
         onClose();
       });
+  };
+
+  const handleAddSong = () => {
+    const {album} = data;
+    onAddSong(album);
   };
 
   return (
@@ -106,6 +126,17 @@ export default function SingleAlbumModal({onClose}: any) {
         <View style={styles.emptyContainer}>
           <ActivityIndicator size="large" color="#fff" />
           <CustomText type={1} text="Please wait..." style={styles.waitText} />
+        </View>
+      ) : data?.canAddSong ? (
+        <View style={styles.controlButtonsContainer}>
+          <TouchableOpacity style={styles.closeBtn} onPress={() => onClose()}>
+            <CustomText type={2} text="Close" style={styles.boldText} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.addSongBtn}
+            onPress={() => handleAddSong()}>
+            <CustomText type={1} text="Add Song" style={styles.boldText} />
+          </TouchableOpacity>
         </View>
       ) : (
         <ScrollView style={styles.scrollViewContent}>
