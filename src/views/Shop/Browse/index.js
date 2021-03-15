@@ -45,10 +45,10 @@ export function Browse({navigation}) {
           let songs = [],
             albums = [],
             topSeller = [];
-          if (storeSongsResponse && storeSongsResponse?.success) {
+          if (storeSongsResponse && storeSongsResponse?.songs) {
             songs = storeSongsResponse?.songs?.data;
           }
-          if (storeAlbumsResponse && storeAlbumsResponse?.success) {
+          if (storeAlbumsResponse && storeAlbumsResponse?.albums) {
             albums = storeAlbumsResponse?.albums?.data;
           }
           if (topSongsResponse && topSongsResponse?.success) {

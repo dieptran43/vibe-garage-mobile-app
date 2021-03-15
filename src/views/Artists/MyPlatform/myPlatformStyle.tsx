@@ -6,14 +6,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   myPlatformContent: {
-    position: 'relative',
-    display: 'flex',
-    height: '100%',
+    flex: 1,
   },
   bannerImage: {
     position: 'relative',
     width: '100%',
-    height: 150,
+    height: 120,
   },
   bannerImageBackground: {
     resizeMode: 'cover',
@@ -21,21 +19,22 @@ const styles = StyleSheet.create({
   },
   artisteImageContainer: {
     position: 'absolute',
-    top: 100,
+    top: 70,
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
   },
   artisteImage: {
-    borderRadius: 120,
-    height: 120,
-    width: 120,
+    borderRadius: 100,
+    height: 80,
+    width: 80,
   },
   myPlatformWrapper: {
     position: 'absolute',
-    top: 250,
+    top: 170,
     width: '100%',
+    height: '100%',
   },
   artisteNameText: {
     fontSize: 19,
@@ -46,15 +45,15 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 50,
-    marginLeft: 10
+    marginLeft: 10,
   },
   checkRow: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
   },
-  artisteUsername:{
-    marginBottom: 15
+  artisteUsername: {
+    marginBottom: 10,
   },
   artisteInfoWrapper: {
     display: 'flex',
@@ -64,7 +63,7 @@ const styles = StyleSheet.create({
   artisteFollowWrapper: {
     display: 'flex',
     flexDirection: 'row',
-    marginBottom: 20,
+    marginBottom: 15,
   },
   artisteFollowText: {
     fontSize: 15,
@@ -90,7 +89,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 40,
-    marginBottom: 30,
+    marginBottom: 15,
   },
   tabTextWrapper: {
     width: '30%',
@@ -106,11 +105,68 @@ const styles = StyleSheet.create({
   tabText: {
     fontSize: 15,
     textTransform: 'uppercase',
-    fontWeight: "bold"
+    fontWeight: 'bold',
   },
   activeTabText: {
     color: '#00bcd4',
   },
+  scrollViewContent: {
+    height: '100%',
+  },
+  singleSpotlightWrapper: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.15)',
+    paddingVertical: 20,
+  },
+  spotlightRowOne: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  spotlightRowTwo: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#222225',
+    padding: 16,
+    borderRadius: 3,
+  },
+  artistImage: {
+    height: 45,
+    width: 45,
+    borderRadius: 50,
+  },
+  artistName: {
+    marginBottom: 10,
+    fontSize: 13,
+  },
+  artistInfo: {
+    marginLeft: 10,
+    justifyContent: 'flex-start',
+  },
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  moreIcon: {
+    marginLeft: 'auto',
+  },
+  albumImage: {
+    height: 55,
+    width: 55,
+    marginRight: 15,
+  },
+  albumName: {
+    width: '60%',
+  },
+  songDuration: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 'auto',
+  },
+  historyIcon: {fontSize: 12, marginLeft: 5},
 });
 
 export default styles;

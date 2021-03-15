@@ -30,7 +30,6 @@ import GraphImage from '../assets/icons/graph-icon.png';
 import GenresImage from '../assets/icons/genres-icon.png';
 import BrowseImage from '../assets/icons/house-icon.png';
 import PurchaseImage from '../assets/icons/purchased-icon.png';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
