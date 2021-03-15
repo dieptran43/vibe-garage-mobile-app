@@ -17,8 +17,12 @@ import GraphImage from '../../../assets/icons/graph-icon.png';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './browseStyle';
-import {combineData, getFromOldUrl} from '../../../utils/helpers';
-import {storeAlbums, storeSongs, topSongs} from '../../../services/storeService';
+import {combineData, getFromOldUrl, getNumberOfYears} from '../../../utils/helpers';
+import {
+  storeAlbums,
+  storeSongs,
+  topSongs,
+} from '../../../services/storeService';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import {getScreenParent} from '../../../utils/navigationHelper';
 
@@ -62,22 +66,6 @@ export function Browse({navigation}) {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const getNumberOfYears = (dt) => {
-    let oldDate = new Date(`${dt}/01`);
-    let currentDate = new Date();
-    currentDate = currentDate.getFullYear() * 12 + currentDate.getMonth();
-    oldDate = oldDate.getFullYear() * 12 + oldDate.getMonth();
-    let difference = currentDate - oldDate;
-    let range;
-    if (difference < 12) {
-      range = difference > 1 ? 'months' : 'month';
-    } else {
-      difference = Math.ceil(difference / 12);
-      range = difference > 1 ? 'years' : 'year';
-    }
-    return `${difference} ${range} ago`;
   };
 
   const handleNavigation = (route, params) => {

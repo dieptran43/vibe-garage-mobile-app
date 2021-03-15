@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     height: '100%',
+    paddingHorizontal: 16
   },
   singleSpotlightWrapper: {
     borderBottomWidth: 1,
@@ -167,6 +168,58 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   historyIcon: {fontSize: 12, marginLeft: 5},
+  singleSongWrapper: {
+    backgroundColor: '#222225',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  sectionOne: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#363636',
+    paddingBottom: 10,
+    flex: 1,
+  },
+  songOwner: {
+    marginBottom: 15,
+  },
+  singleSongAvatar: {
+    height: 60,
+    width: 60,
+    marginRight: 20,
+  },
+  boughtTrackText: {
+    marginLeft: 'auto',
+    fontSize: 11,
+    marginBottom: 10,
+  },
+  purchaseWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginBottom: 10,
+  },
+  priceText: {
+    marginRight: 15,
+  },
+  purchaseText: {
+    color: '#fff',
+    backgroundColor: '#00bcd4',
+    borderRadius: 20,
+    textAlign: 'center',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    fontSize: 14,
+  },
+  songBottomRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });
 
 export default styles;

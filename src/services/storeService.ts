@@ -72,3 +72,41 @@ export const getPurchases = (token: String) => {
       });
   });
 };
+
+export const getSongs = (token: String) => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/my-songs`;
+    fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};
+
+export const getAlbums = (token: String) => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/my-albums`;
+    fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};

@@ -23,12 +23,13 @@ import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import BannerImage from '../../../assets/images/d-cover.jpg';
 import ArtisteImage from '../../../assets/images/d-avatar.jpg';
-import {combineData, getFromOldUrl} from '../../../utils/helpers';
+import {combineData, getFromOldUrl, getNumberOfYears} from '../../../utils/helpers';
 import {getSpotlight} from '../../../services/songService';
+import {getSongs, getAlbums} from '../../../services/storeService';
 
 export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
   const {state, dispatch}: any = useContext(AuthContext);
-  const user = state?.user;
+  const {user, token} = state || {};
 
   const [data, setData] = useState({
     tab: 'My Songs',
@@ -42,13 +43,17 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
 
   const handleSpotlight = async () => {
     try {
-      await getSpotlight()
-        .then((response: any) => {
-          let mySongs = [];
-          if (response && response?.spotlight) {
-            mySongs = response?.spotlight;
+      Promise.all([getSpotlight(), getAlbums(token)])
+        .then(([mySongsResponse, myAlbumsResponse]: any) => {
+          let mySongs = [],
+            myAlbums = [];
+          if (mySongsResponse && mySongsResponse?.spotlight) {
+            mySongs = mySongsResponse?.spotlight;
           }
-          setData(combineData(data, {mySongs}));
+          if (myAlbumsResponse && myAlbumsResponse?.albums) {
+            myAlbums = myAlbumsResponse?.albums;
+          }
+          setData(combineData(data, {mySongs, myAlbums}));
         })
         .catch((error) => {
           console.log(error);
@@ -222,6 +227,59 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
                           type={2}
                           text={spotlightItem?.duration}
                           style={styles.historyIcon}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+          ) : data?.tab === 'My Songs' ? (
+            <View style={styles.scrollViewContent}>
+              <ScrollView
+                contentContainerStyle={{flexGrow: 1}}
+                showsVerticalScrollIndicator={false}>
+                {data?.myAlbums?.map((album: any) => (
+                  <View
+                    style={styles.singleSongWrapper}
+                    key={shortid.generate()}>
+                    <Image
+                      source={{uri: getFromOldUrl(album?.thumbnail)}}
+                      style={styles.singleSongAvatar}
+                    />
+                    <View style={styles.sectionOne}>
+                      <View style={styles.songOwner}>
+                        <CustomText text={album?.title} type={1} />
+                        <CustomText text={album?.artistName} />
+                      </View>
+                      {album?.isPurchased ? (
+                        <CustomText
+                          size={12}
+                          text="You have bought this track."
+                          style={styles.boughtTrackText}
+                        />
+                      ) : (
+                        <View style={styles.purchaseWrapper}>
+                          <CustomText
+                            type={1}
+                            size={14}
+                            text={`₦${album?.price}`}
+                            style={styles.priceText}
+                          />
+                          <TouchableWithoutFeedback>
+                            <Text style={styles.purchaseText}>Purchase</Text>
+                          </TouchableWithoutFeedback>
+                        </View>
+                      )}
+                      <View style={styles.songBottomRow}>
+                        <CustomText
+                          type={1}
+                          text={getNumberOfYears(album?.registered)}
+                        />
+                        <Feather
+                          name="more-horizontal"
+                          size={20}
+                          color="#fff"
                         />
                       </View>
                     </View>
