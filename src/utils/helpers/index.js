@@ -1,4 +1,5 @@
 import {API_OLD_URL} from '@env';
+import {diff} from 'react-native-reanimated';
 
 export const combineData = (data, params) => {
   const obj = {};
@@ -18,12 +19,17 @@ export const getNumberOfYears = (dt) => {
   currentDate = currentDate.getFullYear() * 12 + currentDate.getMonth();
   oldDate = oldDate.getFullYear() * 12 + oldDate.getMonth();
   let difference = currentDate - oldDate;
-  let range;
-  if (difference < 12) {
-    range = difference > 1 ? 'months' : 'month';
+  let range, value;
+  if (difference < 1) {
+    value = 'Less than 1 month ago'
   } else {
-    difference = Math.ceil(difference / 12);
-    range = difference > 1 ? 'years' : 'year';
+    if (difference < 12) {
+      range = difference > 1 ? 'months' : 'month';
+    } else {
+      difference = Math.ceil(difference / 12);
+      range = difference > 1 ? 'years' : 'year';
+    }
+    value = `${difference} ${range} ago`;
   }
-  return `${difference} ${range} ago`;
+  return value;
 };

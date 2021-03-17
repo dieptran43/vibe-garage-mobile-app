@@ -23,7 +23,11 @@ import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import BannerImage from '../../../assets/images/d-cover.jpg';
 import ArtisteImage from '../../../assets/images/d-avatar.jpg';
-import {combineData, getFromOldUrl, getNumberOfYears} from '../../../utils/helpers';
+import {
+  combineData,
+  getFromOldUrl,
+  getNumberOfYears,
+} from '../../../utils/helpers';
 import {getSpotlight} from '../../../services/songService';
 import {getSongs, getAlbums} from '../../../services/storeService';
 
@@ -51,7 +55,7 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
             mySongs = mySongsResponse?.spotlight;
           }
           if (myAlbumsResponse && myAlbumsResponse?.albums) {
-            myAlbums = myAlbumsResponse?.albums;
+            myAlbums = myAlbumsResponse?.albums?.data;
           }
           setData(combineData(data, {mySongs, myAlbums}));
         })
@@ -121,7 +125,7 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
               />
               <CustomText
                 type={1}
-                text="Edit Profile"
+                text="Profile"
                 style={styles.editProfileText}
               />
             </TouchableOpacity>
@@ -234,7 +238,7 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
                 ))}
               </ScrollView>
             </View>
-          ) : data?.tab === 'My Songs' ? (
+          ) : data?.tab === 'My Albums' ? (
             <View style={styles.scrollViewContent}>
               <ScrollView
                 contentContainerStyle={{flexGrow: 1}}
@@ -252,25 +256,21 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
                         <CustomText text={album?.title} type={1} />
                         <CustomText text={album?.artistName} />
                       </View>
-                      {album?.isPurchased ? (
-                        <CustomText
-                          size={12}
-                          text="You have bought this track."
-                          style={styles.boughtTrackText}
-                        />
-                      ) : (
-                        <View style={styles.purchaseWrapper}>
+                      <View style={styles.purchaseWrapper}>
+                        {album?.price != 0 ? (
                           <CustomText
                             type={1}
                             size={14}
                             text={`₦${album?.price}`}
-                            style={styles.priceText}
                           />
-                          <TouchableWithoutFeedback>
-                            <Text style={styles.purchaseText}>Purchase</Text>
-                          </TouchableWithoutFeedback>
-                        </View>
-                      )}
+                        ) : (
+                          <CustomText
+                            type={1}
+                            size={14}
+                            text="Free"
+                          />
+                        )}
+                      </View>
                       <View style={styles.songBottomRow}>
                         <CustomText
                           type={1}

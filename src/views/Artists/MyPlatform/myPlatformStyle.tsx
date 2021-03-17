@@ -203,9 +203,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginBottom: 10,
   },
-  priceText: {
-    marginRight: 15,
-  },
   purchaseText: {
     color: '#fff',
     backgroundColor: '#00bcd4',
