@@ -67,6 +67,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     recommended: [] as any,
     moreView: null,
     canAddToPlaylist: false,
+    track_id: null,
   });
   const windowWidth = Dimensions.get('window').width;
   let scrollViewRef = createRef<ScrollView>();
@@ -161,7 +162,12 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
   };
 
   const handlePlaylist = (song: any) => {
-    setData(combineData(data, {canAddToPlaylist: true}));
+    const track_id = song?.track_id;
+    setData(combineData(data, {canAddToPlaylist: true, track_id}));
+  };
+
+  const handleCloseAddToPlaylist = () => {
+    setData(combineData(data, {canAddToPlaylist: false, track_id: null}));
   };
 
   return (
@@ -477,8 +483,9 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
       </ScrollView>
       {data?.canAddToPlaylist ? (
         <AddToPlaylist
-          onClose={() => setData(combineData(data, {canAddToPlaylist: false}))}
-          height="40%"
+          track_id={data?.track_id}
+          onClose={() => handleCloseAddToPlaylist()}
+          height="65%"
           width="100%"
         />
       ) : null}
