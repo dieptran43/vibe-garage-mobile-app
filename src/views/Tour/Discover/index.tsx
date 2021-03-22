@@ -18,7 +18,7 @@ import {DrawerScreenProps} from '@react-navigation/drawer';
 import shortid from 'shortid';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
-import {CustomText} from '../../../components/Global';
+import {CustomText, AddToPlaylist} from '../../../components/Global';
 import styles from './discoverStyle';
 import {combineData, getFromOldUrl} from '../../../utils/helpers';
 import {
@@ -31,7 +31,6 @@ import {ISong, IAlbum} from '../../../types/interfaces';
 import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import {getScreenParent} from '../../../utils/navigationHelper';
-import {AddToPlaylist} from '../../../components/Global';
 
 export function Discover({navigation}: DrawerScreenProps<{}>) {
   const {state, dispatch}: any = useContext(AuthContext);
@@ -108,8 +107,8 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
           combineData(data, {
             newReleases,
             recentlyPlayed,
-            recommended,
             mostPopularThisWeek,
+            recommended,
           }),
         );
       })
@@ -142,7 +141,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     setData(combineData(data, {recentlyPlayedScrollPosition}));
   };
 
-  const handleNavigation = (route: String, params: ISong) => {
+  const handleNavigation = (route: String, params?: ISong) => {
     setData(combineData(data, {moreView: null}));
     navigateToNestedRoute(getScreenParent(route), route, params);
   };
@@ -168,6 +167,24 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
 
   const handleCloseAddToPlaylist = () => {
     setData(combineData(data, {canAddToPlaylist: false, track_id: null}));
+  };
+
+  const handleModified = (param: any) => {
+    // console.log(param);
+    if (param === 'song_added_to_playlist') {
+      const {track_id} = data;
+    }
+  };
+
+  const handleMoreButton = (index: any, is_added_to_playlist: any) => {
+    if (token) {
+      // if(is_added_to_playlist)
+      handleSetMoreView(getMoreIndex('recommended', index));
+    } else {
+      navigateToNestedRoute('SingleStack', 'Login', {
+        screenFrom: 'Discover',
+      });
+    }
   };
 
   return (
@@ -379,13 +396,10 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                             {mostPopular?.song?.artist_data?.name}
                           </Text>
                         </View>
+
                         <View style={styles.moreWrapper}>
                           <TouchableOpacity
-                            onPress={() =>
-                              handleSetMoreView(
-                                getMoreIndex('recommended', index),
-                              )
-                            }>
+                            onPress={() => handleMoreButton(index, mostPopular?.song?.is_added_to_playlist)}>
                             <MaterialIcons
                               name="more-horiz"
                               style={styles.musicMoreIcon}
@@ -430,12 +444,10 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                   <TouchableOpacity
                     key={shortid.generate()}
                     style={styles.singleTopSong}
-                    onPress={() =>
-                      handleNavigation('Track', recommended?.song)
-                    }>
+                    onPress={() => handleNavigation('Track', recommended)}>
                     <Image
                       source={{
-                        uri: getFromOldUrl(recommended?.song?.thumbnail),
+                        uri: getFromOldUrl(recommended?.thumbnail),
                       }}
                       style={styles.topMusicImage}
                     />
@@ -444,37 +456,38 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                         style={styles.musicTitleText}
                         numberOfLines={1}
                         ellipsizeMode="tail">
-                        {recommended?.song?.title}
+                        {recommended?.title}
                       </Text>
                       <Text
                         style={styles.musicArtisteText}
                         numberOfLines={1}
                         ellipsizeMode="tail">
-                        {recommended?.song?.artist_data?.name}
+                        {recommended?.artist_data?.name}
                       </Text>
                     </View>
-                    <View style={styles.moreWrapper}>
-                      <TouchableOpacity
-                        onPress={() =>
-                          handleSetMoreView(getMoreIndex('recommended', index))
-                        }>
-                        <MaterialIcons
-                          name="more-horiz"
-                          style={styles.musicMoreIcon}
-                          color="#919191"
-                          size={25}
-                        />
-                      </TouchableOpacity>
-                      {data?.moreView === getMoreIndex('recommended', index) ? (
-                        <View style={styles.moreBtnsWrapper}>
-                          <TouchableOpacity
-                            style={styles.moreBtn}
-                            onPress={() => handlePlaylist(recommended)}>
-                            <CustomText type={1} text="Add to Playlist" />
-                          </TouchableOpacity>
-                        </View>
-                      ) : null}
-                    </View>
+                    {token ? (
+                      <View style={styles.moreWrapper}>
+                        <TouchableOpacity
+                          onPress={() => handleMoreButton(index, recommended?.is_added_to_playlist)}>
+                          <MaterialIcons
+                            name="more-horiz"
+                            style={styles.musicMoreIcon}
+                            color="#919191"
+                            size={25}
+                          />
+                        </TouchableOpacity>
+                        {data?.moreView ===
+                        getMoreIndex('recommended', index) ? (
+                          <View style={styles.moreBtnsWrapper}>
+                            <TouchableOpacity
+                              style={styles.moreBtn}
+                              onPress={() => handlePlaylist(recommended)}>
+                              <CustomText type={1} text="Add to Playlist" />
+                            </TouchableOpacity>
+                          </View>
+                        ) : null}
+                      </View>
+                    ) : null}
                   </TouchableOpacity>
                 ))}
             </View>
@@ -483,10 +496,11 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
       </ScrollView>
       {data?.canAddToPlaylist ? (
         <AddToPlaylist
-          track_id={data?.track_id}
-          onClose={() => handleCloseAddToPlaylist()}
           height="65%"
           width="100%"
+          track_id={data?.track_id}
+          onClose={() => handleCloseAddToPlaylist()}
+          handleModified={(param: any) => handleModified(param)}
         />
       ) : null}
     </View>

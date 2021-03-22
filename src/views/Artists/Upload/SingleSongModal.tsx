@@ -23,7 +23,7 @@ import {AuthContext} from '../../../context';
 import {combineData} from '../../../utils/helpers';
 import {submitSong} from '../../../services/songService';
 
-export default function SingleSongModal({onClose, album_id}: any) {
+export default function SingleSongModal({onClose, album_id, genres}: any) {
   const {state, dispatch}: any = useContext(AuthContext);
   const token = state?.token;
   const isFocused = useIsFocused();
@@ -129,6 +129,7 @@ export default function SingleSongModal({onClose, album_id}: any) {
     }
     await submitSong({token, payload})
       .then((response: any) => {
+        console.log(response);
         if (response?.success) {
           Toast.show({
             type: 'success',

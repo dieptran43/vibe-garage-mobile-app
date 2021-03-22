@@ -129,7 +129,7 @@ export const getTopSongsThisWeek = () => {
 
 export const getRecommendedSongs = () => {
   return new Promise((resolve, reject) => {
-    const url = `${API_BASE}/api/v1/top-songs-this-week`;
+    const url = `${API_BASE}/api/v1/recommended`;
     fetch(url, {
       headers: {
         Accept: 'application/json',

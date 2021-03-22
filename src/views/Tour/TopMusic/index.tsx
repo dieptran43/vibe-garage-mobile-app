@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, Image, ScrollView} from 'react-native';
+import React, {useState, useEffect, useContext} from 'react';
+import {View, Text, Image, ScrollView, TouchableOpacity} from 'react-native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import shortid from 'shortid';
@@ -12,13 +12,20 @@ import {combineData, getFromOldUrl} from '../../../utils/helpers';
 import {ISong, IAlbum} from '../../../types/interfaces';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import {getScreenParent} from '../../../utils/navigationHelper';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {AuthContext} from '../../../context';
+import {CustomText, AddToPlaylist} from '../../../components/Global';
 
 export function TopMusic({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
     topMusic: [],
     topAlbums: [],
+    moreView: null,
+    canAddToPlaylist: false,
+    track_id: null,
   });
+
+  const {state, dispatch}: any = useContext(AuthContext);
+  const token = state?.token;
 
   useEffect(() => {
     handleTopMusic();
@@ -46,6 +53,43 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
     navigateToNestedRoute(getScreenParent(route), route, params);
   };
 
+  const handleSetMoreView = (index: any) => {
+    let {moreView} = data;
+    if (moreView === index) {
+      moreView = null;
+    } else {
+      moreView = index;
+    }
+    setData(combineData(data, {moreView}));
+  };
+
+  const handleMoreButton = (index: any, is_added_to_playlist: any) => {
+    if (token) {
+      // if(is_added_to_playlist)
+      handleSetMoreView(index);
+    } else {
+      navigateToNestedRoute('SingleStack', 'Login', {
+        screenFrom: 'TopMusic',
+      });
+    }
+  };
+
+  const handlePlaylist = (song: any) => {
+    const track_id = song?.track_id;
+    setData(combineData(data, {canAddToPlaylist: true, track_id}));
+  };
+
+  const handleCloseAddToPlaylist = () => {
+    setData(combineData(data, {canAddToPlaylist: false, track_id: null}));
+  };
+
+  const handleModified = (param: any) => {
+    // console.log(param);
+    if (param === 'song_added_to_playlist') {
+      const {track_id} = data;
+    }
+  };
+
   return (
     <View style={styles.topMusicContainer}>
       <NavDrawerHeader navigation={navigation} />
@@ -58,7 +102,7 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
               </View>
               <Text style={styles.topMusicText}>Top Music</Text>
             </View>
-            <Text style={styles.showAllText}>SHOW ALL</Text>
+            {/* <Text style={styles.showAllText}>SHOW ALL</Text> */}
           </View>
           <View style={styles.topSongsContent}>
             {data?.topMusic?.length ? (
@@ -89,17 +133,33 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
                           {music?.artist_data?.name}
                         </Text>
                       </View>
-                      <MaterialIcons
-                        name="more-horiz"
-                        style={styles.musicMoreIcon}
-                        color="#919191"
-                        size={25}
-                      />
+                      <View style={styles.moreWrapper}>
+                        <TouchableOpacity
+                          onPress={() =>
+                            handleMoreButton(index, music?.is_added_to_playlist)
+                          }>
+                          <MaterialIcons
+                            name="more-horiz"
+                            style={styles.musicMoreIcon}
+                            color="#919191"
+                            size={25}
+                          />
+                        </TouchableOpacity>
+                        {data?.moreView === index ? (
+                          <View style={styles.moreBtnsWrapper}>
+                            <TouchableOpacity
+                              style={styles.moreBtn}
+                              onPress={() => handlePlaylist(music)}>
+                              <CustomText type={1} text="Add to Playlist" />
+                            </TouchableOpacity>
+                          </View>
+                        ) : null}
+                      </View>
                     </TouchableOpacity>
                   ))}
                 </View>
                 {data?.topMusic?.length > 10 ? (
-                  <Text style={styles.seeAllTopSongsText}>See All</Text>
+                  <Text style={styles.seeAllTopSongsText}>See More</Text>
                 ) : null}
               </>
             ) : (
@@ -143,7 +203,7 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
                     </View>
                   ))}
                 </View>
-                <Text style={styles.seeAllTopSongsText}>See All</Text>
+                <Text style={styles.seeAllTopSongsText}>See More</Text>
               </>
             ) : (
               <View style={styles.noneFoundWrapper}>
@@ -153,6 +213,15 @@ export function TopMusic({navigation}: DrawerScreenProps<{}>) {
           </View>
         </View>
       </ScrollView>
+      {data?.canAddToPlaylist ? (
+        <AddToPlaylist
+          height="65%"
+          width="100%"
+          track_id={data?.track_id}
+          onClose={() => handleCloseAddToPlaylist()}
+          handleModified={(param: any) => handleModified(param)}
+        />
+      ) : null}
     </View>
   );
 }

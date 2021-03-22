@@ -110,3 +110,21 @@ export const getAlbums = (token: String) => {
       });
   });
 };
+
+export const getCategories = () => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/categories`;
+    fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};

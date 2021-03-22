@@ -122,16 +122,20 @@ export function AddToPlaylist({
         const createPlayListData = {name, thumbnail, privacy} as any;
         const payload = new FormData();
         for (let [key, value] of Object.entries(createPlayListData)) {
-          payload.append(key, JSON.stringify(value));
+          payload.append(key, value);
         }
 
         await createPlaylist({token, payload})
           .then((response: any) => {
-            console.log(response);
             if (response && response?.success) {
-              myPlaylist = [...myPlaylist, ...response?.playlist];
+              myPlaylist = myPlaylist.push(response?.playlist);
+              thumbnail = null;
+              privacy = 0;
+              name = '';
             }
-            setData(combineData(data, {isLoading: false}));
+            setData(
+              combineData(data, {isLoading: false, thumbnail, privacy, name}),
+            );
           })
           .catch((error) => {
             console.log(error);
@@ -151,7 +155,7 @@ export function AddToPlaylist({
                 }
                 return playlist;
               });
-              handleModified('added_to_playlist');
+              handleModified('song_added_to_playlist');
             }
             setData(combineData(data, {myPlaylist, isLoading: false}));
           })

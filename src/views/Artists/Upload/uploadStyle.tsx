@@ -195,6 +195,13 @@ const styles = StyleSheet.create({
   },
   boldText: {
     fontWeight: 'bold',
+    color: '#fff',
+  },
+  albumTitleText: {
+    fontWeight: 'bold',
+    color: '#fff',
+    fontSize: 16,
+    marginBottom: 30,
   },
 });
 

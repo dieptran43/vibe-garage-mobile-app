@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, TouchableOpacity, ScrollView} from 'react-native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -8,12 +8,18 @@ import SingleSongModal from './SingleSongModal';
 import SingleAlbumModal from './SingleAlbumModal';
 import styles from './uploadStyle';
 import {combineData} from '../../../utils/helpers';
+import {getCategories} from '../../../services/storeService';
 
 export function Upload({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
     uploadType: '',
     album_id: 0,
+    genres: [] as any,
   });
+
+  useEffect(() => {
+    handleCategories();
+  }, []);
 
   const handleModal = (value: any) => {
     setData(combineData(data, {uploadType: value}));
@@ -22,6 +28,34 @@ export function Upload({navigation}: DrawerScreenProps<{}>) {
   const handleAddSongToAlbum = (album: any) => {
     const album_id = album?.album_id;
     setData(combineData(data, {uploadType: 'song', album_id}));
+  };
+
+  const handleCategories = async () => {
+    try {
+      await getCategories()
+        .then((response: any) => {
+          let genres = [];
+          if (response && response?.success) {
+            genres = response?.categories;
+            genres = genres?.reduce(
+              (acc: any, category: any, index: any) => {
+                const obj = {} as any;
+                obj.label = category?.cateogry_name;
+                obj.value = category?.id;
+                acc[index] = obj;
+                return acc;
+              },
+              [],
+            );
+          }
+          setData(combineData(data, {genres}));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -63,6 +97,7 @@ export function Upload({navigation}: DrawerScreenProps<{}>) {
                 <SingleSongModal
                   onClose={() => handleModal(null)}
                   album_id={data?.album_id}
+                  genres={data?.genres}
                 />
               )}></CustomModal>
           ) : data?.uploadType === 'album' ? (
@@ -75,6 +110,7 @@ export function Upload({navigation}: DrawerScreenProps<{}>) {
                 <SingleAlbumModal
                   onClose={() => handleModal(null)}
                   onAddSong={(album: any) => handleAddSongToAlbum(album)}
+                  genres={data?.genres}
                 />
               )}></CustomModal>
           ) : null}

@@ -5,6 +5,7 @@ export interface ISong {
   artist_data?: {
     [key: string]: IArtist;
   };
+  is_added_to_playlist?: Boolean
 }
 
 export interface IAlbum {

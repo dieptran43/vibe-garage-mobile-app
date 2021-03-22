@@ -21,22 +21,18 @@ import {submitAlbum} from '../../../services/albumService';
 import styles from './uploadStyle';
 import {CustomText} from '../../../components/Global';
 
-export default function SingleAlbumModal({onClose, onAddSong}: any) {
+export default function SingleAlbumModal({onClose, onAddSong, genres}: any) {
   const {state, dispatch}: any = useContext(AuthContext);
   const token = state?.token;
 
   const [data, setData] = useState({
     singleAlbum: {} as any,
-    genres: [
-      {label: 'Other', value: 'Other'},
-      {label: 'Afro', value: 'Afro'},
-      {label: 'Gospel', value: 'Gospel'},
-      {label: 'Reggae', value: 'Reggae'},
-    ],
     prices: [100, 200, 300, 500],
     isCreatingAlbum: false,
     canAddSong: false,
-    album: {},
+    album: {} as any,
+    category_id: null,
+    genres: [] as any,
   });
 
   const handlePickImage = async () => {
@@ -64,7 +60,7 @@ export default function SingleAlbumModal({onClose, onAddSong}: any) {
     } else if (field === 'albumDescription') {
       singleAlbum.description = value;
     } else if (field === 'albumGenres') {
-      singleAlbum.genre = value;
+      singleAlbum.category_id = value;
     } else if (field === 'albumPrice') {
       singleAlbum.price = value;
     }
@@ -73,7 +69,7 @@ export default function SingleAlbumModal({onClose, onAddSong}: any) {
 
   const hasFilledAllFields = () => {
     let {singleAlbum} = data;
-    return singleAlbum.title && singleAlbum.genre;
+    return singleAlbum.title && singleAlbum.category_id;
   };
 
   const handleSubmitAlbum = async () => {
@@ -82,10 +78,11 @@ export default function SingleAlbumModal({onClose, onAddSong}: any) {
     let {singleAlbum} = data;
     const payload = new FormData();
     for (let [key, value] of Object.entries(singleAlbum)) {
-      payload.append(key, JSON.stringify(value));
+      payload.append(key, value);
     }
     await submitAlbum({token, payload})
       .then((response: any) => {
+        console.log(response);
         if (response?.success) {
           Toast.show({
             type: 'success',
@@ -101,7 +98,7 @@ export default function SingleAlbumModal({onClose, onAddSong}: any) {
               album,
             }),
           );
-        }else{
+        } else {
           setData(
             combineData(data, {
               isCreatingAlbum: false,
@@ -128,15 +125,18 @@ export default function SingleAlbumModal({onClose, onAddSong}: any) {
           <CustomText type={1} text="Please wait..." style={styles.waitText} />
         </View>
       ) : data?.canAddSong ? (
-        <View style={styles.controlButtonsContainer}>
-          <TouchableOpacity style={styles.closeBtn} onPress={() => onClose()}>
-            <CustomText type={2} text="Close" style={styles.boldText} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.addSongBtn}
-            onPress={() => handleAddSong()}>
-            <CustomText type={1} text="Add Song" style={styles.boldText} />
-          </TouchableOpacity>
+        <View>
+          <Text style={styles.albumTitleText}>{data?.album?.title}</Text>
+          <View style={styles.controlButtonsContainer}>
+            <TouchableOpacity style={styles.closeBtn} onPress={() => onClose()}>
+              <CustomText type={2} text="Close" style={styles.boldText} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.addSongBtn}
+              onPress={() => handleAddSong()}>
+              <Text style={styles.boldText}>Add song to album</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       ) : (
         <ScrollView style={styles.scrollViewContent}>
@@ -207,7 +207,7 @@ export default function SingleAlbumModal({onClose, onAddSong}: any) {
             </View>
             <DropDownPicker
               placeholderStyle={{color: '#ccc'}}
-              items={data?.genres}
+              items={genres || []}
               containerStyle={{height: 40, marginBottom: 30, marginTop: 10}}
               style={{
                 backgroundColor: '#000',
