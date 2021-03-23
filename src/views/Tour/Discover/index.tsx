@@ -2,15 +2,10 @@ import React, {useState, createRef, useContext, useEffect} from 'react';
 import {
   View,
   Text,
-  TextInput,
-  Pressable,
   Image,
   TouchableOpacity,
-  KeyboardAvoidingView,
   ScrollView,
   Dimensions,
-  FlatList,
-  ScrollViewProps,
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -27,6 +22,7 @@ import {
   getTopSongsThisWeek,
   getRecommendedSongs,
 } from '../../../services/songService';
+import {getCarouselPlaylist} from '../../../services/storeService';
 import {ISong, IAlbum} from '../../../types/interfaces';
 import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
@@ -35,28 +31,7 @@ import {getScreenParent} from '../../../utils/navigationHelper';
 export function Discover({navigation}: DrawerScreenProps<{}>) {
   const {state, dispatch}: any = useContext(AuthContext);
   const [data, setData] = useState({
-    carouselItems: [
-      {
-        title: 'October special',
-        image:
-          'https://musicport.com.ng/upload/photos/2019/10/NuJHxVutEiIgT86CcFqr_06_6dfa801e8668b414c32232e7c8b93426_image.jpg',
-      },
-      {
-        title: 'LABIS BOY_MAN OF THE YEAR.mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2019/10/J7qytBWEsADF5zBsC6Os_17_98885479029d3e547509c8e8ea8d1e3b_image.jpg',
-      },
-      {
-        title: 'November TOP 5',
-        image:
-          'https://musicport.com.ng/upload/photos/2019/11/wbWF1rYguTq8JtKZIaM6_22_a47c1c30c1e7318a49df8de5748a9ea7_image.jpeg',
-      },
-      {
-        title: 'Exhausted (I don tire).mp3',
-        image:
-          'https://musicport.com.ng/upload/photos/2020/01/MUDLnD9cXKhvkVJuUGAK_29_0c0801563af4b03dea742996a6cde2e0_image.png',
-      },
-    ] as any,
+    carouselItems: [] as any,
     recentlyPlayed: [] as any,
     recentlyPlayedScrollPosition: 0,
     newReleases: [] as any,
@@ -77,34 +52,39 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
   }, []);
 
   const handleRequests = async () => {
-    let {newReleasesPageNo} = data;
-
     await Promise.all([
-      getNewReleases(newReleasesPageNo),
+      getCarouselPlaylist(),
       getRecentlyPlayed(token),
+      getNewReleases(),
       getTopSongsThisWeek(),
       getRecommendedSongs(),
     ])
-      .then(([response, response1, response2, response3]: any) => {
-        let newReleases: any = [],
+      .then(([response0, response1, response2, response3, response4]: any) => {
+        let carouselItems: any = [],
+          newReleases: any = [],
           recentlyPlayed: any = [],
           mostPopularThisWeek: any = [],
           recommended: any = [];
 
-        if (response && response?.success) {
-          newReleases = response?.songs?.data;
+        if (response0 && response0?.success) {
+          carouselItems = response0?.playlists;
         }
         if (response1 && response1?.success) {
           recentlyPlayed = response1?.recentlyPlayed?.data;
         }
         if (response2 && response2?.success) {
-          mostPopularThisWeek = response2?.songs;
+          newReleases = response2?.songs?.data;
         }
         if (response3 && response3?.success) {
-          recommended = response3?.songs;
+          mostPopularThisWeek = response3?.songs;
         }
+        if (response4 && response4?.success) {
+          recommended = response4?.songs;
+        }
+
         setData(
           combineData(data, {
+            carouselItems,
             newReleases,
             recentlyPlayed,
             mostPopularThisWeek,
@@ -120,8 +100,11 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
   const _renderItem = ({item}: any) => {
     return (
       <View style={styles.carouselContainer}>
-        <Image source={{uri: item?.image}} style={styles.carouselImage} />
-        <Text style={styles.carouselText}>{item.title}</Text>
+        <Image
+          source={{uri: getFromOldUrl(item?.thumbnail)}}
+          style={styles.carouselImage}
+        />
+        <Text style={styles.carouselText}>{item?.name}</Text>
       </View>
     );
   };
@@ -191,15 +174,17 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     <View style={styles.discoverContainer}>
       <NavDrawerHeader navigation={navigation} />
       <ScrollView style={styles.scrollViewContent}>
-        <Carousel
-          layout={'default'}
-          data={data.carouselItems}
-          sliderWidth={windowWidth}
-          itemWidth={windowWidth}
-          renderItem={_renderItem}
-          onSnapToItem={(index: any) => console.log(index)}
-          style={styles.carouselContent}
-        />
+        <View style={styles.carouselWrapper}>
+          <Carousel
+            layout={'default'}
+            data={data.carouselItems}
+            sliderWidth={windowWidth}
+            itemWidth={windowWidth}
+            renderItem={_renderItem}
+            onSnapToItem={(index: any) => console.log(index)}
+            style={styles.carouselContent}
+          />
+        </View>
         <View style={styles.contentWrapper}>
           <View style={styles.contentRow}>
             <View style={styles.rowTag}>
@@ -315,7 +300,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
               </View>
             </View>
             <ScrollView style={{marginTop: 16}} horizontal ref={scrollViewRef}>
-              {data?.newReleases ? (
+              {data?.newReleases?.length ? (
                 data?.newReleases.map((newRelease: ISong, index: Number) => (
                   <TouchableOpacity
                     style={[

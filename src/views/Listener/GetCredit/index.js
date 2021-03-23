@@ -15,9 +15,9 @@ import {
 } from '@react-native-firebase/admob';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
-import styles from './getCreditStyle';
 import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
+import styles from './getCreditStyle';
 
 export function GetCredit({navigation}) {
   const {state, dispatch} = useContext(AuthContext);
@@ -26,7 +26,18 @@ export function GetCredit({navigation}) {
   const [data, setData] = useState({wallet, credit: 0, loaded: false});
   const isFocused = useIsFocused();
   const paystackWebViewRef = useRef();
-  let eventListener;
+
+  useEffect(() => {
+    handleCheckLogin();
+  }, [isFocused]);
+
+  const handleCheckLogin = () => {
+    if (!state?.isLoggedIn) {
+      navigateToNestedRoute('SingleStack', 'Login', {
+        screenFrom: 'GetCredit',
+      });
+    }
+  };
 
   const handlePaymentSuccess = () => {
     let {wallet, credit} = data;

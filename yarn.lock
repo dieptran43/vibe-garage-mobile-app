@@ -1446,6 +1446,11 @@
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
+"@react-native-firebase/auth@^11.1.2":
+  version "11.1.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-11.1.2.tgz#f313c7edb9f38a700b4ce3b82b4873bd489667f6"
+  integrity sha512-YAaOrSkx9BNZkWJWXBwFkWzVRo9JKFwz/AQsMx9ubi+4L/Amrj4ICfB7Pjvq98tvE/Zpv3fuiTeX2FU/j2KEUA==
+
 "@react-navigation/core@^5.14.4":
   version "5.14.4"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-5.14.4.tgz#f63a2cd214bddbd25e1181f9335c32dfc3b6460f"
@@ -1663,6 +1668,14 @@
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@types/react-native-dotenv/-/react-native-dotenv-0.2.0.tgz#32c58422a422c1adf68acce363ed791314d5a8e7"
   integrity sha512-ZxX+dU/yoQc0jTk+/NWttkiuXceJyN5FpOSqDl0WynN5GDzxwH7OMruQ47qcY8llo2RD3irjvzJ9BwC8gDiq0A==
+
+"@types/react-native-fbsdk@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-native-fbsdk/-/react-native-fbsdk-3.0.0.tgz#612a89a54ea5ab75f8e4edb39c89748f70b2251f"
+  integrity sha512-QTTL4vcKf74PSfjDYt7OCxT/71FFP5NQxG4L/oQMT1dASzOVLlkWDtmfGy2bti5kiVIUaL1YfVDCjoYn2eELGA==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
 
 "@types/react-native-snap-carousel@^3.8.2":
   version "3.8.2"
@@ -6825,6 +6838,11 @@ react-native-dropdown-picker@^3.8.0:
   integrity sha512-r692A4gmJAdSzUrJs6Uu3XRxh/ZSuzuuHCdJGdUeQVP8o+15E4Le5Tj76DpOy7IOxSlHadEE8BzMFFupwNDZAQ==
   dependencies:
     react-native-vector-icons "^7.0.0"
+
+react-native-fbsdk@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-3.0.0.tgz#07ef41758bb17a0acaff744008af625a45ef9a01"
+  integrity sha512-i0JocuzLlGk13J0xFDjm8GlX7SADAL2kh/syE/HOn5HHdW+PFjC31MNj5AtzIw2TicHXpHGO6VPKNfdWFbxboA==
 
 react-native-gesture-handler@^1.9.0:
   version "1.9.0"

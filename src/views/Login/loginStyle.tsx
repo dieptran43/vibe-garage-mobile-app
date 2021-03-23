@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: 20,
   },
   loginBtnWrapperEnabled: {
     backgroundColor: '#800000',
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   marginBottom20: {
-    marginBottom: 20,
+    marginBottom: 40,
   },
   grayText: {
     color: '#838383',
@@ -73,6 +73,25 @@ const styles = StyleSheet.create({
   },
   goldText: {
     color: '#CCAB52',
+  },
+  facebookBtnWrapper: {
+    width: '85%',
+    borderRadius: 5,
+    height: 45,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4d68a1',
+    flexDirection: 'row',
+  },
+  fbIcon: {
+    marginLeft: 30,
+    marginRight: 'auto',
+  },
+  loginFbBtnText: {
+    color: '#fff',
+    fontSize: 16,
+    marginRight: 'auto',
   },
 });
 

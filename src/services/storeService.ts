@@ -128,3 +128,21 @@ export const getCategories = () => {
       });
   });
 };
+
+export const getCarouselPlaylist = () => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/public-playlist-discovered`;
+    fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};

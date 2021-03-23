@@ -12,8 +12,11 @@ import {
 } from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {useFocusEffect} from '@react-navigation/native';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import * as Keychain from 'react-native-keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import auth from '@react-native-firebase/auth';
+import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import styles from './loginStyle';
 import Logo from '../../assets/images/logo.jpg';
 import {navigateToNestedRoute} from '../../navigators/RootNavigation';
@@ -126,6 +129,37 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
     });
   };
 
+  const handleLoginWithFb = async () => {
+    try {
+      // Attempt login with permissions
+      const result = await LoginManager.logInWithPermissions([
+        'public_profile',
+        'email',
+      ]);
+
+      if (result.isCancelled) {
+        throw 'User cancelled the login process';
+      }
+
+      // Once signed in, get the users AccesToken
+      const data = await AccessToken.getCurrentAccessToken();
+
+      if (!data) {
+        throw 'Something went wrong obtaining access token';
+      }
+
+      // Create a Firebase credential with the AccessToken
+      const facebookCredential = auth.FacebookAuthProvider.credential(
+        data.accessToken,
+      );
+
+      // Sign-in the user with the credential
+      return auth().signInWithCredential(facebookCredential);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <View style={styles.loginContainer}>
       <KeyboardAvoidingView enabled>
@@ -173,6 +207,17 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
               <Text style={styles.goldText}>Sign Up</Text>
             </TouchableOpacity>
           </View>
+          <TouchableOpacity
+            style={styles.facebookBtnWrapper}
+            onPress={() => handleLoginWithFb()}>
+            <Fontisto
+              name="facebook"
+              size={22}
+              color="#fff"
+              style={styles.fbIcon}
+            />
+            <Text style={styles.loginFbBtnText}>Login with Facebook</Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </View>

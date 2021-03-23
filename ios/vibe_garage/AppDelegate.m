@@ -27,7 +27,21 @@ static void InitializeFlipper(UIApplication *application) {
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)application:(UIApplication *)application 
+  openURL:(NSURL *)url //Added this line for Facebook SDK
+  options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options //Added this line for Facebook SDK
+  didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+  if ([[FBSDKApplicationDelegate sharedInstance] application:app openURL:url options:options]) {
+    return YES;
+  }
+
+  if ([RCTLinkingManager application:app openURL:url options:options]) {
+    return YES;
+  }
+
+  return NO;
+}
 {
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);

@@ -11,6 +11,9 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     height: '100%',
   },
+  carouselWrapper: {
+    height: 250,
+  },
   carouselContainer: {
     backgroundColor: 'floralwhite',
     borderRadius: 5,
@@ -168,7 +171,7 @@ const styles = StyleSheet.create({
     elevation: 20,
   },
   moreBtn: {
-    paddingVertical: 12
+    paddingVertical: 12,
   },
 });
 

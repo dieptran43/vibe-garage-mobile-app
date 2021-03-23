@@ -2,16 +2,12 @@ import React, {useState, createRef, useEffect} from 'react';
 import {
   View,
   Text,
-  TextInput,
-  Pressable,
   Image,
   TouchableOpacity,
-  KeyboardAvoidingView,
   ScrollView,
   Dimensions,
 } from 'react-native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
-import Feather from 'react-native-vector-icons/Feather';
 import shortid from 'shortid';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
