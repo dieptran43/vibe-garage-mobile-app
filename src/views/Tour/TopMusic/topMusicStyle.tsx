@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2f2f2f',
     borderRadius: 5,
     width: 125,
-    zIndex: 2,
+    zIndex: 10,
     paddingLeft: 15,
     // paddingVertical: 5,
     shadowColor: '#000',

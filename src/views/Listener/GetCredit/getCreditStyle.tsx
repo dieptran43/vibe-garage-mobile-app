@@ -10,26 +10,35 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   layoutContent: {
-    marginTop: 40,
-    borderTopColor: '#00bcd4',
-    borderTopWidth: 2.5,
-    borderRadius: 5,
+    marginTop: 20,
     paddingHorizontal: 10,
     paddingVertical: 15,
     display: 'flex',
+  },
+  layoutWrapper: {
+    borderTopColor: '#00bcd4',
+    borderTopWidth: 2.5,
+    borderRadius: 5,
+  },
+  orText: {
+    marginVertical: 40,
+    fontSize: 25,
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   walletInfoRow: {
     display: 'flex',
     flexDirection: 'row',
   },
   getCreditText: {
-    fontSize: 22,
-    marginBottom: 30,
+    fontSize: 18,
+    marginBottom: 20,
     fontWeight: 'bold',
+    marginTop: 10,
   },
   walletText: {
-    fontSize: 20,
-    marginBottom: 30,
+    fontSize: 16,
+    marginBottom: 20,
     fontWeight: 'bold',
     textTransform: 'capitalize',
   },
@@ -40,9 +49,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#171719',
     borderRadius: 5,
     height: 40,
-    marginBottom: 40,
+    marginBottom: 10,
     color: '#fff',
-    fontSize: 16
+    fontSize: 14,
   },
   divider: {
     borderTopColor: 'gray',
@@ -64,6 +73,19 @@ const styles = StyleSheet.create({
   },
   payWithText: {
     fontWeight: 'bold',
+  },
+  btnStart: {
+    borderRadius: 5,
+    alignSelf: 'center',
+    backgroundColor: '#00bcd4',
+    paddingHorizontal: 70,
+    paddingVertical: 15,
+    marginTop: 20,
+  },
+  startText: {
+    fontWeight: 'bold',
+    color: '#fff',
+    fontSize: 15
   },
 });
 

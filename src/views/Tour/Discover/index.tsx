@@ -399,7 +399,12 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
 
                         <View style={styles.moreWrapper}>
                           <TouchableOpacity
-                            onPress={() => handleMoreButton(index, mostPopular?.song?.is_added_to_playlist)}>
+                            onPress={() =>
+                              handleMoreButton(
+                                index,
+                                mostPopular?.song?.is_added_to_playlist,
+                              )
+                            }>
                             <MaterialIcons
                               name="more-horiz"
                               style={styles.musicMoreIcon}
@@ -468,7 +473,12 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                     {token ? (
                       <View style={styles.moreWrapper}>
                         <TouchableOpacity
-                          onPress={() => handleMoreButton(index, recommended?.is_added_to_playlist)}>
+                          onPress={() =>
+                            handleMoreButton(
+                              index,
+                              recommended?.is_added_to_playlist,
+                            )
+                          }>
                           <MaterialIcons
                             name="more-horiz"
                             style={styles.musicMoreIcon}
