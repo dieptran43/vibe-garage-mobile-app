@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
   areaContainer: {
     flex: 1,
     position: 'relative',
+    paddingBottom: 50
   },
   bottomContainer: {
     position: 'absolute',
