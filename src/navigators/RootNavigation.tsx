@@ -12,6 +12,7 @@ export function navigateToNestedRoute(parent: any, route: any, params?: any) {
   navigationRef.current?.navigate(parent, {screen: route, params});
 }
 
+
 // export function navigate(name, params) {
 //   if (isReadyRef.current && navigationRef.current) {
 //     // Perform navigation if the app has mounted

@@ -25,6 +25,8 @@ import {
   BecomeAnArtist,
   MyPlatform,
   Track,
+  Profile,
+  SubscribeToPremium
 } from '../views';
 import GraphImage from '../assets/icons/graph-icon.png';
 import GenresImage from '../assets/icons/genres-icon.png';
@@ -237,6 +239,22 @@ const DrawerStack = () => {
       <Drawer.Screen
         name="Track"
         component={Track}
+        options={{
+          drawerLabel: ({focused, color}) => null,
+          drawerIcon: ({focused, size}) => null,
+        }}
+      />
+      <Drawer.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          drawerLabel: ({focused, color}) => null,
+          drawerIcon: ({focused, size}) => null,
+        }}
+      />
+      <Drawer.Screen
+        name="SubscribeToPremium"
+        component={SubscribeToPremium}
         options={{
           drawerLabel: ({focused, color}) => null,
           drawerIcon: ({focused, size}) => null,

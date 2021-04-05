@@ -25,13 +25,14 @@ export default function NavDrawerHeader({navigation}: any) {
     navigation?.openDrawer();
   };
 
-  const handleLogout = async () => {
+  const handleLogout = async () => {    
+    await AsyncStorage.clear();
+    await Keychain.resetGenericPassword();
     await dispatch({
       type: 'populateUser',
       payload: {user: {}, isLoggedIn: false},
     });
-    await AsyncStorage.clear();
-    await Keychain.resetGenericPassword();
+    handleNavigation('Discover')
   };
 
   const handleNavigation = (route: String) => {
@@ -82,8 +83,11 @@ export default function NavDrawerHeader({navigation}: any) {
                     </MenuOption>
                   </>
                 ) : null}
-                <MenuOption onSelect={() => handleNavigation('GetCredit')}>
+                <MenuOption onSelect={() => handleNavigation('SubscribeToPremium')}>
                   <Text style={styles.menuOptionText}>Subscribe to Premium</Text>
+                </MenuOption>
+                <MenuOption onSelect={() => handleNavigation('Profile')}>
+                  <Text style={styles.menuOptionText}>Profile</Text>
                 </MenuOption>
                 <MenuOption onSelect={() => handleLogout()}>
                   <Text style={styles.menuOptionText}>Logout</Text>

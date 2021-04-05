@@ -21,6 +21,7 @@ import {CustomText} from '../../../components/Global';
 import styles from './myPlatformStyle';
 import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
+import {getScreenParent} from '../../../utils/navigationHelper';
 import BannerImage from '../../../assets/images/d-cover.jpg';
 import ArtisteImage from '../../../assets/images/d-avatar.jpg';
 import {
@@ -71,6 +72,10 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
     setData(combineData(data, {tab}));
   };
 
+  const handleNavigation = (route: String) => {
+    navigateToNestedRoute(getScreenParent(route), route);
+  };
+
   return (
     <View style={styles.myPlatformContainer}>
       <NavDrawerHeader navigation={navigation} />
@@ -117,7 +122,9 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
                 style={styles.artisteFollowText}
               />
             </View>
-            <TouchableOpacity style={styles.editProfileWrapper}>
+            <TouchableOpacity
+              style={styles.editProfileWrapper}
+              onPress={() => handleNavigation('Profile')}>
               <MaterialCommunityIcons
                 name="account-edit"
                 size={20}
@@ -264,11 +271,7 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
                             text={`₦${album?.price}`}
                           />
                         ) : (
-                          <CustomText
-                            type={1}
-                            size={14}
-                            text="Free"
-                          />
+                          <CustomText type={1} size={14} text="Free" />
                         )}
                       </View>
                       <View style={styles.songBottomRow}>

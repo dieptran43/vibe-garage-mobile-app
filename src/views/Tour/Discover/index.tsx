@@ -1,4 +1,4 @@
-import React, {useState, createRef, useContext, useEffect} from 'react';
+import React, {useState, createRef, useContext, useEffect, useCallback} from 'react';
 import {
   View,
   Text,
@@ -6,10 +6,12 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
+  BackHandler
 } from 'react-native';
+import {DrawerScreenProps} from '@react-navigation/drawer';
+import {useFocusEffect} from '@react-navigation/native';
 import Carousel from 'react-native-snap-carousel';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {DrawerScreenProps} from '@react-navigation/drawer';
 import shortid from 'shortid';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
@@ -46,6 +48,20 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
   const windowWidth = Dimensions.get('window').width;
   let scrollViewRef = createRef<ScrollView>();
   const token = state?.token;
+
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        BackHandler.exitApp();
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, []),
+  );
 
   useEffect(() => {
     handleRequests();

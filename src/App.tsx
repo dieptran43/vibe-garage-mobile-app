@@ -1,5 +1,5 @@
 import React, {useEffect, useReducer} from 'react';
-import {SafeAreaView, StyleSheet, View, StatusBar} from 'react-native';
+import {SafeAreaView, StyleSheet, View, StatusBar, LogBox } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import RNBootSplash from 'react-native-bootsplash';
 import * as Keychain from 'react-native-keychain';
@@ -26,6 +26,10 @@ const App = () => {
   useEffect(() => {
     checkUserLogin();
   }, []);
+
+  LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+   ]);
 
   const checkUserLogin = async () => {
     let response: any = await AsyncStorage.getItem('userLogin');

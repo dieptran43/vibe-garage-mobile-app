@@ -16,7 +16,9 @@ export const getScreenParent = (route: String) => {
     route === 'BecomeAnArtist' ||
     route === 'Upload' ||
     route === 'Track' ||
-    route === 'MyPlatform';
+    route === 'MyPlatform' ||
+    route === 'Profile' ||
+    route === 'SubscribeToPremium';
 
   let isSingleStack = route === 'Login' || route === 'SignUp';
 
