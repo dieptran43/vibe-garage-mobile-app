@@ -38,11 +38,8 @@ export function Playlists({navigation}: DrawerScreenProps<{}>) {
           }
           setData(combineData(data, {publicPlaylist}));
         })
-        .catch((error) => {
-          console.log(error);
-        });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

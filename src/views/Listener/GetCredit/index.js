@@ -39,7 +39,7 @@ export function GetCredit({navigation}) {
     }
   };
 
-  const handlePaymentSuccess = () => {
+  const handlePaymentSuccess = (res) => {
     let {wallet, credit} = data;
     wallet += credit;
     setData({...data, wallet});
@@ -114,7 +114,7 @@ export function GetCredit({navigation}) {
                   // handle response here
                 }}
                 onSuccess={(res) => {
-                  handlePaymentSuccess();
+                  handlePaymentSuccess(res);
                 }}
                 autoStart={false}
                 ref={paystackWebViewRef}

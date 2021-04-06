@@ -33,6 +33,30 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 17,
   },
+  btnPayWith: {
+    borderRadius: 5,
+    alignSelf: 'flex-end',
+    paddingHorizontal: 22,
+    paddingVertical: 12,
+    flex: 1,
+  },
+  btnPayWithEnabled: {
+    backgroundColor: '#00bcd4',
+  },
+  btnPayWithDisabled: {
+    backgroundColor: '#A0A0A0',
+  },
+  payWithText: {
+    fontWeight: 'bold',
+  },
+  btnStart: {
+    borderRadius: 5,
+    alignSelf: 'center',
+    backgroundColor: '#00bcd4',
+    paddingHorizontal: 70,
+    paddingVertical: 15,
+    marginTop: 20,
+  },
 });
 
 export default styles;
