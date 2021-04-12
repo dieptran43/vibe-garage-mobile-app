@@ -82,7 +82,6 @@ export default function SingleAlbumModal({onClose, onAddSong, genres}: any) {
     }
     await submitAlbum({token, payload})
       .then((response: any) => {
-        console.log(response);
         if (response?.success) {
           Toast.show({
             type: 'success',

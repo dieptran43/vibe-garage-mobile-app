@@ -21,7 +21,7 @@ export const getNumberOfYears = (dt) => {
   let difference = currentDate - oldDate;
   let range, value;
   if (difference < 1) {
-    value = 'Less than 1 month ago'
+    value = 'Less than 1 month ago';
   } else {
     if (difference < 12) {
       range = difference > 1 ? 'months' : 'month';
@@ -32,4 +32,8 @@ export const getNumberOfYears = (dt) => {
     value = `${difference} ${range} ago`;
   }
   return value;
+};
+
+export const generateTransactionReference = () => {
+  return new Date()?.getTime();
 };

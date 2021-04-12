@@ -13,11 +13,13 @@ import {
   TestIds,
   RewardedAdEventType,
 } from '@react-native-firebase/admob';
+import {PAYSTACK_PUBLIC_KEY} from '@env';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import styles from './getCreditStyle';
+import {generateTransactionReference} from '../../../utils/helpers';
 
 export function GetCredit({navigation}) {
   const {state, dispatch} = useContext(AuthContext);
@@ -40,9 +42,12 @@ export function GetCredit({navigation}) {
   };
 
   const handlePaymentSuccess = (res) => {
-    let {wallet, credit} = data;
-    wallet += credit;
-    setData({...data, wallet});
+    console.log(res);
+    const transactionRef = res?.data?.transactionRef;
+    const {credit} = data;
+    // let {wallet, credit} = data;
+    // wallet += credit;
+    // setData({...data, wallet});
   };
 
   const handleWatchAds = () => {
@@ -100,9 +105,10 @@ export function GetCredit({navigation}) {
               ]}
               disabled={data.credit > 0 ? false : true}>
               <PaystackWebView
-                buttonText="Pay With Paystack"
+                buttonText="Pay Now"
                 showPayButton={true}
-                paystackKey="pk_test_6cd877e43ae9e66ee03e9b2aefc19523324c23ea"
+                paystackKey={PAYSTACK_PUBLIC_KEY}
+                refNumber={generateTransactionReference()}
                 amount={data.credit}
                 billingEmail={user?.email}
                 billingMobile=""
@@ -126,7 +132,7 @@ export function GetCredit({navigation}) {
                     disabled={data.credit > 0 ? false : true}>
                     <CustomText
                       type={1}
-                      text="Pay With Paystack"
+                      text="Pay Now"
                       style={styles.payWithText}
                     />
                   </TouchableOpacity>
