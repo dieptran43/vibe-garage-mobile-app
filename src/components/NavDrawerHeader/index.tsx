@@ -86,9 +86,9 @@ export default function NavDrawerHeader({navigation}: any) {
                 <MenuOption onSelect={() => handleNavigation('SubscribeToPremium')}>
                   <Text style={styles.menuOptionText}>Subscribe to Premium</Text>
                 </MenuOption>
-                <MenuOption onSelect={() => handleNavigation('Profile')}>
+                {/* <MenuOption onSelect={() => handleNavigation('Profile')}>
                   <Text style={styles.menuOptionText}>Profile</Text>
-                </MenuOption>
+                </MenuOption> */}
                 <MenuOption onSelect={() => handleLogout()}>
                   <Text style={styles.menuOptionText}>Logout</Text>
                 </MenuOption>

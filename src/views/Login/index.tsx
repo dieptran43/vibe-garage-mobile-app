@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useContext} from 'react';
+import React, {useState, useCallback, useContext, useEffect} from 'react';
 import {
   View,
   Text,
@@ -35,6 +35,7 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
     isLoggingIn: false,
     accountLoginError: '',
     fields: initialFields,
+    authKey: '',
   });
 
   useFocusEffect(
@@ -49,6 +50,13 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
     }, []),
   );
 
+  useEffect(() => {
+    const subscriber = auth()?.onAuthStateChanged((userInfo) =>
+      handleAuthStateChanged(userInfo),
+    );
+    return subscriber; // unsubscribe on unmount
+  }, [data?.authKey]);
+
   const handleBackButtonClick = () => {
     navigateToNestedRoute('DrawerStack', 'Discover');
 
@@ -57,6 +65,11 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
 
   const handleNavigation = (route: String) => {
     navigateToNestedRoute(getScreenParent(route), route);
+  };
+
+  const handleAuthStateChanged = async (userInfo: any) => {
+    // console.log('userInfo');
+    // console.log(userInfo);
   };
 
   const handleLogin = async () => {
