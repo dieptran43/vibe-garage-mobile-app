@@ -5,6 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Modal,
+  ActivityIndicator,
 } from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import PaystackWebView from 'react-native-paystack-webview';
@@ -13,21 +15,34 @@ import {
   TestIds,
   RewardedAdEventType,
 } from '@react-native-firebase/admob';
+import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {PAYSTACK_PUBLIC_KEY} from '@env';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import styles from './getCreditStyle';
-import {generateTransactionReference} from '../../../utils/helpers';
+import {
+  generateTransactionReference,
+  combineData,
+} from '../../../utils/helpers';
+import {useNetwork} from '../../../hooks/useNetwork';
+import {addCoins} from '../../../services/userService';
 
 export function GetCredit({navigation}) {
   const {state, dispatch} = useContext(AuthContext);
-  const user = state?.user;
-  const wallet = user?.wallet || 0;
-  const [data, setData] = useState({wallet, credit: 0, loaded: false});
+  const {user, token} = state;
+  let {wallet, coins} = user || {};
+  const [data, setData] = useState({
+    wallet,
+    credit: 0,
+    isModalVisible: false,
+    isOnRewardedAds: false,
+  });
   const isFocused = useIsFocused();
   const paystackWebViewRef = useRef();
+  const [isConnected, setIsConnected] = useNetwork();
 
   useEffect(() => {
     handleCheckLogin();
@@ -51,19 +66,96 @@ export function GetCredit({navigation}) {
   };
 
   const handleWatchAds = () => {
-    const rewarded = RewardedAd.createForAdRequest(TestIds.REWARDED);
+    try {
+      if (isConnected) {
+        setData(
+          combineData(data, {isModalVisible: true, isOnRewardedAds: true}),
+        );
+        const rewarded = RewardedAd.createForAdRequest(TestIds.REWARDED);
 
-    rewarded.onAdEvent((type, error, reward) => {
-      if (type === RewardedAdEventType.LOADED) {
-        setData({...data, loaded: true});
-        rewarded.show();
-      }
+        rewarded.onAdEvent((type, error, reward) => {
+          if (type === RewardedAdEventType.LOADED) {
+            setData(
+              combineData(data, {
+                isModalVisible: false,
+                isOnRewardedAds: false,
+              }),
+            );
+            rewarded.show();
+          }
 
-      if (type === RewardedAdEventType.EARNED_REWARD) {
-        console.log('User earned reward of ', reward);
+          if (type === RewardedAdEventType.EARNED_REWARD) {
+            if (reward && Object.entries(reward).length) {
+              const {amount, type} = reward;
+              if (type === 'coins') {
+                coins = amount;
+                handleUpdateCoins({coins});
+              }
+            }
+          }
+        });
+        rewarded.load();
+      } else {
+        Toast.show({
+          type: 'error',
+          position: 'bottom',
+          text1: 'Please, check your internet connection!',
+          visibilityTime: 500,
+        });
       }
-    });
-    rewarded.load();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUpdateCoins = async (params) => {
+    try {
+      await addCoins({params, token}).then(async (response) => {
+        let modalMessage;
+        if (response && response?.success) {
+          const updatedCoins = response?.coins;
+
+          let localData = await AsyncStorage.getItem('userLogin');
+          if (localData && Object.entries(localData)) {
+            localData = JSON.parse(localData);
+            let user = localData?.user;
+            const obj = {coins: updatedCoins};
+            user = {...user, ...obj};
+            localData['user'] = user;
+            await AsyncStorage.setItem('userLogin', JSON.stringify(localData));
+            await dispatch({
+              type: 'updateUser',
+              payload: {obj},
+            });
+          }
+          modalMessage = `You've earned ${params?.coins} coins. Your total coins is now ${updatedCoins}`;
+        }
+        if (modalMessage) {
+          setData(
+            combineData(data, {
+              isModalVisible: true,
+              isOnRewardedAds: false,
+              modalMessage,
+            }),
+          );
+        }
+      });
+    } catch (error) {
+      setData(
+        combineData(data, {isModalVisible: false, isOnRewardedAds: false}),
+      );
+      console.error(error);
+    }
+  };
+
+  const resetFields = () => {
+    setData(
+      combineData(data, {
+        isModalVisible: false,
+        isOnRewardedAds: false,
+        modalMessage: '',
+      }),
+    );
   };
 
   return (
@@ -155,6 +247,40 @@ export function GetCredit({navigation}) {
               <CustomText type={1} text="Start" style={styles.startText} />
             </TouchableOpacity>
           </View>
+
+          {data?.isModalVisible ? (
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={data?.isModalVisible}
+              onRequestClose={() => resetFields()}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  {data?.isOnRewardedAds ? (
+                    <>
+                      <ActivityIndicator
+                        size="large"
+                        color="rgb(216, 71, 39)"
+                        style={styles.isRequestingLoader}
+                      />
+                      <Text style={styles.loaderTextField}>Please wait...</Text>
+                    </>
+                  ) : data?.modalMessage ? (
+                    <View style={{display: 'flex', alignItems: 'center'}}>
+                      <Text style={styles.exitText}>{data?.modalMessage}</Text>
+                      <View style={styles.viewSpaceBetween}>
+                        <TouchableOpacity onPress={() => resetFields()}>
+                          <Text style={[styles.commonBtn, styles.yesBtn]}>
+                            Close
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  ) : null}
+                </View>
+              </View>
+            </Modal>
+          ) : null}
         </View>
       </ScrollView>
     </View>
