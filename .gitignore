@@ -65,6 +65,8 @@ buck-out/
 *.env
 *.env.*
 
+android/java_pid3720.hprof
+
 #Remove these later
 firebase.json
 google-services.json
