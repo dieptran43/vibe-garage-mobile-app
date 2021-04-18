@@ -16,7 +16,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import * as Keychain from 'react-native-keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
-import {LoginManager, AccessToken} from 'react-native-fbsdk';
+import {LoginButton, LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import styles from './loginStyle';
 import Logo from '../../assets/images/logo.jpg';
 import {navigateToNestedRoute} from '../../navigators/RootNavigation';
@@ -26,9 +26,9 @@ import {getScreenParent} from '../../utils/navigationHelper';
 
 const initialFields = {email: '', password: ''};
 
-export function Login({route, navigation}: StackScreenProps<{}>) {
-  const {state, dispatch}: any = useContext(AuthContext);
-  const screenParams: any = route?.params;
+export function Login({route, navigation}) {
+  const {state, dispatch} = useContext(AuthContext);
+  const screenParams = route?.params;
   const [data, setData] = useState({
     hasFilledAllFields: false,
     isPasswordHidden: true,
@@ -63,13 +63,13 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
     return true;
   };
 
-  const handleNavigation = (route: String) => {
+  const handleNavigation = (route) => {
     navigateToNestedRoute(getScreenParent(route), route);
   };
 
-  const handleAuthStateChanged = async (userInfo: any) => {
-    // console.log('userInfo');
-    // console.log(userInfo);
+  const handleAuthStateChanged = async (userInfo) => {
+    console.log('userInfo');
+    console.log(userInfo);
   };
 
   const handleLogin = async () => {
@@ -83,7 +83,7 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
       });
       const fields = data?.fields;
       await login(fields)
-        .then(async (response: any) => {
+        .then(async (response) => {
           const user = response?.user;
           const token = response?.token;
           if (user) {
@@ -128,8 +128,8 @@ export function Login({route, navigation}: StackScreenProps<{}>) {
     }
   };
 
-  const handleSetValue = (field: any, value: any) => {
-    let fields: any = data.fields;
+  const handleSetValue = (field, value) => {
+    let fields = data.fields;
     fields[field] = value;
 
     let isValid = fields['email'] && fields['password'];

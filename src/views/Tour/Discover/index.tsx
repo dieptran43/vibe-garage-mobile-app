@@ -1,4 +1,10 @@
-import React, {useState, createRef, useContext, useEffect, useCallback} from 'react';
+import React, {
+  useState,
+  createRef,
+  useContext,
+  useEffect,
+  useCallback,
+} from 'react';
 import {
   View,
   Text,
@@ -6,7 +12,9 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
-  BackHandler
+  BackHandler,
+  Modal,
+  Linking,
 } from 'react-native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {useFocusEffect} from '@react-navigation/native';
@@ -14,6 +22,7 @@ import Carousel from 'react-native-snap-carousel';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import shortid from 'shortid';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {getVersion, getSystemName} from 'react-native-device-info';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText, AddToPlaylist} from '../../../components/Global';
 import styles from './discoverStyle';
@@ -29,6 +38,8 @@ import {ISong, IAlbum} from '../../../types/interfaces';
 import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import {getScreenParent} from '../../../utils/navigationHelper';
+import {getAppSettings} from '../../../services/requestServices';
+import {useNetwork} from '../../../hooks/useNetwork';
 
 export function Discover({navigation}: DrawerScreenProps<{}>) {
   const {state, dispatch}: any = useContext(AuthContext);
@@ -44,10 +55,17 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     moreView: null,
     canAddToPlaylist: false,
     track_id: null,
+    shouldUpdateApp: false,
+    onlineAppVersion: '',
+    forceAppUpdate: false,
+    storeUrl: '',
   });
   const windowWidth = Dimensions.get('window').width;
   let scrollViewRef = createRef<ScrollView>();
-  const token = state?.token;
+  const {token} = state || {};
+  let currentAppVersion = getVersion();
+  const systemName = getSystemName();
+  const [isConnected, setIsConnected] = useNetwork();
 
   useFocusEffect(
     useCallback(() => {
@@ -65,6 +83,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
 
   useEffect(() => {
     handleRequests();
+    handleTriggeredUpdate();
   }, []);
 
   const handleRequests = async () => {
@@ -98,7 +117,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
           recommended = response4?.songs;
         }
 
-        setData(
+        setData((data) =>
           combineData(data, {
             carouselItems,
             newReleases,
@@ -183,6 +202,74 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
       navigateToNestedRoute('SingleStack', 'Login', {
         screenFrom: 'Discover',
       });
+    }
+  };
+
+  const handleTriggeredUpdate = async () => {
+    await getAppSettings()
+      .then((response: any) => {
+        if (response?.success) {
+          const androidVersion = response?.Android;
+          const iosVersion = response?.iOS;
+          let onlineAppVersion = '',
+            forceAppUpdate = '',
+            storeUrl = '';
+          if (systemName === 'Android') {
+            onlineAppVersion = androidVersion?.app_version;
+            forceAppUpdate = androidVersion?.is_compulsory;
+            storeUrl = androidVersion?.download_url;
+          } else if (systemName === 'iOS' || systemName === 'iPhone OS') {
+            onlineAppVersion = iosVersion?.app_version;
+            forceAppUpdate = iosVersion?.is_compulsory;
+            storeUrl = iosVersion?.download_url;
+          }
+
+          if (onlineAppVersion && currentAppVersion) {
+            const checkVersion = onlineAppVersion.localeCompare(
+              currentAppVersion,
+              undefined,
+              {numeric: true, sensitivity: 'base'},
+            );
+
+            if (checkVersion === 0) {
+              //Versions are equal
+              setData((data) => combineData(data, {shouldUpdateApp: false}));
+            } else if (checkVersion === 1) {
+              //onlineAppVersion is greater than currentAppVersion
+              setData((data) =>
+                combineData(data, {
+                  shouldUpdateApp: true,
+                  forceAppUpdate,
+                  onlineAppVersion,
+                  storeUrl,
+                }),
+              );
+            } else if (checkVersion === -1) {
+              //currentAppVersion is greater than onlineAppVersion
+              setData((data) => combineData(data, {shouldUpdateApp: false}));
+            }
+          }
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleCancelAppUpdate = () => {
+    setData(
+      combineData(data, {
+        shouldUpdateApp: false,
+        forceAppUpdate: false,
+      }),
+    );
+  };
+
+  const handleStartAppUpdate = () => {
+    try {
+      Linking.openURL(data?.storeUrl);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -513,6 +600,46 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
           onClose={() => handleCloseAddToPlaylist()}
           handleModified={(param: any) => handleModified(param)}
         />
+      ) : null}
+
+      {data?.shouldUpdateApp && isConnected ? (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={data?.shouldUpdateApp}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.updateAvailableText}>Update Available</Text>
+              <Text style={styles.newVersionText}>
+                A new version of Vibe Garage is available.
+              </Text>
+              <Text style={styles.newVersionText}>
+                Please update to version {data?.onlineAppVersion} now.
+              </Text>
+
+              <View style={styles.viewJustify}>
+                {!data?.forceAppUpdate ? (
+                  <TouchableOpacity style={styles.btnWrapper}>
+                    <Text
+                      style={[styles.commonBtn, styles.noBtn]}
+                      onPress={() => handleCancelAppUpdate()}>
+                      Not now
+                    </Text>
+                  </TouchableOpacity>
+                ) : null}
+                <TouchableOpacity
+                  style={[
+                    !data?.forceAppUpdate
+                      ? styles.btnWrapper
+                      : styles.btnWrapper2,
+                  ]}
+                  onPress={() => handleStartAppUpdate()}>
+                  <Text style={[styles.commonBtn, styles.yesBtn]}>Update</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
       ) : null}
     </View>
   );

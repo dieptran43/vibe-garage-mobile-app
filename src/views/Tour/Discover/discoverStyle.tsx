@@ -173,6 +173,90 @@ const styles = StyleSheet.create({
   moreBtn: {
     paddingVertical: 12,
   },
+  
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 20,
+    display: 'flex',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    width: '85%',
+  },
+  updateAvailableText: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  newVersionText: {
+    textAlign: 'center',
+    // fontWeight: 'bold',
+    opacity: 0.8,
+  },
+  updateText: {
+    marginTop: 10,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: '#0b6623',
+    fontSize: 14.5,
+  },
+  viewJustify: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 30,
+    paddingHorizontal: 20,
+  },
+  commonBtn: {
+    fontSize: 14.5,
+  },
+  btnWrapper: {
+    width: '45%',
+  },
+  btnWrapper2: {
+    width: '100%',
+  },
+  noBtn: {
+    color: '#888888',
+    borderColor: '#888888',
+    borderWidth: 1,
+    borderRadius: 5,
+    textAlign: 'center',
+    paddingVertical: 10,
+  },
+  yesBtn: {
+    color: '#0b6623',
+    borderColor: '#0b6623',
+    borderWidth: 1,
+    borderRadius: 5,
+    textAlign: 'center',
+    paddingVertical: 10,
+  },
+  centerContainer: {
+    flex: 1,
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadingText: {
+    fontSize: 16,
+    marginTop: 10,
+  },
 });
 
 export default styles;
