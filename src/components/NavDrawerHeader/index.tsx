@@ -16,6 +16,7 @@ import Logo from '../../assets/images/logo-modified.png';
 import {AuthContext} from '../../context';
 import {getScreenParent} from '../../utils/navigationHelper';
 import {navigateToNestedRoute} from '../../navigators/RootNavigation';
+import {signOutOfFacebook} from '../../utils/helpers';
 
 export default function NavDrawerHeader({navigation}: any) {
   const {state, dispatch}: any = useContext(AuthContext);
@@ -25,14 +26,19 @@ export default function NavDrawerHeader({navigation}: any) {
     navigation?.openDrawer();
   };
 
-  const handleLogout = async () => {    
-    await AsyncStorage.clear();
-    await Keychain.resetGenericPassword();
-    await dispatch({
-      type: 'populateUser',
-      payload: {user: {}, isLoggedIn: false},
-    });
-    handleNavigation('Discover')
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.clear();
+      await Keychain.resetGenericPassword();
+      await dispatch({
+        type: 'populateUser',
+        payload: {user: {}, isLoggedIn: false},
+      });
+      signOutOfFacebook();
+      handleNavigation('Discover');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleNavigation = (route: String) => {
@@ -83,8 +89,11 @@ export default function NavDrawerHeader({navigation}: any) {
                     </MenuOption>
                   </>
                 ) : null}
-                <MenuOption onSelect={() => handleNavigation('SubscribeToPremium')}>
-                  <Text style={styles.menuOptionText}>Subscribe to Premium</Text>
+                <MenuOption
+                  onSelect={() => handleNavigation('SubscribeToPremium')}>
+                  <Text style={styles.menuOptionText}>
+                    Subscribe to Premium
+                  </Text>
                 </MenuOption>
                 {/* <MenuOption onSelect={() => handleNavigation('Profile')}>
                   <Text style={styles.menuOptionText}>Profile</Text>

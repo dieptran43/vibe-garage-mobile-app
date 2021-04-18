@@ -1,5 +1,5 @@
 import {API_OLD_URL} from '@env';
-import {diff} from 'react-native-reanimated';
+import auth from '@react-native-firebase/auth';
 
 export const combineData = (data, params) => {
   const obj = {};
@@ -36,4 +36,8 @@ export const getNumberOfYears = (dt) => {
 
 export const generateTransactionReference = () => {
   return new Date()?.getTime();
+};
+
+export const signOutOfFacebook = async () => {
+  auth()?.signOut();
 };

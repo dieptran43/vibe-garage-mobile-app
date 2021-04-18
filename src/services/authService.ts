@@ -142,3 +142,23 @@ export const resendCode = ({token}: IToken) => {
       });
   });
 };
+
+export const socialLogin = (payload: any) => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/social-login`;
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};

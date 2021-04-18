@@ -20,7 +20,7 @@ import {LoginButton, LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import styles from './loginStyle';
 import Logo from '../../assets/images/logo.jpg';
 import {navigateToNestedRoute} from '../../navigators/RootNavigation';
-import {login} from '../../services/authService';
+import {login, socialLogin} from '../../services/authService';
 import {AuthContext} from '../../context';
 import {getScreenParent} from '../../utils/navigationHelper';
 
@@ -50,12 +50,13 @@ export function Login({route, navigation}) {
     }, []),
   );
 
-  useEffect(() => {
-    const subscriber = auth()?.onAuthStateChanged((userInfo) =>
-      handleAuthStateChanged(userInfo),
-    );
-    return subscriber; // unsubscribe on unmount
-  }, [data?.authKey]);
+  // useEffect(() => {
+  //   const subscriber = auth()?.onAuthStateChanged((userInfo) =>
+  //     handleAuthStateChanged(userInfo),
+  //   );
+  //   // return subscriber; // unsubscribe on unmount
+  //   subscriber();
+  // }, []);
 
   const handleBackButtonClick = () => {
     navigateToNestedRoute('DrawerStack', 'Discover');
@@ -68,8 +69,25 @@ export function Login({route, navigation}) {
   };
 
   const handleAuthStateChanged = async (userInfo) => {
-    console.log('userInfo');
-    console.log(userInfo);
+    try {
+      if (userInfo && Object.entries(userInfo).length) {
+        const {displayName, email} = userInfo;
+        const fields = {
+          social_email: email,
+          social_name: displayName,
+          social_provider: 'facebook',
+        };
+        await socialLogin(fields)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleLogin = async () => {
@@ -167,7 +185,11 @@ export function Login({route, navigation}) {
       );
 
       // Sign-in the user with the credential
-      return auth().signInWithCredential(facebookCredential);
+      auth().signInWithCredential(facebookCredential);
+
+      auth()?.onAuthStateChanged((userInfo) =>
+        handleAuthStateChanged(userInfo),
+      );
     } catch (error) {
       console.error(error);
     }
