@@ -13,7 +13,6 @@ import {
 import {StackScreenProps} from '@react-navigation/stack';
 import {useFocusEffect} from '@react-navigation/native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import * as Keychain from 'react-native-keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import {LoginButton, LoginManager, AccessToken} from 'react-native-fbsdk-next';
@@ -50,14 +49,6 @@ export function Login({route, navigation}) {
     }, []),
   );
 
-  // useEffect(() => {
-  //   const subscriber = auth()?.onAuthStateChanged((userInfo) =>
-  //     handleAuthStateChanged(userInfo),
-  //   );
-  //   // return subscriber; // unsubscribe on unmount
-  //   subscriber();
-  // }, []);
-
   const handleBackButtonClick = () => {
     navigateToNestedRoute('DrawerStack', 'Discover');
 
@@ -79,7 +70,10 @@ export function Login({route, navigation}) {
         };
         await socialLogin(fields)
           .then((response) => {
-            console.log(response);
+            const user = response?.user;
+            if (user) {
+              handleUser(response);
+            }
           })
           .catch((err) => {
             console.error(err);
@@ -103,23 +97,8 @@ export function Login({route, navigation}) {
       await login(fields)
         .then(async (response) => {
           const user = response?.user;
-          const token = response?.token;
           if (user) {
-            await dispatch({
-              type: 'populateUser',
-              payload: {user, token, isLoggedIn: true},
-            });
-            const {email, password} = fields;
-            const {id, username} = user;
-            await Keychain.setGenericPassword(username, password);
-            await AsyncStorage.setItem('userLogin', JSON.stringify(response));
-            setData({...data, isLoggingIn: false, fields: initialFields});
-            const screenFrom = screenParams?.screenFrom;
-            if (screenFrom) {
-              handleNavigation(screenFrom);
-            } else {
-              handleNavigation('Discover');
-            }
+            handleUser(response);
           } else {
             const error = response?.error_messages;
             let errorMessage = 'Sorry! An error occured!';
@@ -143,6 +122,22 @@ export function Login({route, navigation}) {
         });
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleUser = async (response) => {
+    const {user, token} = response;
+    await dispatch({
+      type: 'populateUser',
+      payload: {user, token, isLoggedIn: true},
+    });
+    await AsyncStorage.setItem('userLogin', JSON.stringify(response));
+    setData({...data, isLoggingIn: false, fields: initialFields});
+    const screenFrom = screenParams?.screenFrom;
+    if (screenFrom) {
+      handleNavigation(screenFrom);
+    } else {
+      handleNavigation('Discover');
     }
   };
 

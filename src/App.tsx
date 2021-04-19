@@ -1,8 +1,7 @@
 import React, {useEffect, useReducer} from 'react';
-import {SafeAreaView, StyleSheet, View, StatusBar, LogBox } from 'react-native';
+import {SafeAreaView, StyleSheet, View, StatusBar, LogBox} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import RNBootSplash from 'react-native-bootsplash';
-import * as Keychain from 'react-native-keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MenuProvider} from 'react-native-popup-menu';
 import Toast from 'react-native-toast-message';
@@ -14,6 +13,7 @@ import {
   TestIds,
   BannerAdSize,
 } from '@react-native-firebase/admob';
+import {NODE_ENV, BANNER_AD_ID} from '@env';
 import AppStack from './navigators/Stack';
 import {navigationRef} from './navigators/RootNavigation';
 import {AuthContext} from './context';
@@ -22,6 +22,8 @@ import initialState from './store/state';
 
 const App = () => {
   const [state, dispatch] = useReducer(reducers, initialState);
+  const bannerAdUnitId =
+    NODE_ENV === 'production' ? BANNER_AD_ID : TestIds.BANNER;
 
   useEffect(() => {
     checkUserLogin();
@@ -29,12 +31,11 @@ const App = () => {
 
   LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
-   ]);
+  ]);
 
   const checkUserLogin = async () => {
     let response: any = await AsyncStorage.getItem('userLogin');
-    const credentials = await Keychain.getGenericPassword();
-    if (response && Object.entries(response) && credentials) {
+    if (response && Object.entries(response)) {
       response = JSON.parse(response);
       const user = response?.user;
       const token = response?.token;
@@ -81,7 +82,7 @@ const App = () => {
           <Toast ref={(ref) => Toast.setRef(ref)} />
           <View style={styles.bottomContainer}>
             <BannerAd
-              unitId={TestIds.BANNER}
+              unitId={bannerAdUnitId}
               size={BannerAdSize.ADAPTIVE_BANNER}
               requestOptions={{
                 requestNonPersonalizedAdsOnly: true,
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
   areaContainer: {
     flex: 1,
     position: 'relative',
-    paddingBottom: 50
+    paddingBottom: 50,
   },
   bottomContainer: {
     position: 'absolute',

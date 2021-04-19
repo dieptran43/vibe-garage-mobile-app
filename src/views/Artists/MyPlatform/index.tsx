@@ -122,7 +122,7 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
                 style={styles.artisteFollowText}
               />
             </View>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.editProfileWrapper}
               onPress={() => handleNavigation('Profile')}>
               <MaterialCommunityIcons
@@ -135,7 +135,7 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
                 text="Profile"
                 style={styles.editProfileText}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View style={styles.tabHeader}>
             <TouchableWithoutFeedback onPress={() => handleTab('My Songs')}>

@@ -17,7 +17,7 @@ import {
 } from '@react-native-firebase/admob';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {PAYSTACK_PUBLIC_KEY} from '@env';
+import {NODE_ENV, PAYSTACK_PUBLIC_KEY, REWARDED_AD_ID} from '@env';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import {AuthContext} from '../../../context';
@@ -43,6 +43,8 @@ export function GetCredit({navigation}) {
   const isFocused = useIsFocused();
   const paystackWebViewRef = useRef();
   const [isConnected, setIsConnected] = useNetwork();
+  const rewardedAdUnitId =
+    NODE_ENV === 'production' ? REWARDED_AD_ID : TestIds.REWARDED;
 
   useEffect(() => {
     handleCheckLogin();
@@ -71,7 +73,7 @@ export function GetCredit({navigation}) {
         setData(
           combineData(data, {isModalVisible: true, isOnRewardedAds: true}),
         );
-        const rewarded = RewardedAd.createForAdRequest(TestIds.REWARDED);
+        const rewarded = RewardedAd.createForAdRequest(rewardedAdUnitId);
 
         rewarded.onAdEvent((type, error, reward) => {
           if (type === RewardedAdEventType.LOADED) {

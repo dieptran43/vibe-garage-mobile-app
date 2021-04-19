@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Vibe Garage</string>
-    <string name="facebook_app_id">3277980442304332</string>
+    <string name="facebook_app_id">1385158785180960</string>
+    <string name="fb_login_protocol_scheme">fb1385158785180960</string>
 </resources>

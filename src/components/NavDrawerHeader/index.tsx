@@ -8,7 +8,6 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
-import * as Keychain from 'react-native-keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './navDrawerHeaderStyle';
 import NavIcon from '../../assets/icons/menu-icon.png';
@@ -29,7 +28,6 @@ export default function NavDrawerHeader({navigation}: any) {
   const handleLogout = async () => {
     try {
       await AsyncStorage.clear();
-      await Keychain.resetGenericPassword();
       await dispatch({
         type: 'populateUser',
         payload: {user: {}, isLoggedIn: false},
