@@ -94,9 +94,9 @@ export function Track({navigation, route}) {
                 style={styles.trackUploadDate}
               />
             </View>
-            <TouchableOpacity style={styles.followBtn}>
+            {/* <TouchableOpacity style={styles.followBtn}>
               <Text style={styles.followText}>Follow</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View style={styles.imageContainer}>
             <ImageBackground
@@ -155,7 +155,7 @@ export function Track({navigation, route}) {
               </Text>
             ))}
           </View>
-          <View style={styles.flexJustify}>
+          {/* <View style={styles.flexJustify}>
             <TouchableOpacity style={styles.downloadBtn}>
               <Feather name="plus" size={18} color="#fff" />
               <CustomText
@@ -172,7 +172,7 @@ export function Track({navigation, route}) {
                 style={styles.downloadText}
               />
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
       </ScrollView>
     </View>

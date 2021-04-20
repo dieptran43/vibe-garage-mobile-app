@@ -10,6 +10,8 @@ import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import {getSpotlight} from '../../../services/songService';
 import {combineData, getFromOldUrl} from '../../../utils/helpers';
+import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
+import {getScreenParent} from '../../../utils/navigationHelper';
 
 export function Spotlight({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
@@ -36,6 +38,10 @@ export function Spotlight({navigation}: DrawerScreenProps<{}>) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleNavigation = (route: String, params: any) => {
+    navigateToNestedRoute(getScreenParent(route), route, params);
   };
 
   return (
@@ -86,7 +92,9 @@ export function Spotlight({navigation}: DrawerScreenProps<{}>) {
                   style={styles.moreIcon}
                 />
               </View>
-              <View style={styles.spotlightRowTwo}>
+              <TouchableOpacity
+                style={styles.spotlightRowTwo}
+                onPress={() => handleNavigation('Track', spotlightItem)}>
                 <Image
                   source={{
                     uri: getFromOldUrl(spotlightItem?.thumbnail),
@@ -107,7 +115,7 @@ export function Spotlight({navigation}: DrawerScreenProps<{}>) {
                     style={styles.historyIcon}
                   />
                 </View>
-              </View>
+              </TouchableOpacity>
             </View>
           ))}
           {/* </>

@@ -5,6 +5,7 @@ import {
   Image,
   TouchableWithoutFeedback,
   ScrollView,
+  TouchableOpacity
 } from 'react-native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -17,7 +18,6 @@ import {combineData, getFromOldUrl} from '../../../utils/helpers';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import {getScreenParent} from '../../../utils/navigationHelper';
 import {ISong} from '../../../types/interfaces';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export function Genres({navigation}: DrawerScreenProps<{}>) {
   const [data, setData] = useState({
