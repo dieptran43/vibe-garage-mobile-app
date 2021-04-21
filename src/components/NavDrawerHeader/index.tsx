@@ -19,7 +19,7 @@ import {signOutOfFacebook} from '../../utils/helpers';
 
 export default function NavDrawerHeader({navigation}: any) {
   const {state, dispatch}: any = useContext(AuthContext);
-  const artist = state?.user?.artist;
+  const {user} = state;
 
   const handleToggleNavDrawer = () => {
     navigation?.openDrawer();
@@ -68,7 +68,7 @@ export default function NavDrawerHeader({navigation}: any) {
                 <MenuOption onSelect={() => handleNavigation('GetCredit')}>
                   <Text style={styles.menuOptionText}>Get credit</Text>
                 </MenuOption>
-                {artist != 1 ? (
+                {user?.artist != 1 ? (
                   <>
                     <MenuOption
                       onSelect={() => handleNavigation('BecomeAnArtist')}>
@@ -77,7 +77,7 @@ export default function NavDrawerHeader({navigation}: any) {
                       </Text>
                     </MenuOption>
                   </>
-                ) : artist == 1 ? (
+                ) : user?.artist == 1 ? (
                   <>
                     <MenuOption onSelect={() => handleNavigation('MyPlatform')}>
                       <Text style={styles.menuOptionText}>My Platform</Text>
@@ -87,12 +87,14 @@ export default function NavDrawerHeader({navigation}: any) {
                     </MenuOption>
                   </>
                 ) : null}
-                <MenuOption
-                  onSelect={() => handleNavigation('SubscribeToPremium')}>
-                  <Text style={styles.menuOptionText}>
-                    Subscribe to Premium
-                  </Text>
-                </MenuOption>
+                {user?.is_subscribed === '0' ? (
+                  <MenuOption
+                    onSelect={() => handleNavigation('SubscribeToPremium')}>
+                    <Text style={styles.menuOptionText}>
+                      Subscribe to Premium
+                    </Text>
+                  </MenuOption>
+                ) : null}
                 {/* <MenuOption onSelect={() => handleNavigation('Profile')}>
                   <Text style={styles.menuOptionText}>Profile</Text>
                 </MenuOption> */}

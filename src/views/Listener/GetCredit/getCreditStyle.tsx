@@ -86,8 +86,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     fontSize: 15
-  },
-  
+  },  
   centeredView: {
     flex: 1,
     justifyContent: 'center',

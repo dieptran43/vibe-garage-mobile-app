@@ -75,25 +75,35 @@ const App = () => {
       }}>
       <MenuProvider>
         <StatusBar barStyle="dark-content" />
-        <SafeAreaView style={styles.areaContainer}>
+        <SafeAreaView
+          style={[
+            styles.areaContainer,
+            state?.user?.is_subscribed === '0'
+              ? {
+                  paddingBottom: 50,
+                }
+              : null,
+          ]}>
           <NavigationContainer ref={navigationRef}>
             <AppStack />
           </NavigationContainer>
           <Toast ref={(ref) => Toast.setRef(ref)} />
-          <View style={styles.bottomContainer}>
-            <BannerAd
-              unitId={bannerAdUnitId}
-              size={BannerAdSize.ADAPTIVE_BANNER}
-              requestOptions={{
-                requestNonPersonalizedAdsOnly: true,
-              }}
-              onAdLoaded={() => {}}
-              onAdFailedToLoad={() => {}}
-              onAdOpened={() => {}}
-              onAdClosed={() => {}}
-              onAdLeftApplication={() => {}}
-            />
-          </View>
+          {state?.user?.is_subscribed === '0' ? (
+            <View style={styles.bottomContainer}>
+              <BannerAd
+                unitId={bannerAdUnitId}
+                size={BannerAdSize.ADAPTIVE_BANNER}
+                requestOptions={{
+                  requestNonPersonalizedAdsOnly: true,
+                }}
+                onAdLoaded={() => {}}
+                onAdFailedToLoad={() => {}}
+                onAdOpened={() => {}}
+                onAdClosed={() => {}}
+                onAdLeftApplication={() => {}}
+              />
+            </View>
+          ) : null}
         </SafeAreaView>
       </MenuProvider>
     </AuthContext.Provider>
@@ -104,7 +114,6 @@ const styles = StyleSheet.create({
   areaContainer: {
     flex: 1,
     position: 'relative',
-    paddingBottom: 50,
   },
   bottomContainer: {
     position: 'absolute',

@@ -28,7 +28,7 @@ import {
   combineData,
 } from '../../../utils/helpers';
 import {useNetwork} from '../../../hooks/useNetwork';
-import {addCoins} from '../../../services/userService';
+import {addCoins, creditWallet} from '../../../services/userService';
 
 export function GetCredit({navigation}) {
   const {state, dispatch} = useContext(AuthContext);
@@ -38,7 +38,7 @@ export function GetCredit({navigation}) {
     wallet,
     credit: 0,
     isModalVisible: false,
-    isOnRewardedAds: false,
+    isRequesting: false,
   });
   const isFocused = useIsFocused();
   const paystackWebViewRef = useRef();
@@ -58,21 +58,74 @@ export function GetCredit({navigation}) {
     }
   };
 
-  const handlePaymentSuccess = (res) => {
-    console.log(res);
-    const transactionRef = res?.data?.transactionRef;
-    const {credit} = data;
-    // let {wallet, credit} = data;
-    // wallet += credit;
-    // setData({...data, wallet});
+  const handlePaymentSuccess = async (res) => {
+    try {
+      if (isConnected) {
+        setData(combineData(data, {isModalVisible: true, isRequesting: true}));
+        const transactionRef = res?.data?.transactionRef;
+        if (transactionRef?.status === 'success') {
+          const reference = transactionRef?.trxref;
+          let {credit} = data;
+          const params = {
+            credit,
+            transactionReference: reference,
+          };
+
+          await creditWallet({params, token}).then(async (response) => {
+            const isPaymentSuccessful =
+              response?.paystack_response?.data?.status;
+            if (isPaymentSuccessful === 'success') {
+              let wallet = response?.wallet;
+              let modalMessage;
+              let localData = await AsyncStorage.getItem('userLogin');
+
+              if (localData && Object.entries(localData)) {
+                localData = JSON.parse(localData);
+                let user = localData?.user;
+                const obj = {wallet};
+                user = {...user, ...obj};
+                localData['user'] = user;
+                await AsyncStorage.setItem(
+                  'userLogin',
+                  JSON.stringify(localData),
+                );
+                await dispatch({
+                  type: 'updateUser',
+                  payload: {obj},
+                });
+                modalMessage = `Your wallet balance is now ${wallet}`;
+              }
+              if (modalMessage) {
+                setData(
+                  combineData(data, {
+                    wallet,
+                    credit: 0,
+                    isModalVisible: true,
+                    isRequesting: false,
+                    modalMessage,
+                  }),
+                );
+              }
+            }
+          });
+        }
+      } else {
+        Toast.show({
+          type: 'error',
+          position: 'bottom',
+          text1: 'Please, check your internet connection!',
+          visibilityTime: 500,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleWatchAds = () => {
     try {
       if (isConnected) {
-        setData(
-          combineData(data, {isModalVisible: true, isOnRewardedAds: true}),
-        );
+        setData(combineData(data, {isModalVisible: true, isRequesting: true}));
         const rewarded = RewardedAd.createForAdRequest(rewardedAdUnitId);
 
         rewarded.onAdEvent((type, error, reward) => {
@@ -80,7 +133,7 @@ export function GetCredit({navigation}) {
             setData(
               combineData(data, {
                 isModalVisible: false,
-                isOnRewardedAds: false,
+                isRequesting: false,
               }),
             );
             rewarded.show();
@@ -136,16 +189,14 @@ export function GetCredit({navigation}) {
           setData(
             combineData(data, {
               isModalVisible: true,
-              isOnRewardedAds: false,
+              isRequesting: false,
               modalMessage,
             }),
           );
         }
       });
     } catch (error) {
-      setData(
-        combineData(data, {isModalVisible: false, isOnRewardedAds: false}),
-      );
+      setData(combineData(data, {isModalVisible: false, isRequesting: false}));
       console.error(error);
     }
   };
@@ -154,7 +205,7 @@ export function GetCredit({navigation}) {
     setData(
       combineData(data, {
         isModalVisible: false,
-        isOnRewardedAds: false,
+        isRequesting: false,
         modalMessage: '',
       }),
     );
@@ -181,7 +232,7 @@ export function GetCredit({navigation}) {
             </View>
             <CustomText
               type={1}
-              text="Enter amount below (Minimum $10):"
+              text="Enter amount below:"
               style={styles.minAmountText}
             />
             <TextInput
@@ -197,7 +248,8 @@ export function GetCredit({navigation}) {
                   ? styles.btnPayWithEnabled
                   : styles.btnPayWithDisabled,
               ]}
-              disabled={data.credit > 0 ? false : true}>
+              disabled={data.credit > 0 ? false : true}
+              onPress={() => paystackWebViewRef.current.StartTransaction()}>
               <PaystackWebView
                 buttonText="Pay Now"
                 showPayButton={true}
@@ -219,17 +271,11 @@ export function GetCredit({navigation}) {
                 autoStart={false}
                 ref={paystackWebViewRef}
                 renderButton={() => (
-                  <TouchableOpacity
-                    onPress={() =>
-                      paystackWebViewRef.current.StartTransaction()
-                    }
-                    disabled={data.credit > 0 ? false : true}>
-                    <CustomText
-                      type={1}
-                      text="Pay Now"
-                      style={styles.payWithText}
-                    />
-                  </TouchableOpacity>
+                  <CustomText
+                    type={1}
+                    text="Pay Now"
+                    style={styles.payWithText}
+                  />
                 )}
               />
             </TouchableOpacity>
@@ -258,7 +304,7 @@ export function GetCredit({navigation}) {
               onRequestClose={() => resetFields()}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                  {data?.isOnRewardedAds ? (
+                  {data?.isRequesting ? (
                     <>
                       <ActivityIndicator
                         size="large"
