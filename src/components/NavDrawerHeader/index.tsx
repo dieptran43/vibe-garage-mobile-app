@@ -87,7 +87,7 @@ export default function NavDrawerHeader({navigation}: any) {
                     </MenuOption>
                   </>
                 ) : null}
-                {user?.is_subscribed === '0' ? (
+                {user?.is_subscribed !== '1' ? (
                   <MenuOption
                     onSelect={() => handleNavigation('SubscribeToPremium')}>
                     <Text style={styles.menuOptionText}>

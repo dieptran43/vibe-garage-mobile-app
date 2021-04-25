@@ -78,7 +78,7 @@ const App = () => {
         <SafeAreaView
           style={[
             styles.areaContainer,
-            state?.user?.is_subscribed === '0'
+            state?.user?.is_subscribed !== '1'
               ? {
                   paddingBottom: 50,
                 }
@@ -88,7 +88,7 @@ const App = () => {
             <AppStack />
           </NavigationContainer>
           <Toast ref={(ref) => Toast.setRef(ref)} />
-          {state?.user?.is_subscribed === '0' ? (
+          {state?.user?.is_subscribed !== '1' ? (
             <View style={styles.bottomContainer}>
               <BannerAd
                 unitId={bannerAdUnitId}

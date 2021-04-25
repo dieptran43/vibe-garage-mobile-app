@@ -22,6 +22,7 @@ import Carousel from 'react-native-snap-carousel';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import shortid from 'shortid';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getVersion, getSystemName} from 'react-native-device-info';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText, AddToPlaylist} from '../../../components/Global';
@@ -38,7 +39,8 @@ import {ISong, IAlbum} from '../../../types/interfaces';
 import {AuthContext} from '../../../context';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import {getScreenParent} from '../../../utils/navigationHelper';
-import {getAppSettings} from '../../../services/requestServices';
+import {getAppSettings} from '../../../services/requestService';
+import {authUser} from '../../../services/authService';
 import {useNetwork} from '../../../hooks/useNetwork';
 
 export function Discover({navigation}: DrawerScreenProps<{}>) {
@@ -84,6 +86,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
   useEffect(() => {
     handleRequests();
     handleTriggeredUpdate();
+    handleCheckUser();
   }, []);
 
   const handleRequests = async () => {
@@ -273,6 +276,28 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     }
   };
 
+  const handleCheckUser = async () => {
+    if (token) {
+      await authUser({token})
+        .then(async (response: any) => {
+          const user = response?.user;
+          if (user && Object.entries(user)?.length && token) {
+           await dispatch({
+              type: 'populateUser',
+              payload: {user, token, isLoggedIn: true},
+            });
+            await AsyncStorage.setItem(
+              'userLogin',
+              JSON.stringify({user, token}),
+            );
+          }
+        })
+        .catch((error: any) => {
+          console.error(error);
+        });
+    }
+  };
+
   return (
     <View style={styles.discoverContainer}>
       <NavDrawerHeader navigation={navigation} />
@@ -301,7 +326,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                 </View>
                 <Text style={styles.playlistsText}>Recently Played</Text>
               </View>
-              <View style={styles.flexRow}>
+              {/* <View style={styles.flexRow}>
                 <CustomText
                   type={2}
                   text="Show All"
@@ -327,7 +352,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                     />
                   </View>
                 </TouchableOpacity>
-              </View>
+              </View> */}
             </View>
             <ScrollView style={{marginTop: 16}} horizontal ref={scrollViewRef}>
               {data?.recentlyPlayed ? (
@@ -374,7 +399,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                 </View>
                 <Text style={styles.playlistsText}>New Releases</Text>
               </View>
-              <View style={styles.flexRow}>
+              {/* <View style={styles.flexRow}>
                 <CustomText
                   type={2}
                   text="Show All"
@@ -400,7 +425,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                     />
                   </View>
                 </TouchableOpacity>
-              </View>
+              </View> */}
             </View>
             <ScrollView style={{marginTop: 16}} horizontal ref={scrollViewRef}>
               {data?.newReleases?.length ? (

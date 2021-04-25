@@ -10,6 +10,7 @@ import {
 import PaystackWebView from 'react-native-paystack-webview';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useIsFocused} from '@react-navigation/native';
 import {PAYSTACK_PUBLIC_KEY} from '@env';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import styles from './subscribeToPremiumStyle';
@@ -22,14 +23,15 @@ import {
   getFromOldUrl,
   generateTransactionReference,
 } from '../../../utils/helpers';
-import {getSubscriptionPlans} from '../../../services/requestServices';
+import {getSubscriptionPlans} from '../../../services/requestService';
 import {subscribe} from '../../../services/userService';
 import {useNetwork} from '../../../hooks/useNetwork';
 
 export function SubscribeToPremium({navigation}) {
   const {state, dispatch} = useContext(AuthContext);
-  const {user, token} = state || {};
+  const {user, token, isLoggedIn} = state || {};
   const paystackWebViewRef = useRef();
+  const isFocused = useIsFocused();
 
   const [data, setData] = useState({
     subscriptions: [],
@@ -41,8 +43,19 @@ export function SubscribeToPremium({navigation}) {
   const [isConnected, setIsConnected] = useNetwork();
 
   useEffect(() => {
-    handleSubscriptionPlans();
-  }, []);
+    handleCheckLogin();
+  }, [isFocused]);
+
+  const handleCheckLogin = () => {
+    if (!isLoggedIn) {
+      navigateToNestedRoute('SingleStack', 'Login', {
+        screenFrom: 'SubscribeToPremium',
+      });
+    } else {
+      handleSubscriptionPlans();
+
+    }
+  };
 
   const handleSubscriptionPlans = async () => {
     try {
