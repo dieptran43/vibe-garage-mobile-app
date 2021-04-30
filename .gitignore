@@ -70,3 +70,5 @@ buck-out/
 #Remove these later
 firebase.json
 google-services.json
+
+/android/app/build.gradle

@@ -146,3 +146,41 @@ export const getCarouselPlaylist = () => {
       });
   });
 };
+
+export const purchaseSong = (song_id: any, token: String) => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/purchase-song/${song_id}`;
+    fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};
+
+export const purchaseAlbum = (album_id: any, token: String) => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/purchase-album/${album_id}`;
+    fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};

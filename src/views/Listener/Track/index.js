@@ -1,6 +1,14 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {View, Text, ScrollView, Image, ImageBackground} from 'react-native';
+import React, {useState, useEffect, useContext, useCallback} from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  ImageBackground,
+  BackHandler,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useFocusEffect} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -23,9 +31,31 @@ export function Track({navigation, route}) {
       console.log('finished playing', success);
     });
     SoundPlayer.addEventListener('FinishedLoadingURL', ({success, url}) => {
-      // setData({...data, isPlaying: true});
+      console.log('finished loading uRL', success);
     });
-  });
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+
+      return () =>
+        BackHandler.removeEventListener(
+          'hardwareBackPress',
+          handleBackButtonClick,
+        );
+    }, []),
+  );
+
+  const handleBackButtonClick = () => {
+    try {
+      SoundPlayer?.stop();
+      setData(combineData(data, {isPlaying: false, isPaused: false}));
+      navigation?.pop();
+    } catch (error) {
+      console.error();
+    }
+  };
 
   const getNumberOfYears = (dt) => {
     let oldDate = new Date(`${dt}/01`);
@@ -68,6 +98,10 @@ export function Track({navigation, route}) {
     } catch (e) {
       console.log(`cannot play the sound file`, e);
     }
+  };
+
+  const handleDownload = async () => {
+    console.log(track);
   };
 
   return (
@@ -155,7 +189,7 @@ export function Track({navigation, route}) {
               </Text>
             ))}
           </View>
-          {/* <View style={styles.flexJustify}>
+          <View style={styles.flexJustify}>
             <TouchableOpacity style={styles.downloadBtn}>
               <Feather name="plus" size={18} color="#fff" />
               <CustomText
@@ -164,7 +198,9 @@ export function Track({navigation, route}) {
                 style={styles.downloadText}
               />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.downloadBtn}>
+            <TouchableOpacity
+              style={styles.downloadBtn}
+              onPress={() => handleDownload()}>
               <MaterialIcons name="cloud-download" size={18} color="#fff" />
               <CustomText
                 type={1}
@@ -172,7 +208,7 @@ export function Track({navigation, route}) {
                 style={styles.downloadText}
               />
             </TouchableOpacity>
-          </View> */}
+          </View>
         </View>
       </ScrollView>
     </View>

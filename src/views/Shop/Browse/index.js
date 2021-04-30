@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -13,20 +13,30 @@ import {
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import shortid from 'shortid';
 import Feather from 'react-native-vector-icons/Feather';
+import Toast from 'react-native-toast-message';
 import GraphImage from '../../../assets/icons/graph-icon.png';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import {CustomText} from '../../../components/Global';
 import styles from './browseStyle';
-import {combineData, getFromOldUrl, getNumberOfYears} from '../../../utils/helpers';
+import {AuthContext} from '../../../context';
+import {
+  combineData,
+  getFromOldUrl,
+  getNumberOfYears,
+} from '../../../utils/helpers';
 import {
   storeAlbums,
   storeSongs,
   topSongs,
+  purchaseSong,
+  purchaseAlbum,
 } from '../../../services/storeService';
 import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import {getScreenParent} from '../../../utils/navigationHelper';
 
 export function Browse({navigation}) {
+  const {state, dispatch} = useContext(AuthContext);
+  const token = state?.token;
   const [data, setData] = useState({
     tab: 'Songs',
     songs: [],
@@ -71,6 +81,65 @@ export function Browse({navigation}) {
   const handleNavigation = (route, params) => {
     setData(combineData(data, {moreView: null}));
     navigateToNestedRoute(getScreenParent(route), route, params);
+  };
+
+  const handlePurchase = async (id, type) => {
+    try {
+      if (type === 'song' || (type === 'topSeller' && id)) {
+        const song_id = id;
+        await purchaseSong(song_id, token).then((response) => {
+          let {songs, topSeller} = data;
+          if (response && response?.success) {
+            if (type === 'song') {
+              songs = songs.map((song) => {
+                if (song?.id === song_id) {
+                  song.has_purchased = true;
+                }
+                return song;
+              });
+            } else if (type === 'topSeller') {
+              topSeller = topSeller.map((song) => {
+                if (song?.id === song_id) {
+                  song.has_purchased = true;
+                }
+                return song;
+              });
+            }
+            setData(combineData(data, {topSeller}));
+          } else if (response && response?.error) {
+            Toast.show({
+              type: 'info',
+              position: 'bottom',
+              text1: `${response?.hint}`,
+              visibilityTime: 500,
+            });
+          }
+        });
+      } else if (type === 'album' && id) {
+        const album_id = id;
+        await purchaseAlbum(album_id, token).then((response) => {
+          let {albums} = data;
+          if (response && response?.success) {
+            albums = albums.map((album) => {
+              if (album?.id === album_id) {
+                album.has_purchased = true;
+              }
+              return album;
+            });
+            setData(combineData(data, {albums}));
+          } else if (response && response?.error) {
+            Toast.show({
+              type: 'info',
+              position: 'bottom',
+              text1: `${response?.hint}`,
+              visibilityTime: 500,
+            });
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -146,7 +215,7 @@ export function Browse({navigation}) {
                       <CustomText text={song?.title} type={1} />
                       <CustomText text={song?.artist_data?.name} />
                     </View>
-                    {song?.isPurchased ? (
+                    {song?.has_purchased ? (
                       <CustomText
                         size={12}
                         text="You have bought this track."
@@ -160,7 +229,8 @@ export function Browse({navigation}) {
                           text={`₦${song?.price}`}
                           style={styles.priceText}
                         />
-                        <TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback
+                          onPress={() => handlePurchase(song?.id, 'song')}>
                           <Text style={styles.purchaseText}>Purchase</Text>
                         </TouchableWithoutFeedback>
                       </View>
@@ -190,7 +260,7 @@ export function Browse({navigation}) {
                       <CustomText text={album?.title} type={1} />
                       <CustomText text={album?.artistName} />
                     </View>
-                    {album?.isPurchased ? (
+                    {album?.has_purchased ? (
                       <CustomText
                         size={12}
                         text="You have bought this track."
@@ -204,7 +274,8 @@ export function Browse({navigation}) {
                           text={`₦${album?.price}`}
                           style={styles.priceText}
                         />
-                        <TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback
+                          onPress={() => handlePurchase(album?.id, 'album')}>
                           <Text style={styles.purchaseText}>Purchase</Text>
                         </TouchableWithoutFeedback>
                       </View>
@@ -245,7 +316,7 @@ export function Browse({navigation}) {
                         <CustomText text={song?.title} type={1} />
                         <CustomText text={song?.artist_data?.name} />
                       </View>
-                      {song?.isPurchased ? (
+                      {song?.has_purchased ? (
                         <CustomText
                           size={12}
                           text="You have bought this track."
@@ -259,7 +330,10 @@ export function Browse({navigation}) {
                             text={`₦${song?.price}`}
                             style={styles.priceText}
                           />
-                          <TouchableWithoutFeedback>
+                          <TouchableWithoutFeedback
+                            onPress={() =>
+                              handlePurchase(song?.id, 'topSeller')
+                            }>
                             <Text style={styles.purchaseText}>Purchase</Text>
                           </TouchableWithoutFeedback>
                         </View>
