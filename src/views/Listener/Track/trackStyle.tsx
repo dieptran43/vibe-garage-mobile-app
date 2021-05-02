@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
   layoutContent: {
     display: 'flex',
-    paddingBottom: 40
+    paddingBottom: 40,
   },
   row1: {
     display: 'flex',
@@ -104,6 +104,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 20,
+  },
+  moreWrapper: {
+    position: 'relative',
+  },
+  moreBtnsWrapper: {
+    position: 'absolute',
+    top: 25,
+    left: -102,
+    backgroundColor: '#2f2f2f',
+    borderRadius: 5,
+    width: 125,
+    zIndex: 10,
+    paddingLeft: 15,
+    // paddingVertical: 5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.51,
+    shadowRadius: 13.16,
+
+    elevation: 20,
+  },
+  moreBtn: {
+    paddingVertical: 12,
   },
   tagRow: {
     display: 'flex',

@@ -38,11 +38,11 @@
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.15.0",
     "react-native-snap-carousel": "^3.9.1",
-    "react-native-sound-player": "^0.10.6",
+    "react-native-sound-player": "https://github.com/PrincewillIroka/react-native-sound-player",
     "react-native-svg": "^12.1.0",
     "react-native-toast-message": "^1.4.9",
     "react-native-track-player": "^1.2.3",
-    "react-native-vector-icons": "^8.0.0",
+    "react-native-vector-icons": "^8.1.0",
     "react-native-webview": "^11.2.3",
     "shortid": "^2.2.16"
   },
@@ -61,6 +61,7 @@
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
+    "react-native-fs": "^2.17.0",
     "react-native-svg-app-icon": "^0.2.0",
     "react-test-renderer": "16.13.1",
     "typescript": "^3.8.3"

@@ -6,33 +6,54 @@ import {
   Image,
   ImageBackground,
   BackHandler,
+  ActivityIndicator,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, CommonActions} from '@react-navigation/native';
+import {DrawerScreenProps} from '@react-navigation/drawer';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
+import shortid from 'shortid';
 import SoundPlayer from 'react-native-sound-player';
+import TrackPlayer from 'react-native-track-player';
+import Toast from 'react-native-toast-message';
+import RNFS, {DownloadFileOptions, downloadFile} from 'react-native-fs';
 import NavDrawerHeader from '../../../components/NavDrawerHeader';
 import styles from './trackStyle';
 import {AuthContext} from '../../../context';
-import {CustomText} from '../../../components/Global';
+import {CustomText, AddToPlaylist} from '../../../components/Global';
 import {combineData, getFromOldUrl} from '../../../utils/helpers';
-import shortid from 'shortid';
 
-export function Track({navigation, route}) {
-  const track = route?.params;
-  const {state, dispatch} = useContext(AuthContext);
-  const [data, setData] = useState({isPlaying: false, isPaused: false});
+export function Track({navigation, route}: DrawerScreenProps<{}>) {
+  const track: any = route?.params;
+  const {state, dispatch}: any = useContext(AuthContext);
+  const {user, token} = state || {};
+  const [data, setData] = useState({
+    isPlaying: false,
+    isPaused: false,
+    hasDownloadedTrack: false,
+    isDownloadingTrack: false,
+    canAddToPlaylist: false,
+  });
+
+  const path = `${RNFS.DocumentDirectoryPath}/${track?.title}`;
 
   useEffect(() => {
-    SoundPlayer.addEventListener('FinishedPlaying', ({success}) => {
+    SoundPlayer.addEventListener('FinishedPlaying', ({success}: any) => {
       console.log('finished playing', success);
     });
-    SoundPlayer.addEventListener('FinishedLoadingURL', ({success, url}) => {
-      console.log('finished loading uRL', success);
-    });
+    SoundPlayer.addEventListener(
+      'FinishedLoadingURL',
+      ({success, url}: any) => {
+        console.log('finished loading uRL', success);
+      },
+    );
+  }, []);
+
+  useEffect(() => {
+    checkTrackHasBeenDownloaded();
   }, []);
 
   useFocusEffect(
@@ -51,17 +72,19 @@ export function Track({navigation, route}) {
     try {
       SoundPlayer?.stop();
       setData(combineData(data, {isPlaying: false, isPaused: false}));
-      navigation?.pop();
+      navigation?.goBack();
+      return true;
     } catch (error) {
       console.error();
     }
   };
 
-  const getNumberOfYears = (dt) => {
-    let oldDate = new Date(`${dt}/01`);
-    let currentDate = new Date();
-    currentDate = currentDate.getFullYear() * 12 + currentDate.getMonth();
-    oldDate = oldDate.getFullYear() * 12 + oldDate.getMonth();
+  const getNumberOfYears = (dt: any) => {
+    let oldDate;
+    let currentDate;
+    currentDate = new Date().getFullYear() * 12 + new Date().getMonth();
+    oldDate =
+      new Date(`${dt}/01`).getFullYear() * 12 + new Date(`${dt}/01`).getMonth();
     let difference = currentDate - oldDate;
     let range;
     if (difference < 12) {
@@ -73,35 +96,118 @@ export function Track({navigation, route}) {
     return `${difference} ${range} ago`;
   };
 
-  const getHashTags = (tags) => {
+  const getHashTags = (tags: any) => {
     let arr = tags?.split(',');
     return arr;
   };
 
-  const handleTrack = (param) => {
+  const handleTrack = (param: any) => {
     try {
       let {isPlaying, isPaused} = data;
       if (param === 'play') {
         isPlaying = true;
         if (isPaused) {
-          SoundPlayer.play();
+          SoundPlayer?.play();
         } else {
           isPaused = false;
-          SoundPlayer.playUrl(getFromOldUrl(track?.audio_location));
+          if (!data?.hasDownloadedTrack) {
+            SoundPlayer.loadUrl(getFromOldUrl(track?.audio_location));
+            SoundPlayer.play();
+          } else {
+            SoundPlayer.loadUrl(path);
+            SoundPlayer.play();
+          }
         }
       } else if (param === 'pause') {
         isPlaying = false;
         isPaused = true;
-        SoundPlayer.pause();
+        SoundPlayer?.pause();
       }
-      setData({...data, isPlaying, isPaused});
+      setData(combineData(data, {isPlaying, isPaused}));
     } catch (e) {
       console.log(`cannot play the sound file`, e);
     }
   };
 
   const handleDownload = async () => {
-    console.log(track);
+    try {
+      setData(combineData(data, {isDownloadingTrack: true}));
+
+      const fileUrl = getFromOldUrl(track?.audio_location);
+
+      const headers = {
+        Accept: '*/*',
+      };
+
+      const options: DownloadFileOptions = {
+        fromUrl: fileUrl,
+        toFile: path,
+        headers: headers,
+      };
+
+      const response = await downloadFile(options);
+      response.promise
+        .then(async (res: any) => {
+          //Transform response
+          if (res && res.statusCode === 200 && res.bytesWritten > 0) {
+            checkTrackHasBeenDownloaded();
+          } else {
+            Toast.show({
+              type: 'error',
+              position: 'bottom',
+              text1: 'Download failed!',
+              visibilityTime: 500,
+            });
+            setData((data) =>
+              combineData(data, {
+                hasDownloadedTrack: false,
+                isDownloadingTrack: false,
+              }),
+            );
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } catch (e) {
+      console.log(e);
+      setData(
+        combineData(data, {
+          hasDownloadedTrack: false,
+          isDownloadingTrack: false,
+        }),
+      );
+    }
+  };
+
+  const checkTrackHasBeenDownloaded = async () => {
+    const fileExists = await RNFS.exists(path);
+    let value: any;
+    if (fileExists === true) {
+      value = true;
+    } else {
+      value = false;
+    }
+    setData(
+      combineData(data, {hasDownloadedTrack: value, isDownloadingTrack: false}),
+    );
+  };
+
+  const handlePlaylist = () => {
+    const track_id = track?.id;
+    setData(combineData(data, {canAddToPlaylist: true}));
+  };
+
+  const handleCanAddToPlaylist = () => {
+    let {canAddToPlaylist} = data;
+    canAddToPlaylist = !canAddToPlaylist;
+    setData(combineData(data, {canAddToPlaylist}));
+  };
+
+  const handleModified = (param: any) => {
+    // console.log(param);
+    if (param === 'song_added_to_playlist') {
+    }
   };
 
   return (
@@ -155,7 +261,11 @@ export function Track({navigation, route}) {
           <View style={styles.trackActions}>
             <View style={styles.actionRow}>
               <MaterialIcons name="play-arrow" size={22} color="#1EED6C" />
-              <CustomText type={1} text={0} style={styles.iconText} />
+              <CustomText
+                type={1}
+                text={track?.views_count || 0}
+                style={styles.iconText}
+              />
             </View>
             <View style={styles.actionRow}>
               <MaterialIcons name="favorite" size={18} color="#FF0000" />
@@ -183,14 +293,17 @@ export function Track({navigation, route}) {
             {track?.description}
           </Text>
           <View style={styles.tagRow}>
-            {getHashTags(track?.tags)?.map((tag) => (
+            {getHashTags(track?.tags)?.map((tag: any) => (
               <Text key={shortid.generate()} style={styles.tagText}>
                 {`#${tag}`}
               </Text>
             ))}
           </View>
           <View style={styles.flexJustify}>
-            <TouchableOpacity style={styles.downloadBtn}>
+            {/* {!track?.is_added_to_playlist ? ( */}
+            <TouchableOpacity
+              style={styles.downloadBtn}
+              onPress={() => handleCanAddToPlaylist()}>
               <Feather name="plus" size={18} color="#fff" />
               <CustomText
                 type={1}
@@ -198,19 +311,41 @@ export function Track({navigation, route}) {
                 style={styles.downloadText}
               />
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.downloadBtn}
-              onPress={() => handleDownload()}>
-              <MaterialIcons name="cloud-download" size={18} color="#fff" />
-              <CustomText
-                type={1}
-                text={'Download'}
-                style={styles.downloadText}
-              />
-            </TouchableOpacity>
+            {/* ) : null} */}
+            {data?.isDownloadingTrack ? (
+              <View style={styles.downloadBtn}>
+                <CustomText
+                  type={1}
+                  text={'Downloading...'}
+                  style={styles.downloadText}
+                />
+                <ActivityIndicator size="small" color="#fff" />
+              </View>
+            ) : !data?.hasDownloadedTrack ? (
+              <TouchableOpacity
+                style={styles.downloadBtn}
+                onPress={() => handleDownload()}>
+                <MaterialIcons name="cloud-download" size={18} color="#fff" />
+                <CustomText
+                  type={1}
+                  text={'Download'}
+                  style={styles.downloadText}
+                />
+              </TouchableOpacity>
+            ) : null}
           </View>
         </View>
       </ScrollView>
+
+      {data?.canAddToPlaylist ? (
+        <AddToPlaylist
+          height="65%"
+          width="100%"
+          track_id={track?.id}
+          onClose={() => handleCanAddToPlaylist()}
+          handleModified={(param: any) => handleModified(param)}
+        />
+      ) : null}
     </View>
   );
 }
