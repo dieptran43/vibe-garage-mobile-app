@@ -74,3 +74,43 @@ export const checkSubscription = ({token}: any) => {
       });
   });
 };
+
+export const songView = ({token, payload}: any) => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/song-view`;
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: payload,
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};
+
+export const setDownload = ({token, payload}: any) => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/set-download`;
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: payload,
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};

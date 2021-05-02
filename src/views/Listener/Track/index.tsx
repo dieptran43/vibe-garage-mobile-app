@@ -25,6 +25,7 @@ import styles from './trackStyle';
 import {AuthContext} from '../../../context';
 import {CustomText, AddToPlaylist} from '../../../components/Global';
 import {combineData, getFromOldUrl} from '../../../utils/helpers';
+import {songView, setDownload} from '../../../services/requestService';
 
 export function Track({navigation, route}: DrawerScreenProps<{}>) {
   const track: any = route?.params;
@@ -39,6 +40,8 @@ export function Track({navigation, route}: DrawerScreenProps<{}>) {
   });
 
   const path = `${RNFS.DocumentDirectoryPath}/${track?.title}`;
+  const track_id = track?.id;
+  const album_id = track?.album;
 
   useEffect(() => {
     SoundPlayer.addEventListener('FinishedPlaying', ({success}: any) => {
@@ -113,6 +116,7 @@ export function Track({navigation, route}: DrawerScreenProps<{}>) {
           if (!data?.hasDownloadedTrack) {
             SoundPlayer.loadUrl(getFromOldUrl(track?.audio_location));
             SoundPlayer.play();
+            handleSongView();
           } else {
             SoundPlayer.loadUrl(path);
             SoundPlayer.play();
@@ -151,6 +155,7 @@ export function Track({navigation, route}: DrawerScreenProps<{}>) {
           //Transform response
           if (res && res.statusCode === 200 && res.bytesWritten > 0) {
             checkTrackHasBeenDownloaded();
+            handleSetDownload();
           } else {
             Toast.show({
               type: 'error',
@@ -207,6 +212,24 @@ export function Track({navigation, route}: DrawerScreenProps<{}>) {
   const handleModified = (param: any) => {
     // console.log(param);
     if (param === 'song_added_to_playlist') {
+    }
+  };
+
+  const handleSongView = async () => {
+    try {
+      const payload = {track_id, album_id};
+      await songView({token, payload});
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleSetDownload = async () => {
+    try {
+      const payload = {track_id};
+      await setDownload({token, payload});
+    } catch (e) {
+      console.log(e);
     }
   };
 
