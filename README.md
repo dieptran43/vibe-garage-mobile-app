@@ -12,8 +12,8 @@ A music app built with React-Native
 
 ### App Screenshots
 
-![Home Screen](https://i.imgur.com/nc8rjKY.png)
-![Nav Menu](https://i.imgur.com/LlstdnJ.png)
+![Home Screen](https://i.imgur.com/UO2S9kj.png)
+![Nav Menu](https://i.imgur.com/fku2L4F.png)
 
-![Genres](https://i.imgur.com/n1to7fV.png)
-![Play Track](https://i.imgur.com/2LPPlyc.png)
+![Genres](https://i.imgur.com/velXqYh.png)
+![Play Track](https://i.imgur.com/zLzxyui.png)
