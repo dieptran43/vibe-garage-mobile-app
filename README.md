@@ -1,4 +1,5 @@
 # Vibe Garage
+[![License](https://img.shields.io/badge/license-MIT-green)](https://opensource.org/licenses/MIT)
 
 A music app built with React-Native
 
