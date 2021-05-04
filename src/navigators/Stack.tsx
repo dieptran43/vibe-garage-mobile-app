@@ -26,7 +26,8 @@ import {
   MyPlatform,
   Track,
   Profile,
-  SubscribeToPremium
+  SubscribeToPremium,
+  Dashboard
 } from '../views';
 import GraphImage from '../assets/icons/graph-icon.png';
 import GenresImage from '../assets/icons/genres-icon.png';
@@ -231,6 +232,14 @@ const DrawerStack = () => {
       <Drawer.Screen
         name="MyPlatform"
         component={MyPlatform}
+        options={{
+          drawerLabel: ({focused, color}) => null,
+          drawerIcon: ({focused, size}) => null,
+        }}
+      />
+      <Drawer.Screen
+        name="Dashboard"
+        component={Dashboard}
         options={{
           drawerLabel: ({focused, color}) => null,
           drawerIcon: ({focused, size}) => null,

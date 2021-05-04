@@ -85,6 +85,9 @@ export default function NavDrawerHeader({navigation}: any) {
                     <MenuOption onSelect={() => handleNavigation('Upload')}>
                       <Text style={styles.menuOptionText}>Upload</Text>
                     </MenuOption>
+                    <MenuOption onSelect={() => handleNavigation('Dashboard')}>
+                      <Text style={styles.menuOptionText}>Dashboard</Text>
+                    </MenuOption>
                   </>
                 ) : null}
                 {user?.is_subscribed !== '1' ? (

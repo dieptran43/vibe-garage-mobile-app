@@ -41,7 +41,7 @@ export function Track({navigation, route}: DrawerScreenProps<{}>) {
 
   const path = `${RNFS.DocumentDirectoryPath}/${track?.title}`;
   const track_id = track?.id;
-  const album_id = track?.album;
+  const album_id = track?.album_id;
 
   useEffect(() => {
     SoundPlayer.addEventListener('FinishedPlaying', ({success}: any) => {
@@ -73,7 +73,6 @@ export function Track({navigation, route}: DrawerScreenProps<{}>) {
 
   const handleBackButtonClick = () => {
     try {
-      SoundPlayer?.stop();
       setData(combineData(data, {isPlaying: false, isPaused: false}));
       navigation?.goBack();
       return true;
@@ -112,6 +111,7 @@ export function Track({navigation, route}: DrawerScreenProps<{}>) {
         if (isPaused) {
           SoundPlayer?.play();
         } else {
+          SoundPlayer?.stop();
           isPaused = false;
           if (!data?.hasDownloadedTrack) {
             SoundPlayer.loadUrl(getFromOldUrl(track?.audio_location));

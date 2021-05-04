@@ -15,6 +15,7 @@ export const getScreenParent = (route: String) => {
     route === 'GetCredit' ||
     route === 'BecomeAnArtist' ||
     route === 'Upload' ||
+    route === 'Dashboard' ||
     route === 'Track' ||
     route === 'MyPlatform' ||
     route === 'Profile' ||
