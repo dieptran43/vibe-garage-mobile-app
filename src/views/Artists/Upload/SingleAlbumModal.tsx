@@ -226,6 +226,7 @@ export default function SingleAlbumModal({onClose, onAddSong, genres}: any) {
               selectedLabelStyle={{color: '#000'}}
               labelStyle={{
                 color: '#ccc',
+                fontSize: 16
               }}
             />
             <View style={styles.row}>

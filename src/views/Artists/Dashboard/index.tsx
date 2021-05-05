@@ -126,11 +126,12 @@ export function Dashboard({navigation}: DrawerScreenProps<{}>) {
           }}
           arrowColor="#fff"
           onChangeItem={(item: any) =>
-            handleChangeValue('songGenres', item?.label)
+            handleChangeValue('bank_name', item?.label)
           }
           selectedLabelStyle={{color: '#000'}}
           labelStyle={{
             color: '#ccc',
+            fontSize: 16,
           }}
         />
         <TouchableOpacity
@@ -160,8 +161,8 @@ export function Dashboard({navigation}: DrawerScreenProps<{}>) {
       accountDetails.account_name = value;
     } else if (field === 'account_number') {
       accountDetails.account_number = value;
-    } else if (field === 'bank') {
-      accountDetails.bank = value;
+    } else if (field === 'bank_name') {
+      accountDetails.bank_name = value;
     }
 
     setData(combineData(data, {accountDetails}));
@@ -175,7 +176,7 @@ export function Dashboard({navigation}: DrawerScreenProps<{}>) {
       accountDetails.amount <= Number(wallet) &&
       accountDetails.account_name &&
       accountDetails.account_number &&
-      accountDetails.bank !== 'Select a bank'
+      accountDetails.bank_name !== 'Select a bank'
     );
   };
 
@@ -185,12 +186,24 @@ export function Dashboard({navigation}: DrawerScreenProps<{}>) {
 
   const handleSubmitRequest = async () => {
     let {accountDetails} = data;
-    console.log(accountDetails);
     try {
       const payload = accountDetails;
-      await requestWithdrawal({token, payload}).then((response) => {
-        console.log(response);
-        setData(combineData(data, {isRequesting: false}));
+      await requestWithdrawal({token, payload}).then((response: any) => {
+        if (response && response?.success) {
+          Toast.show({
+            type: 'success',
+            position: 'bottom',
+            text1:
+              'Your funds will be available in your account within 48 hours!',
+            visibilityTime: 1000,
+          });
+        }
+        setData(
+          combineData(data, {
+            isRequesting: false,
+            isCashOutModalVisible: false,
+          }),
+        );
       });
     } catch (error) {
       console.error(error);
