@@ -61,8 +61,8 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     onlineAppVersion: '',
     forceAppUpdate: false,
     storeUrl: '',
+    windowWidth: Dimensions?.get('window').width,
   });
-  const windowWidth = Dimensions.get('window').width;
   let scrollViewRef = createRef<ScrollView>();
   const {token} = state || {};
   let currentAppVersion = getVersion();
@@ -87,6 +87,18 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     handleRequests();
     handleTriggeredUpdate();
     handleCheckUser();
+  }, []);
+
+  useEffect(() => {
+    Dimensions.addEventListener('change', (e) => {
+      const {width, height} = e.window;
+      let windowWidth = width;
+      setData((data) =>
+        combineData(data, {
+          windowWidth,
+        }),
+      );
+    });
   }, []);
 
   const handleRequests = async () => {
@@ -149,7 +161,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
 
   const handleScrollRecentlyPlayed = (direction: string) => {
     let recentlyPlayedScrollPosition = data?.recentlyPlayedScrollPosition;
-    const viewWidth = windowWidth;
+    const viewWidth = data?.windowWidth;
     if (direction === 'left') {
       recentlyPlayedScrollPosition -= viewWidth;
     } else if (direction === 'right') {
@@ -282,7 +294,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
         .then(async (response: any) => {
           const user = response?.user;
           if (user && Object.entries(user)?.length && token) {
-           await dispatch({
+            await dispatch({
               type: 'populateUser',
               payload: {user, token, isLoggedIn: true},
             });
@@ -306,8 +318,8 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
           <Carousel
             layout={'default'}
             data={data.carouselItems}
-            sliderWidth={windowWidth}
-            itemWidth={windowWidth}
+            sliderWidth={data?.windowWidth}
+            itemWidth={data?.windowWidth}
             renderItem={_renderItem}
             onSnapToItem={(index: any) => console.log(index)}
             style={styles.carouselContent}
@@ -360,7 +372,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                   <TouchableOpacity
                     style={[
                       styles.singleCard,
-                      {width: windowWidth / 2.34},
+                      {width: data?.windowWidth / 2.34},
                       // {marginRight: 20},
                       index !== data?.recentlyPlayed?.length - 1 && {
                         marginRight: 20,
@@ -433,7 +445,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
                   <TouchableOpacity
                     style={[
                       styles.singleCard,
-                      {width: windowWidth / 2.34},
+                      {width: data?.windowWidth / 2.34},
                       // {marginRight: 20},
                       index !== data?.newReleases?.length - 1 && {
                         marginRight: 20,

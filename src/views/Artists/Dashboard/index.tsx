@@ -26,31 +26,6 @@ export function Dashboard({navigation}: DrawerScreenProps<{}>) {
     isCashOutModalVisible: false,
     accountDetails: {currency: 'NGN'} as any,
     isRequesting: false,
-    banks: [
-      {value: '1', label: 'Access Bank', code: '044'},
-      {value: '2', label: 'Citibank', code: '023'},
-      {value: '3', label: 'Diamond Bank', code: '063'},
-      {value: '4', label: 'Dynamic Standard Bank', code: ''},
-      {value: '5', label: 'Ecobank Nigeria', code: '050'},
-      {value: '6', label: 'Fidelity Bank Nigeria', code: '070'},
-      {value: '7', label: 'First Bank of Nigeria', code: '011'},
-      {value: '8', label: 'First City Monument Bank', code: '214'},
-      {value: '9', label: 'Guaranty Trust Bank', code: '058'},
-      {value: '10', label: 'Heritage Bank Plc', code: '030'},
-      {value: '11', label: 'Jaiz Bank', code: '301'},
-      {value: '12', label: 'Keystone Bank Limited', code: '082'},
-      {value: '13', label: 'Providus Bank Plc', code: '101'},
-      {value: '14', label: 'Polaris Bank', code: '076'},
-      {value: '15', label: 'Stanbic IBTC Bank Nigeria Limited', code: '221'},
-      {value: '16', label: 'Standard Chartered Bank', code: '068'},
-      {value: '17', label: 'Sterling Bank', code: '232'},
-      {value: '18', label: 'Suntrust Bank Nigeria Limited', code: '100'},
-      {value: '19', label: 'Union Bank of Nigeria', code: '032'},
-      {value: '20', label: 'United Bank for Africa', code: '033'},
-      {value: '21', label: 'Unity Bank Plc', code: '215'},
-      {value: '22', label: 'Wema Bank', code: '035'},
-      {value: '23', label: 'Zenith Bank', code: '057'},
-    ],
   });
 
   useEffect(() => {
@@ -111,7 +86,7 @@ export function Dashboard({navigation}: DrawerScreenProps<{}>) {
         <DropDownPicker
           placeholderStyle={{color: '#ccc'}}
           placeholder="Select a bank"
-          items={data?.banks}
+          items={data?.dashboard?.banks}
           containerStyle={{height: 40, marginBottom: 30, marginTop: 30}}
           style={{
             backgroundColor: '#000',
