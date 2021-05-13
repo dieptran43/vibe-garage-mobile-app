@@ -3,6 +3,9 @@
 
 A music app built with React-Native
 
+### Download from Google Play Store
+https://play.google.com/store/apps/details?id=com.vibe_garage
+
 ### Features
 - Artistes can upload songs.
 - Artistes receive royalties when users stream their songs.
