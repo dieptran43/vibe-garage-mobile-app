@@ -104,6 +104,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 15,
   },
+  emptyContainer: {
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  waitText: {
+    fontSize: 16,
+    marginTop: 10,
+  },
 });
 
 export default styles;

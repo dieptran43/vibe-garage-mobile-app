@@ -43,7 +43,7 @@ const DrawerStack = () => {
       initialRouteName="Discover"
       drawerStyle={{backgroundColor: '#222225'}}
       drawerContentOptions={{
-        activeTintColor: '#e91e63',
+        activeTintColor: '#800000',
       }}>
       <Drawer.Screen
         name="Discover"
