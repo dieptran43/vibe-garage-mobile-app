@@ -211,7 +211,7 @@ export function Dashboard({navigation}: DrawerScreenProps<{}>) {
             <Text style={styles.valueText}>{data?.dashboard?.total_plays}</Text>
           </View>
           <View style={[styles.card1, {backgroundColor: '#ff6873'}]}>
-            <Text style={styles.titleText}>Total Plays</Text>
+            <Text style={styles.titleText}>Total Downloads</Text>
             <Text style={styles.valueText}>
               {data?.dashboard?.total_downloads}
             </Text>

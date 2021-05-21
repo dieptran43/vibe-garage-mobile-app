@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
+  ImageBackground,
 } from 'react-native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {useIsFocused} from '@react-navigation/native';
@@ -35,8 +36,7 @@ export function BecomeAnArtist({navigation}: DrawerScreenProps<{}>) {
       {label: 'Gospel', value: 'Gospel'},
       {label: 'Reggae', value: 'Reggae'},
     ],
-    hasFilledAllFields: true,
-    applyToBecomeAnArtiste: {} as any,
+    applyToBecomeAnArtiste: {category_id: 1} as any,
     isSending: false,
   });
 
@@ -62,8 +62,8 @@ export function BecomeAnArtist({navigation}: DrawerScreenProps<{}>) {
     let {applyToBecomeAnArtiste} = data;
     if (field === 'name') {
       applyToBecomeAnArtiste.name = value;
-    } else if (field === 'additional_details') {
-      applyToBecomeAnArtiste.additional_details = value;
+    } else if (field === 'details') {
+      applyToBecomeAnArtiste.details = value;
     } else if (field === 'genre') {
       applyToBecomeAnArtiste.genre = value;
     } else if (field === 'website') {
@@ -75,14 +75,13 @@ export function BecomeAnArtist({navigation}: DrawerScreenProps<{}>) {
   const hasFilledAllFields = () => {
     let {applyToBecomeAnArtiste} = data;
     return (
-      applyToBecomeAnArtiste.title &&
-      applyToBecomeAnArtiste.genre &&
-      applyToBecomeAnArtiste.availability &&
-      applyToBecomeAnArtiste.age_restriction !== null
+      applyToBecomeAnArtiste.name &&
+      applyToBecomeAnArtiste.photo &&
+      applyToBecomeAnArtiste.passport
     );
   };
 
-  const handleSubmitSong = async () => {
+  const handleSubmit = async () => {
     setData(combineData(data, {isSending: true}));
 
     let {applyToBecomeAnArtiste} = data;
@@ -92,6 +91,7 @@ export function BecomeAnArtist({navigation}: DrawerScreenProps<{}>) {
     }
     await applyToBecomeArtiste({token, payload})
       .then((response: any) => {
+        console.log(response);
         if (response?.success) {
           Toast.show({
             type: 'success',
@@ -100,7 +100,9 @@ export function BecomeAnArtist({navigation}: DrawerScreenProps<{}>) {
             visibilityTime: 1000,
           });
         } else {
-          setData(combineData(data, {isSending: false}));
+          setData(
+            combineData(data, {isSending: false, applyToBecomeAnArtiste: {}}),
+          );
         }
       })
       .catch((error) => {
@@ -137,7 +139,8 @@ export function BecomeAnArtist({navigation}: DrawerScreenProps<{}>) {
             </View>
             <TextInput
               style={styles.nameInput}
-              onChangeText={(title) => handleChangeValue('name', title)}
+              onChangeText={(name) => handleChangeValue('name', name)}
+              value={data?.applyToBecomeAnArtiste?.name}
             />
             <CustomText
               type={1}
@@ -157,24 +160,62 @@ export function BecomeAnArtist({navigation}: DrawerScreenProps<{}>) {
               text="Please upload a photo with your passport / ID &amp; your distinct photo."
               style={styles.distinctPhotoText}
             />
-            <TouchableOpacity style={styles.personalPhotoWrapper}>
-              <MaterialIcons name="camera-alt" size={25} color="#d2d2d2" />
-              <CustomText
-                type={1}
-                text="Your Personal Photo"
-                style={styles.personalPhotoText}
-                onPress={() => handlePickImage('photo')}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.personalPhotoWrapper}>
-              <FontAwesome5 name="id-card" size={25} color="#d2d2d2" />
-              <CustomText
-                type={1}
-                text="Passport / ID card"
-                style={styles.personalPhotoText}
-                onPress={() => handlePickImage('id_card')}
-              />
-            </TouchableOpacity>
+            {data?.applyToBecomeAnArtiste?.photo ? (
+              <ImageBackground
+                source={{
+                  uri: data?.applyToBecomeAnArtiste?.photo?.uri,
+                }}
+                style={styles.thumbnail}>
+                <TouchableOpacity
+                  style={styles.pickPhotoWrapper}
+                  onPress={() => handlePickImage('photo')}>
+                  <MaterialIcons
+                    name="photo-camera-back"
+                    color="#fff"
+                    size={20}
+                  />
+                </TouchableOpacity>
+              </ImageBackground>
+            ) : (
+              <TouchableOpacity
+                style={styles.personalPhotoWrapper}
+                onPress={() => handlePickImage('photo')}>
+                <MaterialIcons name="camera-alt" size={25} color="#d2d2d2" />
+                <CustomText
+                  type={1}
+                  text="Your Personal Photo"
+                  style={styles.personalPhotoText}
+                />
+              </TouchableOpacity>
+            )}
+            {data?.applyToBecomeAnArtiste?.passport ? (
+              <ImageBackground
+                source={{
+                  uri: data?.applyToBecomeAnArtiste?.passport?.uri,
+                }}
+                style={styles.thumbnail}>
+                <TouchableOpacity
+                  style={styles.pickPhotoWrapper}
+                  onPress={() => handlePickImage('passport')}>
+                  <MaterialIcons
+                    name="photo-camera-back"
+                    color="#fff"
+                    size={20}
+                  />
+                </TouchableOpacity>
+              </ImageBackground>
+            ) : (
+              <TouchableOpacity
+                style={styles.personalPhotoWrapper}
+                onPress={() => handlePickImage('passport')}>
+                <FontAwesome5 name="id-card" size={25} color="#d2d2d2" />
+                <CustomText
+                  type={1}
+                  text="Passport / ID card"
+                  style={styles.personalPhotoText}
+                />
+              </TouchableOpacity>
+            )}
             <View style={styles.nameRow}>
               <MaterialIcons name="sort" size={18} color="#d2d2d2" />
               <CustomText
@@ -184,9 +225,8 @@ export function BecomeAnArtist({navigation}: DrawerScreenProps<{}>) {
             </View>
             <TextInput
               style={styles.additionalDetailsInput}
-              onChangeText={(title) =>
-                handleChangeValue('additional_details', title)
-              }
+              onChangeText={(details) => handleChangeValue('details', details)}
+              value={data?.applyToBecomeAnArtiste?.details}
             />
             <View style={styles.nameRow}>
               <MaterialCommunityIcons
@@ -223,7 +263,8 @@ export function BecomeAnArtist({navigation}: DrawerScreenProps<{}>) {
             </View>
             <TextInput
               style={styles.nameInput}
-              onChangeText={(title) => handleChangeValue('website', title)}
+              onChangeText={(website) => handleChangeValue('website', website)}
+              value={data?.applyToBecomeAnArtiste?.website}
             />
             <Text style={styles.reviewText}>
               We will review your request within 24 hours, you'll be informed
@@ -233,11 +274,12 @@ export function BecomeAnArtist({navigation}: DrawerScreenProps<{}>) {
             <TouchableOpacity
               style={[
                 styles.btnSend,
-                data.hasFilledAllFields
+                hasFilledAllFields()
                   ? styles.btnSendEnabled
                   : styles.btnSendDisabled,
               ]}
-              disabled={data.hasFilledAllFields ? false : true}>
+              disabled={hasFilledAllFields() ? false : true}
+              onPress={() => handleSubmit()}>
               <Text style={styles.btnSendText}>Send</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>

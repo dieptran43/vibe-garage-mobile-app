@@ -63,17 +63,16 @@ export const subscribe = ({params, token}: any) => {
   });
 };
 
-export const applyToBecomeArtiste = ({params, token}: any) => {
+export const applyToBecomeArtiste = ({token, payload}: any) => {
   return new Promise((resolve, reject) => {
-    const url = `${API_BASE}/api/v1/applyToBecomeArtiste`;
+    const url = `${API_BASE}/api/v1/artist-request`;
     fetch(url, {
       method: 'POST',
       headers: {
-        Accept: '*/*',
-        'Content-Type': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(params),
+      body: payload,
     })
       .then((response) => response.json())
       .then((response) => resolve(response))
