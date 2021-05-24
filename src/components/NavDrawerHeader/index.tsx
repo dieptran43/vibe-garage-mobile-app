@@ -39,7 +39,7 @@ export default function NavDrawerHeader({navigation}: any) {
     }
   };
 
-  const handleNavigation = (route: String) => {
+  const handleNavigation = (route: string) => {
     navigateToNestedRoute(getScreenParent(route), route);
   };
 

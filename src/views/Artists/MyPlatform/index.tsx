@@ -72,7 +72,7 @@ export function MyPlatform({navigation}: DrawerScreenProps<{}>) {
     setData(combineData(data, {tab}));
   };
 
-  const handleNavigation = (route: String) => {
+  const handleNavigation = (route: string) => {
     navigateToNestedRoute(getScreenParent(route), route);
   };
 

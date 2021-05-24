@@ -83,7 +83,7 @@ export function LatestMusic({navigation}: DrawerScreenProps<{}>) {
     }
   };
 
-  const handleNavigation = (route: String, params: ISong) => {
+  const handleNavigation = (route: string, params: ISong) => {
     navigateToNestedRoute(getScreenParent(route), route, params);
   };
 

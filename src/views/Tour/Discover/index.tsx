@@ -174,7 +174,7 @@ export function Discover({navigation}: DrawerScreenProps<{}>) {
     setData(combineData(data, {recentlyPlayedScrollPosition}));
   };
 
-  const handleNavigation = (route: String, params?: ISong) => {
+  const handleNavigation = (route: string, params?: ISong) => {
     setData(combineData(data, {moreView: null}));
     navigateToNestedRoute(getScreenParent(route), route, params);
   };

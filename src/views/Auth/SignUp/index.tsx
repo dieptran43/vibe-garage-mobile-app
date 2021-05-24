@@ -32,7 +32,7 @@ export function SignUp() {
     messageText: '',
   });
 
-  const handleNavigation = (route: String) => {
+  const handleNavigation = (route: string) => {
     navigateToNestedRoute(getScreenParent(route), route);
   };
 
@@ -86,7 +86,7 @@ export function SignUp() {
             messageText,
           });
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.error(err);
           setData({
             ...data,

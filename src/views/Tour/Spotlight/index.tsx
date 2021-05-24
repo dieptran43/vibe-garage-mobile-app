@@ -40,7 +40,7 @@ export function Spotlight({navigation}: DrawerScreenProps<{}>) {
     }
   };
 
-  const handleNavigation = (route: String, params: any) => {
+  const handleNavigation = (route: string, params: any) => {
     navigateToNestedRoute(getScreenParent(route), route, params);
   };
 

@@ -1,31 +1,32 @@
-export const getScreenParent = (route: String) => {
+export const getScreenParent = (route: string) => {
   let parent;
-  let isDrawerStack =
-    route === 'Discover' ||
-    route === 'LatestMusic' ||
-    route === 'TopMusic' ||
-    route === 'Spotlight' ||
-    route === 'Genres' ||
-    route === 'Playlists' ||
-    route === 'Browse' ||
-    route === 'Purchased' ||
-    route === 'RecentlyPlayed' ||
-    route === 'MyPlaylists' ||
-    route === 'Favourites' ||
-    route === 'GetCredit' ||
-    route === 'BecomeAnArtist' ||
-    route === 'Upload' ||
-    route === 'Dashboard' ||
-    route === 'Track' ||
-    route === 'MyPlatform' ||
-    route === 'Profile' ||
-    route === 'SubscribeToPremium';
+  let drawerStack = [
+    'Discover',
+    'LatestMusic',
+    'TopMusic',
+    'Spotlight',
+    'Genres',
+    'Playlists',
+    'Browse',
+    'Purchased',
+    'RecentlyPlayed',
+    'MyPlaylists',
+    'Favourites',
+    'GetCredit',
+    'BecomeAnArtist',
+    'Upload',
+    'Dashboard',
+    'Track',
+    'MyPlatform',
+    'Profile',
+    'SubscribeToPremium',
+  ];
 
-  let isSingleStack = route === 'Login' || route === 'SignUp';
+  let singleStack = ['Login', 'SignUp'];
 
-  if (isDrawerStack) {
+  if (drawerStack.includes(route)) {
     parent = 'DrawerStack';
-  } else if (isSingleStack) {
+  } else if (singleStack.includes(route)) {
     parent = 'SingleStack';
   }
   return parent;

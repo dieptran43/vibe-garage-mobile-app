@@ -74,7 +74,7 @@ export function Genres({navigation}: DrawerScreenProps<{}>) {
     handleGenres(category_id);
   };
 
-  const handleNavigation = (route: String, params: ISong) => {
+  const handleNavigation = (route: string, params: ISong) => {
     navigateToNestedRoute(getScreenParent(route), route, params);
   };
 
