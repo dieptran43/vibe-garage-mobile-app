@@ -22,7 +22,7 @@ export const getScreenParent = (route: string) => {
     'SubscribeToPremium',
   ];
 
-  let singleStack = ['Login', 'SignUp'];
+  let singleStack = ['Login', 'SignUp', 'ForgotPassword'];
 
   if (drawerStack.includes(route)) {
     parent = 'DrawerStack';

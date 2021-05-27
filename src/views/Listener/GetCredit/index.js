@@ -289,6 +289,10 @@ export function GetCredit({navigation}) {
               text="Watch Ads to Earn Coins"
               style={styles.getCreditText}
             />
+            <View style={styles.walletInfoRow}>
+              <CustomText type={1} text="Coins: " style={styles.walletText} />
+              <CustomText type={1} text={coins} style={styles.walletText} />
+            </View>
             <TouchableOpacity
               style={styles.btnStart}
               onPress={() => handleWatchAds()}>

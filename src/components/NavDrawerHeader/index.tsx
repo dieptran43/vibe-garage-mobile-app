@@ -66,7 +66,7 @@ export default function NavDrawerHeader({navigation}: any) {
             {state?.isLoggedIn ? (
               <>
                 <MenuOption onSelect={() => handleNavigation('GetCredit')}>
-                  <Text style={styles.menuOptionText}>Get credit</Text>
+                  <Text style={styles.menuOptionText}>Wallet</Text>
                 </MenuOption>
                 {user?.artist != 1 ? (
                   <>

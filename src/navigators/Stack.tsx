@@ -27,7 +27,8 @@ import {
   Track,
   Profile,
   SubscribeToPremium,
-  Dashboard
+  Dashboard,
+  ForgotPassword,
 } from '../views';
 import GraphImage from '../assets/icons/graph-icon.png';
 import GenresImage from '../assets/icons/genres-icon.png';
@@ -284,6 +285,11 @@ const SingleStack = () => {
       <Stack.Screen
         name="SignUp"
         component={SignUp}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

@@ -162,3 +162,43 @@ export const socialLogin = (payload: any) => {
       });
   });
 };
+
+export const sendPasswordResetCode = (payload: any) => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/send-password-reset-code`;
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};
+
+export const changePassword = (payload: any) => {
+  return new Promise((resolve, reject) => {
+    const url = `${API_BASE}/api/v1/change-password`;
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};
