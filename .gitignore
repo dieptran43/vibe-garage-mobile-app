@@ -71,4 +71,4 @@ buck-out/
 firebase.json
 google-services.json
 
-/android/app/build.gradle
+*.txt

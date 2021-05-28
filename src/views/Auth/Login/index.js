@@ -17,11 +17,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import {LoginButton, LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import styles from './loginStyle';
-import Logo from '../../assets/images/logo.jpg';
-import {navigateToNestedRoute} from '../../navigators/RootNavigation';
-import {login, socialLogin} from '../../services/authService';
-import {AuthContext} from '../../context';
-import {getScreenParent} from '../../utils/navigationHelper';
+import Logo from '../../../assets/images/logo.jpg';
+import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
+import {login, socialLogin} from '../../../services/authService';
+import {AuthContext} from '../../../context';
+import {getScreenParent} from '../../../utils/navigationHelper';
 
 const initialFields = {email: '', password: ''};
 

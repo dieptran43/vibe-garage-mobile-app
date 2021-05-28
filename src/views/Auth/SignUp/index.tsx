@@ -11,10 +11,10 @@ import {
   Keyboard,
 } from 'react-native';
 import styles from './signUpStyle';
-import Logo from '../../assets/images/logo.jpg';
-import {navigateToNestedRoute} from '../../navigators/RootNavigation';
-import {register} from '../../services/authService';
-import {getScreenParent} from '../../utils/navigationHelper';
+import Logo from '../../../assets/images/logo.jpg';
+import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
+import {register} from '../../../services/authService';
+import {getScreenParent} from '../../../utils/navigationHelper';
 
 export function SignUp() {
   const initialFields = {

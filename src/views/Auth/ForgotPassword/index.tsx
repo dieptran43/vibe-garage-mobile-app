@@ -11,13 +11,13 @@ import {
   Keyboard,
 } from 'react-native';
 import styles from './forgotPasswordStyle';
-import Logo from '../../assets/images/logo.jpg';
-import {navigateToNestedRoute} from '../../navigators/RootNavigation';
+import Logo from '../../../assets/images/logo.jpg';
+import {navigateToNestedRoute} from '../../../navigators/RootNavigation';
 import {
   sendPasswordResetCode,
   changePassword,
-} from '../../services/authService';
-import {getScreenParent} from '../../utils/navigationHelper';
+} from '../../../services/authService';
+import {getScreenParent} from '../../../utils/navigationHelper';
 
 export function ForgotPassword() {
   const initialFields = {
